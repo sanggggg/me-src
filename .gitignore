@@ -1,0 +1,10 @@
+node_modules/
+.cache/
+public
+src/gatsby-types.d.ts
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
