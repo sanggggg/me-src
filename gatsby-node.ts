@@ -70,7 +70,10 @@ export const createPages: GatsbyNode["createPages"] = async ({
   }
 
   const allPosts = data?.allMdx.nodes;
-  const allTags = new Set(data?.allMdx.nodes.flatMap((it) => it.fields.tags));
+  const allTags = new Set(data?.allMdx.nodes
+    .flatMap((it) => it.fields.tags)
+    .filter((it) => it)
+    );
 
   allPosts.forEach((node) => {
     console.log(`Create Page ${node.fields.slug}`);
