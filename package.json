@@ -27,13 +27,11 @@
     "gatsby-plugin-styled-components": "^5.17.0",
     "gatsby-remark-autolink-headers": "^5.16.0",
     "gatsby-remark-images": "^6.16.0",
-    "gatsby-remark-mermaid": "^2.1.0",
     "gatsby-remark-prismjs": "^6.16.0",
     "gatsby-source-filesystem": "^4.16.0",
     "gatsby-transformer-remark": "^5.16.0",
     "gatsby-transformer-sharp": "^4.16.0",
     "prismjs": "^1.28.0",
-    "puppeteer": "^14.4.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "styled-components": "^5.3.5"

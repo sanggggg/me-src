@@ -23,7 +23,6 @@ const config: GatsbyConfig = {
       resolve: `gatsby-plugin-mdx`,
       options: {
         gatsbyRemarkPlugins: [
-          `gatsby-remark-mermaid`,
           `gatsby-remark-images`,
           `gatsby-remark-prismjs`,
           `gatsby-remark-autolink-headers`,
