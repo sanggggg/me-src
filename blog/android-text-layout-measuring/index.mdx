@@ -15,7 +15,7 @@ author: 상민
 - 단어가 잘려 넘어갈 때 hyphen (-) 을 쓰면 어떨까?
 
 <br />
-![breaking_paragraphs_into_lines](android-text/breaking_paragraphs_into_lines.png)
+![breaking_paragraphs_into_lines](breaking_paragraphs_into_lines.png)
 *DONALD E. KNUTH AND MICHAEL F. PLASS, 'Breaking Paragraphs into Lines'*
 <br />
 
@@ -23,7 +23,7 @@ author: 상민
 
 ### Android 의 Text Layout Measuring
 
-![textview_attributes](android-text/textview_attributes.png)
+![textview_attributes](textview_attributes.png)
 *Android 의 TextView attributes*
 
 Android 에서는 `android.widget.TextView`클래스를 통해 텍스트 레이아웃 측정을 도와주고 있습니다. 앞서 언급한 Layout Measuring 에 관한 다양한 디테일(text size, line breaking strategy, hyphenation frequency) 들은 대부분 xml attributes 로 조정이 가능하여 해당 attributes 에 맞추어 배치된 글자들이 화면에 그려지게 됩니다.
@@ -35,7 +35,7 @@ Android의 `TextView` 에서 사용되는 Layout Measuring 구현은 resource co
 
 `TextView` 의 Layout Measuring 에 관련된 구현은 아래의 Code Stack 의 코드를 통해 확인할 수 있습니다. 본 글에서도 이 code stack 에서 언급된 library 들을 위주로 설명이 진행됩니다.
 
-![code_stack_for_text](android-text/code_stack_for_text.png)
+![code_stack_for_text](code_stack_for_text.png)
 _Code Stack Diagram from [Deep dive in Android Text And Best Practice](https://medium.com/mindorks/deep-dive-in-android-text-and-best-practices-part-1-6385b28eeb94)_
 
 **Java Layer** - Layout, MeasuredText, LineBreaker
@@ -92,21 +92,21 @@ Line Breaking 은 view width 보다 긴 텍스트를 view 에 넣으려고 할 �
 
 줄넘김 처리가 발생할 수 있는 지점 (이하 중단점) 은 각 unicode Locale 별로 차이가 있습니다. 해당 Unicode 규약은 [여기](https://www.unicode.org/reports/tr14/)에서 볼 수 있는데, 예를 들자면 영어의 경우에는 한 단어의 중간 에서는 줄넘김 처리가 발생할 수 없고, (만약 발생한다면 `-` 표시를 추가해 주어야 합니다.) 한글의 경우 한 단어 사이 음절에서 줄넘김 처리가 발생할 수 있습니다.
 
-![icu_locale_word_break](android-text/icu_locale_word_break.png)
+![icu_locale_word_break](icu_locale_word_break.png)
 *Locale 별 중단점을 잡는 방법*
 
 Line Break 를 구현한 minikin 의 `LineBreaker` 에서는 위에서 언급한 Locale 별 후보 중단점들을 unicode library 인 ICU 를 사용하여 찾아내고, Line Break 가 어디에서 일어나야 하는지를 설정한 Strategy 에 따라 계산해 주는 코드가 구현되어 있습니다.
 
 AOSP 의 LineBreak 는 현재 3가지의 Line Break Strategy 를 지원합니다.
 
-![word_break_stratergies](android-text/word_break_stratergies.png)
+![word_break_stratergies](word_break_stratergies.png)
 *Line Breaking strategy comparison from [Deep dive in Android Text And Best Practice](https://medium.com/mindorks/deep-dive-in-android-text-and-best-practices-part-1-6385b28eeb94)*
 
 1. **Simple (Greedy) Break Strategy** 는 LineBreak 의 후보 (~= 종단점) 을 하나씩 보면서 이 줄에 넣을 수 있는 최대한의 텍스트를 집어넣고 나머지는 다음줄로 넘깁니다.
 2. **Balanced Break Strategy** 는 [TeX 의 LineBreaking 알고리즘](http://www.eprg.org/G53DOC/pdfs/knuth-plass-breaking.pdf)을 구현하고 있습니다. 위 알고리즘은 hyphen 을 활용하여 전반적으로 텍스트 한줄 한줄의 길이가 비슷하도록 최적화 시켜주어 가독성을 높여줍니다.
 3. **High Quality Break Strategy** 도 마찬가지로 TeX 의 LineBreaking 알고리즘을 활용하지만 Balanced 와 다르게 마지막 줄은 다른 줄들과 비슷한 길이가 아니여도 괜찮도록 알고리즘의 최적화 metric 중 하나인 penalty를 조절하는 차이가 있습니다.
 
-![balanced_vs_high_quality](android-text/balanced_vs_high_quality.png)
+![balanced_vs_high_quality](balanced_vs_high_quality.png)
 *balanced vs high_quality*
 
 ```cpp
