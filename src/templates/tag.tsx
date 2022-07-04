@@ -3,10 +3,13 @@ import { Link, graphql, PageProps } from "gatsby";
 import Layout from "../components/layout";
 import styled from "styled-components";
 
-const BlogPage: React.FC<PageProps<Queries.BlogListQuery>> = ({
-  data,
-  pageContext,
-}) => {
+export interface TagPageContext {
+  tag: string;
+}
+
+const BlogPage: React.FC<
+  PageProps<Queries.BlogListWithTagQuery, { tag: string }>
+> = ({ data, pageContext }) => {
   const tag = pageContext.tag;
 
   return (

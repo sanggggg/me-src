@@ -1,10 +1,10 @@
 import type { GatsbyNode } from "gatsby";
 import { createFilePath } from "gatsby-source-filesystem";
+import { AllPostQuery } from "./src/queries";
 
-export const onCreateNode: GatsbyNode["onCreateNode"] = async ({
-  actions: { createNodeField },
-  ...context
-}) => {
+export const onCreateNode: GatsbyNode<{
+  frontmatter: { tag: string };
+}>["onCreateNode"] = async ({ actions: { createNodeField }, ...context }) => {
   if (context.node.internal.type === "Mdx") {
     const prefix = "/blog";
     const { node, getNode } = context;
@@ -46,7 +46,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
   graphql,
   actions: { createPage },
 }) => {
-  const { data, errors } = await graphql(`
+  const { data, errors } = await graphql<AllPostQuery>(`
     query AllPosts {
       allMdx(sort: { fields: frontmatter___date, order: DESC }) {
         nodes {
@@ -69,13 +69,13 @@ export const createPages: GatsbyNode["createPages"] = async ({
     throw new Error(errors);
   }
 
-  const allPosts = data?.allMdx.nodes;
-  const allTags = new Set(data?.allMdx.nodes
-    .flatMap((it) => it.fields.tags)
-    .filter((it) => it)
-    );
+  const allPosts = data?.allMdx.nodes ?? [];
+  const allTags = new Set(
+    data?.allMdx.nodes.flatMap((it) => it.fields?.tags).filter((it) => it)
+  );
 
   allPosts.forEach((node) => {
+    if (!(node.fields?.slug && node.fields?.series)) return;
     console.log(`Create Page ${node.fields.slug}`);
     createPage({
       path: node.fields.slug,

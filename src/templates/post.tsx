@@ -10,7 +10,6 @@ const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
     data.mdx?.frontmatter?.hero_image?.childImageSharp?.gatsbyImageData;
   const tags = data.mdx?.frontmatter?.tag?.split(",").map((it) => it.trim());
   const series = data.allMdx.nodes;
-  console.log(data);
 
   return (
     <Layout pageTitle={data.mdx?.frontmatter?.title ?? "-"}>
