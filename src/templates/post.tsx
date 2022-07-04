@@ -3,6 +3,7 @@ import { graphql, Link, PageProps } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { GatsbyImage } from "gatsby-plugin-image";
 import Layout from "../components/layout";
+import Comment from "../components/comment";
 
 const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
   const heroImage =
@@ -36,6 +37,7 @@ const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
       )}
       <br />
       <MDXRenderer>{data.mdx?.body ?? ""}</MDXRenderer>
+      <Comment />
     </Layout>
   );
 };
