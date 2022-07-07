@@ -6,18 +6,18 @@ import styled from "styled-components";
 const BlogPage: React.FC<PageProps<Queries.BlogListQuery>> = ({ data }) => {
   return (
     <Layout pageTitle="My Blog Posts">
-      <PostList>
+      <ul>
         {data.allMdx.nodes.map((node) => (
-          <article key={node.id}>
+          <div className="post-item" key={node.id}>
             <h3>
-              <PostTitle to={`${node?.fields?.slug}`}>
+              <Link to={`${node?.fields?.slug}`} className="post-item-title">
                 {node?.frontmatter?.title}
-              </PostTitle>
+              </Link>
             </h3>
-            <PostDate>{node?.frontmatter?.date}</PostDate>
-          </article>
+            <time className="post-item-date">{node?.frontmatter?.date}</time>
+          </div>
         ))}
-      </PostList>
+      </ul>
     </Layout>
   );
 };
