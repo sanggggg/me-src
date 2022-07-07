@@ -13,21 +13,31 @@ const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
 
   return (
     <Layout pageTitle={data.mdx?.frontmatter?.title ?? "-"}>
-      <p>글 쓴 날짜:{data.mdx?.frontmatter?.date}</p>
-      <strong>태그</strong>{" "}
-      {tags?.map((it) => (
-        <div>
-          <Link to={`/tag/${it}`}>{it}</Link> •{" "}
+      <div className="meta-line">
+        <div className="meta">
+          {"상민, "}
+          <time>{data.mdx?.frontmatter?.date}</time>
+          {" • "}
+          {tags?.map((it) => (
+            <Link className="tag" to={`/tag/${it}`}>
+              {it}
+            </Link>
+          ))}
         </div>
-      ))}
-      <h4>시리즈 게시글</h4>
-      <ul>
-        {series.map((it) => (
-          <li key={it.fields?.slug}>
-            <Link to={it.fields?.slug ?? "/"}>{it?.frontmatter?.title}</Link>
-          </li>
-        ))}
-      </ul>
+        <Link className="meta-back" to="/blog">
+          뒤로가기
+        </Link>
+      </div>
+      <blockquote>
+        <h4>시리즈 게시글</h4>
+        <ul>
+          {series.map((it) => (
+            <li key={it.fields?.slug}>
+              <Link to={it.fields?.slug ?? "/"}>{it?.frontmatter?.title}</Link>
+            </li>
+          ))}
+        </ul>
+      </blockquote>
       {heroImage && (
         <GatsbyImage
           image={heroImage}

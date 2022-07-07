@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Link, graphql, PageProps } from "gatsby";
 import Layout from "../components/layout";
-import styled from "styled-components";
 
 export interface TagPageContext {
   tag: string;
@@ -14,18 +13,18 @@ const BlogPage: React.FC<
 
   return (
     <Layout pageTitle={`Posts with tag \"${tag}\"`}>
-      <PostList>
+      <ul>
         {data.allMdx.nodes.map((node) => (
-          <article key={node.id}>
+          <div className="post-item" key={node.id}>
             <h3>
-              <PostTitle to={`${node?.fields?.slug}`}>
+              <Link to={`${node?.fields?.slug}`} className="post-item-title">
                 {node?.frontmatter?.title}
-              </PostTitle>
+              </Link>
             </h3>
-            <PostDate>{node?.frontmatter?.date}</PostDate>
-          </article>
+            <time className="post-item-date">{node?.frontmatter?.date}</time>
+          </div>
         ))}
-      </PostList>
+      </ul>
     </Layout>
   );
 };
@@ -48,25 +47,6 @@ export const query = graphql`
       }
     }
   }
-`;
-
-const PostTitle = styled(Link)`
-  color: #111817;
-  font-weight: 500;
-  text-decoration: none;
-  font-size: 1.25em;
-  color: unset;
-`;
-
-const PostDate = styled.div`
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  --tw-text-opacity: 1;
-  color: rgba(209, 213, 219, var(--tw-text-opacity));
-`;
-
-const PostList = styled.ul`
-  padding: 0px;
 `;
 
 export default BlogPage;

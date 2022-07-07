@@ -23,7 +23,7 @@ const Layout: React.FC<React.PropsWithChildren<{ pageTitle: string }>> = ({
           소개
         </Link>
         <Link className="nav-link" to="/blog">
-          글
+          블로그
         </Link>
       </div>
       {children}

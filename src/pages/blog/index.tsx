@@ -3,9 +3,9 @@ import { Link, graphql, PageProps } from "gatsby";
 import Layout from "../../components/layout";
 import styled from "styled-components";
 
-const BlogPage: React.FC<PageProps<Queries.BlogListQuery>> = ({ data }) => {
+const BlogList: React.FC<PageProps<Queries.BlogListQuery>> = ({ data }) => {
   return (
-    <Layout pageTitle="My Blog Posts">
+    <Layout pageTitle="블로그">
       <ul>
         {data.allMdx.nodes.map((node) => (
           <div className="post-item" key={node.id}>
@@ -58,4 +58,4 @@ const PostList = styled.ul`
   padding: 0px;
 `;
 
-export default BlogPage;
+export default BlogList;
