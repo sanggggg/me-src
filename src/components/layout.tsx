@@ -17,6 +17,12 @@ const Layout: React.FC<React.PropsWithChildren<{ pageTitle: string }>> = ({
 
   return (
     <article className="container prose prose-sm md:prose dark:prose-dark">
+      <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `html{font-family:Inter,sans-serif}@supports(font-variation-settings:normal){html{font-family:'Inter var',sans-serif}}`,
+        }}
+      />
       <h1>{pageTitle}</h1>
       <div className="nav-line">
         <Link className="nav-link" to="/">

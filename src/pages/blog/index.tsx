@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 const BlogList: React.FC<PageProps<Queries.BlogListQuery>> = ({ data }) => {
   return (
-    <Layout pageTitle="블로그">
+    <Layout pageTitle="개발">
       <ul>
         {data.allMdx.nodes.map((node) => (
           <div className="post-item" key={node.id}>
