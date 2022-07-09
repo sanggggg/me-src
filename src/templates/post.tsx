@@ -12,7 +12,7 @@ const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
   const series = data.allMdx.nodes;
 
   return (
-    <Layout pageTitle={data.mdx?.frontmatter?.title ?? "-"}>
+    <Layout pageTitle={data.mdx?.frontmatter?.title ?? "-"} isArticle>
       <div className="meta-line">
         <div className="meta">
           {"상민, "}

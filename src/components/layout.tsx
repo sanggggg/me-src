@@ -1,22 +1,13 @@
 import * as React from "react";
 import { Link, useStaticQuery, graphql } from "gatsby";
+import SEO from "./seo";
 
-const Layout: React.FC<React.PropsWithChildren<{ pageTitle: string }>> = ({
-  pageTitle,
-  children,
-}) => {
-  const data = useStaticQuery(graphql`
-    query {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `);
-
+const Layout: React.FC<
+  React.PropsWithChildren<{ pageTitle: string; isArticle?: boolean }>
+> = ({ pageTitle, isArticle, children }) => {
   return (
     <article className="container prose prose-sm md:prose dark:prose-dark">
+      <SEO isArticle={isArticle ?? false} title={pageTitle} />
       <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
       <style
         dangerouslySetInnerHTML={{
