@@ -5,7 +5,7 @@ const config: GatsbyConfig = {
     title: "sanggggg",
     titleTemplate: "%s · DevLog",
     description:
-      "Sangmin Kim (@sanggggg), software developer & magic trick enthusiast",
+      "DevLog of Sangmin Kim (@sanggggg)",
     url: "https://sanggggg.com", // No trailing slash allowed!
     image: "/feathers_mcgraw.jpg", // Path to the image placed in the 'static' folder, in the project's root directory.
     twitterUsername: "@san_5g",
