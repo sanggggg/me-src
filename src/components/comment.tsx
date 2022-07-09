@@ -11,7 +11,9 @@ const Comment = () => {
     utterances.setAttribute("issue-term", "path-name");
     utterances.setAttribute("async", "true");
     utterances.setAttribute("crossorigin", "anonymous");
-    commentRef.current?.appendChild(utterances);
+    if (!commentRef.current?.hasChildNodes()) {
+      commentRef.current?.appendChild(utterances);
+    }
   });
 
   return <div className="comments" ref={commentRef}></div>;
