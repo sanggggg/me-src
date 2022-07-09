@@ -30,7 +30,7 @@ pthread 는 POSIX-thread의 줄임말으로, linux와 같은 unix 계열의 os�
 위 그림과 같은 방법으로 thread에 일을 할당해 주려고 합니다. A와 C의 M row를 n개의 thread에게 병렬적으로 처리하게 할당해주는 것입니다. 그럼 이제 코드로 위 구현을 나타내 보겠습니다. thread는 global variable을 공유하므로 A, B, C를 global variable로 쓰레드들이 공유하도록 하였다.
 
 ### controller(main thread) part
-```
+```c
 pthread_t * threads;
 threads = (pthread_t *) malloc(sizeof(pthread_t) * num_threads);
 
@@ -48,7 +48,7 @@ for (int i = 0; i < num_threads; i++) {
 실행에 넘겨준 만큼의 thread를 새로 할당하고 모든 thread에서 worker를 실행해줍니다. 이때 thread의 id를 식별할 수 있는 pid를 `pthread_create` 에 인자로 넘겨주었습니다. 모든 thread의 실행이 끝나기 까지 controller thread를 blocking 했고 이는 `pthread_join` 에서 실행하였습니다.
 
 ### each thread part
-```
+```c
 static void* worker(void *data) {
   int pid = * (int *) data;
 

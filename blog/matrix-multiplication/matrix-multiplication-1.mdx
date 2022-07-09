@@ -4,14 +4,13 @@ date: 2020-05-27
 tag: matrix_multiplication
 author: 상민
 ---
-# Matrix Mutiplication speed up (1) - Memory Locality을 통한 최적화
 
 ## Memory Locality을 통한 최적화
 이번 포스팅에서는 가장 기본적인 Matrix multiplication 코드를 작성해보고, memory locality를 활용한 speed up을 진행해 볼 예정입니다. 포스팅에서 사용한 코드는 [Github Repository](https://github.com/sanggggg/MatMulSpeedUp)에서 보실 수 있습니다. Performance 측정을 위해 다양한 option을 실행시에 줄 수 있도록 하였으니 참고하셔도 좋을 것 같습니다.
 
 ## Naive approach
 행렬곱에 대해 가장 naive한 코드를 짠다면 아래와 같습니다.
-```
+```c
 // A[M, K] * B[K, N] = C[M, N] matmul
 void mat_mul_naive(float *A, float *B, float *C, int M, int N, int K) {
   for (int i = 0; i < M; i++) {
@@ -25,7 +24,7 @@ void mat_mul_naive(float *A, float *B, float *C, int M, int N, int K) {
 }
 ```
 일반적으로 우리가 머릿속으로 생각하는 행과 열을 곱해 저장하는 행렬곱을 그대로 표현하면 위와 같은 코드가 나옵니다. 그럼 위 코드의 실행 성능을 확인해봅시다. 1024*1024 Matrix의 행렬곱을 실행해 봅시다.
-```
+```shell
 ❯ ./main 1024 1024 1024
 Options:
   Problem size: M = 1024, N = 1024, K = 1024
@@ -55,7 +54,7 @@ Avg. throughput: 0.159251 GFLOPS
 
 ## Locality approach
 아래의 코드는 위의 코드에서 발생 가능한 page swap의 크기를 크게 줄인 코드입니다.
-```
+```c
 // A[M, K] * B[K, N] = C[M, N] matmul
 void mat_mul_locality(float *A, float *B, float *C, int M, int N, int K) {
   for (int i = 0; i < M; i++) {
@@ -94,7 +93,7 @@ Avg. throughput: 0.723945 GFLOPS
 
 ## Block size approach
 이번엔 더욱 page swap의 가능성이 적은 코드를 살펴봅시다. 이제 가장 안쪽 loop가 아닌 그 바깥쪽 루프에서도 페이지 폴트가 일어나지 않도록 코드를 작성해 봅시다. 코드는 아래와 같습니다.
-```
+```c
 // 4KB / 4 Byte
 // 4 Byte -> size of float
 #define BS 1024
@@ -122,7 +121,7 @@ void mat_mul_blocking(float *A, float *B, float *C, int M, int N, int K) {
 ## Vectorized instruction
 여기에 추가적으로 적용할 수 있는 최적화가 있습니다. [vector processor](https://ko.wikipedia.org/wiki/%EB%B2%A1%ED%84%B0_%ED%94%84%EB%A1%9C%EC%84%B8%EC%84%9C)에서 사용할 수 있는 방법입니다. 결국  코드를 assembly로 변환시 하나의 데이터 계산 당(C[i][j] 와 같이) 하나의 multiply instruction으로 실행 될 것입니다. vectorized instruction은 cpu에서 제공하는 기능으로 여러개의 데이터를 묶어 한 instruction으로 동일한 연산을 수행하게 만들 수 있습니다. 즉 하나의 multiply instruction으로 여러개의 데이터(C[i][j], C[i][j+1], ...)를 계산해 낼 수 있는 것이죠. 이를 SIMD (single instruction multiple data) 연산이라고 하며 이를 사용하면 또한 빠른 실행속도를 얻을 수 있습니다. [Intel CPU intrinsics guide](https://software.intel.com/sites/landingpage/IntrinsicsGuide/)에 vectorized instruction의 사용법이 적혀있습니다. 하지만 실제로 적용해 봤자 앞선 결과와 동일한 결과가 나오게 됩니다. 이는 이미 gcc또는 clang에서 compile 시 자동으로 SIMD를 확인하고 사용하여 최적해 주었기 때문입니다.
 
-```
+```assembly
 # mat_mul.s
 # 실제 mat_mul_locality를 변환한 assembly 파일입니다.
 vmulss	(%rax,%rdx,4), %xmm0, %xmm0

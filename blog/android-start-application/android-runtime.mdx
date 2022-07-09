@@ -22,7 +22,7 @@ java application 의 경우 컴파일 완료된 bytecode (`.class`) 는 JVM 을 
 ART 이전에도 **Dalvic Virtual Machine (DVM)** 이라는 안드로이드용 런타임이 존재했다. 하지만 DVM 의 Just-in-time 컴파일은 실제 런타임에 bytecode 의 기계어 번역이 발생하기 때문에 성능상의 한계가 있었고, ART 는 이 문제를 Ahead-of-time 컴파일로 해결하여 성능상의 이점을 주기 때문에 DVM 대신 ART 가 안드로이드의 주 런타임으로 자리잡게 되었다.
 
 #### 앱 최초에 발생하는 일
-안드로이드 플랫폼이 돌아가기 위해서는 가장 최초의 리눅스 커널이 부트될 때 boot loader 에서 [init process](system/core/init/main.cpp) 가 실행된다.
+안드로이드 플랫폼이 돌아가기 위해서는 가장 최초의 리눅스 커널이 부트될 때 boot loader 에서 [init process](https://cs.android.com/android/platform/superproject/+/master:frameworks/base/cmds/app_process/app_main.cpp;l=173;drc=7acbc840668959d7d8a0ab05b33bdc3d2fcb433b) 가 실행된다.
 
 이 init process 가 하는 일은 크게 시스템이 필요로 하는 다양한 daemon process 들을 만들고, Zygote 라는 Android Runtime 이 돌아가는 프로세스를 만드는 역할을 수행한다.
 (daemon 프로세스의 경우 logging, low memory killer 등 다른 프로세스에서 발생하는 요청을 들어주거나 모니터링 하는 프로세스 들을 말한다.)
@@ -40,7 +40,7 @@ Result<void> Service::Start() {
 }
 ```
 
-init process 는 또 다른 중요한 역할을 하는데, Android Runtime 구동을 위한 뿌리가 되는 [Zygote process](frameworks/base/cmds/app_process/app_main.cpp) 를 만드는 역할을 수행한다.
+init process 는 또 다른 중요한 역할을 하는데, Android Runtime 구동을 위한 뿌리가 되는 [Zygote process](https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/java/com/android/internal/os/Zygote.java) 를 만드는 역할을 수행한다.
 
 ```cpp
 // ART 에서 이 프로세스가 zygote 를 위한 프로세스라면 ZygoteInit 클래스를 실행한다.
