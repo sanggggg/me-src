@@ -26,7 +26,6 @@ const config: GatsbyConfig = {
         gatsbyRemarkPlugins: [
           `gatsby-remark-images`,
           `gatsby-remark-prismjs`,
-          `gatsby-remark-autolink-headers`,
         ],
       },
     },
