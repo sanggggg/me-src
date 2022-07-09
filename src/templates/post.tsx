@@ -46,6 +46,7 @@ const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
       )}
       <br />
       <MDXRenderer>{data.mdx?.body ?? ""}</MDXRenderer>
+      <div className="h-16" />
       <Comment />
     </Layout>
   );
