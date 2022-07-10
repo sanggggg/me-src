@@ -17,7 +17,7 @@ const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
         <div className="meta">
           {"상민, "}
           <time>{data.mdx?.frontmatter?.date}</time>
-          {" • "}
+          {tags ? " • " : ""}
           {tags?.map((it) => (
             <Link className="tag" to={`/tag/${it}`}>
               {it}
@@ -28,23 +28,29 @@ const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
           뒤로가기
         </Link>
       </div>
-      <blockquote>
-        <h4>시리즈 게시글</h4>
-        <ul>
-          {series.map((it) => (
-            <li key={it.fields?.slug}>
-              <Link to={it.fields?.slug ?? "/"}>{it?.frontmatter?.title}</Link>
-            </li>
-          ))}
-        </ul>
-      </blockquote>
+      {series.length > 1 ? (
+        <>
+          <blockquote>
+            <h4>시리즈 게시글</h4>
+            <ul>
+              {series.map((it) => (
+                <li key={it.fields?.slug}>
+                  <Link to={it.fields?.slug ?? "/"}>
+                    {it?.frontmatter?.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </blockquote>
+          <br />
+        </>
+      ) : null}
       {heroImage && (
         <GatsbyImage
           image={heroImage}
           alt={data.mdx.frontmatter?.hero_image_alt ?? "-"}
         />
       )}
-      <br />
       <MDXRenderer>{data.mdx?.body ?? ""}</MDXRenderer>
       <div className="h-16" />
       <Comment />
