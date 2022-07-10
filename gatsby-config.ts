@@ -2,12 +2,11 @@ import type { GatsbyConfig } from "gatsby";
 
 const config: GatsbyConfig = {
   siteMetadata: {
-    title: "sanggggg",
-    titleTemplate: "%s · DevLog",
-    description:
-      "DevLog of Sangmin Kim (@sanggggg)",
-    url: "https://sanggggg.com", // No trailing slash allowed!
-    image: "/static/feathers_mcgraw.jpg", // Path to the image placed in the 'static' folder, in the project's root directory.
+    title: "@sanggggg",
+    titleTemplate: "%s · @sanggggg",
+    description: "Personal Website · @sanggggg",
+    url: "https://sanggggg.me", // No trailing slash allowed!
+    image: "/feathers_mcgraw.jpeg", // Path to the image placed in the 'static' folder, in the project's root directory.
     twitterUsername: "@san_5g",
   },
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
@@ -24,7 +23,7 @@ const config: GatsbyConfig = {
         background_color: `#ffffff`,
         theme_color: `#111827`,
         display: `standalone`,
-        icon: `static/icon.png`
+        icon: `static/icon.png`,
       },
     },
     `gatsby-plugin-react-helmet`,
