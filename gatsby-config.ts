@@ -7,7 +7,7 @@ const config: GatsbyConfig = {
     description:
       "DevLog of Sangmin Kim (@sanggggg)",
     url: "https://sanggggg.com", // No trailing slash allowed!
-    image: "/feathers_mcgraw.jpg", // Path to the image placed in the 'static' folder, in the project's root directory.
+    image: "/static/feathers_mcgraw.jpg", // Path to the image placed in the 'static' folder, in the project's root directory.
     twitterUsername: "@san_5g",
   },
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
@@ -27,6 +27,7 @@ const config: GatsbyConfig = {
         icon: `static/icon.png`
       },
     },
+    `gatsby-plugin-react-helmet`,
     `gatsby-plugin-postcss`,
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,

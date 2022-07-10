@@ -41,23 +41,4 @@ export const query = graphql`
   }
 `;
 
-const PostTitle = styled(Link)`
-  color: #111817;
-  font-weight: 500;
-  text-decoration: none;
-  font-size: 1.25em;
-  color: unset;
-`;
-
-const PostDate = styled.div`
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  --tw-text-opacity: 1;
-  color: rgba(209, 213, 219, var(--tw-text-opacity));
-`;
-
-const PostList = styled.ul`
-  padding: 0px;
-`;
-
 export default BlogList;
