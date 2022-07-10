@@ -44,7 +44,6 @@ const config: GatsbyConfig = {
       },
     },
     `gatsby-transformer-sharp`,
-    `gatsby-plugin-styled-components`,
   ],
 };
 

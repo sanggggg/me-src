@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Link, graphql, PageProps } from "gatsby";
 import Layout from "../../components/layout";
-import styled from "styled-components";
 import Navigation from "../../components/navigation";
 
 const BlogList: React.FC<PageProps<Queries.BlogListQuery>> = ({ data }) => {

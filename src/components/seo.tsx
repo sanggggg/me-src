@@ -32,6 +32,7 @@ const SEO: React.FC<Props> = ({ title, description, image, isArticle }) => {
 
   return (
     <Helmet title={seo.title} titleTemplate={titleTemplate}>
+      <meta name="charset" content="UTF-8" />
       <meta name="description" content={seo.description} />
       <meta name="image" content={seo.image} />
 
