@@ -1,9 +1,11 @@
 import * as React from "react";
 import Layout from "../components/layout";
+import Navigation from "../components/navigation";
 
 const IndexPage = () => {
   return (
     <Layout pageTitle="김상민 (@sanggggg)">
+      <Navigation activePagePath="/" />
       <p>
         여러 분야에 대한 <strong>경험을 넓히는 것</strong>을 좋아하는 소프트웨어
         개발자입니다. 다양한 프레임워크와 도메인을 경험해 보며{" "}

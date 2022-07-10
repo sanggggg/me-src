@@ -15,14 +15,6 @@ const Layout: React.FC<
         }}
       />
       <h1>{pageTitle}</h1>
-      <div className="nav-line">
-        <Link className="nav-link" to="/">
-          소개
-        </Link>
-        <Link className="nav-link" to="/blog">
-          블로그
-        </Link>
-      </div>
       {children}
     </article>
   );

@@ -4,6 +4,7 @@ import { MDXRenderer } from "gatsby-plugin-mdx";
 import { GatsbyImage } from "gatsby-plugin-image";
 import Layout from "../components/layout";
 import Comment from "../components/comment";
+import Meta from "../components/meta";
 
 const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
   const heroImage =
@@ -13,21 +14,7 @@ const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
 
   return (
     <Layout pageTitle={data.mdx?.frontmatter?.title ?? "-"} isArticle>
-      <div className="meta-line">
-        <div className="meta">
-          {"상민, "}
-          <time>{data.mdx?.frontmatter?.date}</time>
-          {tags ? " • " : ""}
-          {tags?.map((it) => (
-            <Link className="tag" to={`/tag/${it}`}>
-              {it}
-            </Link>
-          ))}
-        </div>
-        <Link className="meta-back" to="/blog">
-          뒤로가기
-        </Link>
-      </div>
+      <Meta tags={tags} date={data.mdx?.frontmatter?.date} />
       {series.length > 1 ? (
         <>
           <blockquote>

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link, graphql, PageProps } from "gatsby";
 import Layout from "../components/layout";
+import Navigation from "../components/navigation";
 
 export interface TagPageContext {
   tag: string;
@@ -13,6 +14,7 @@ const BlogPage: React.FC<
 
   return (
     <Layout pageTitle={`Posts with tag \"${tag}\"`}>
+      <Navigation activePagePath="/tag" />
       <ul>
         {data.allMdx.nodes.map((node) => (
           <div className="post-item" key={node.id}>
