@@ -16,7 +16,21 @@ author: 상민
 ## 실행 가능한 앱 결과물 (.apk) 을 만드는 과정
 안드로이드 앱을 만들고, 실제 실행시킬 수 있는 단위는 `.apk` 파일이다. 우리는 IDE 를 통해서 `.apk` 을 만들거나, 직접 커맨드라인을 통해서 `.apk` 를 만들기도(`gradle assemble`) 한다. 이렇게 배포가능하고 실행가능한 apk 파일이 만들어지기 까지 어떤 일이 일어나는지 확인해보자.
 
-![app build path](app_build_path.png)
+```mermaid
+graph LR;
+
+kt[.kt]
+classFile[.class]
+dexFile[.dex]
+apk[.apk]
+xml[.xml]
+assets[assets]
+
+kt -- compileKotlin --> classFile
+classFile -- compileDex --> dexFile --> apk
+xml ---> apk
+assets ---> apk
+```
 > 실제 apk 파일이 프로젝트로 부터 만들어 지는 과정을 간추리면 위 도식화된 경로와 같다. 이를 참고하여 자세한 경로를 정리해 보았다.
 
 #### 코드 파일 컴파일하기

@@ -40,7 +40,17 @@ const config: GatsbyConfig = {
     {
       resolve: `gatsby-plugin-mdx`,
       options: {
-        gatsbyRemarkPlugins: [`gatsby-remark-images`, `gatsby-remark-prismjs`],
+        gatsbyRemarkPlugins: [
+          `gatsby-remark-images`,
+          {
+            resolve: `gatsby-remark-graph`,
+            options: {
+              language: "mermaid",
+              theme: "dark",
+            },
+          },
+          `gatsby-remark-prismjs`,
+        ],
       },
     },
     `gatsby-transformer-sharp`,
