@@ -1,7 +1,7 @@
 ---
 title: Logic Routing 과 UI Routing
 date: 2022-09-04
-tag: ribs, android, iOS
+tag: ribs, android, iOS, bad-writing
 author: 상민
 ---
 
@@ -18,7 +18,7 @@ Routing 은 유저 플로우에서 발생할 수 있는 여정이라고 볼 수 
 
 하지만 RIBs 는 RIB 이라는 UI 와는 별개의 Logical 한 노드를 통한 Logic 의 Routing 을 권장한다.
 
-이 글에서는 RIBs, Jetpack Navigation (with MVVM Fragment) 을 둘 다 써 보면서 느낀 Logical 한 노드를 통한 Routing 이 좋은 점을 적으려고 한다.
+이 글에서는 RIBs, Jetpack Navigation (with MVVM Fragment) 을 둘 다 써 보면서 느낀 Logical 한 노드를 통한 Routing 의 이점과 트레이드 오프를 소개하려고 한다.
 
 ## UI Routing
 
@@ -188,3 +188,6 @@ class RootUI(
 ```
 
 이제 LogicProvider 는 UI 를 전혀 몰라도 그 로직을 만들 수 있으며, UI 는 단순 UI 의 시각화만을 책임지게 되었다. :smile:
+
+하지만 앞서 설명한 Logical Routing 은 UI 에 대한 Routing 대비 도메인 맥락과 실제 UI 의 결합도를 낮출 수 있지만, 그만큼 부차적인 boilerplate code 들도 많이 발생할 수 있다.
+따라서 대부분의 UI Routing 이 Logical Routing 과 1:1 되는 앱에 대해서는 이점을 크게 누리기 힘든 개념일 수도 있다는 점을 트레이드 오프로 고민했으면 한다.
