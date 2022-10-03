@@ -68,7 +68,8 @@ class HomeUI(
 ): UI {
 
     fun onClickDetail(detailItem: DetailItem) {
-        if (homeLogicProvider.isRouteToDetailAllowed(detailItem)) { // 실제 그 결과를 통해서 라우팅을 할 지 말지 등을 결정할 수도 있을테고...
+        // 실제 그 결과를 통해서 라우팅을 할 지 말지 등을 결정할 수도 있을테고...
+        if (homeLogicProvider.isRouteToDetailAllowed(detailItem)) {
             navigator.routeTo(DetailUI.Identifier)
         }
     }
