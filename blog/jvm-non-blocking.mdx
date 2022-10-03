@@ -84,7 +84,7 @@ regular file 처럼 syscall read 자체가 block 되지는 않겠지만, 결국�
 이제 위 생각을 코드를 통해 검증해보자. 각각을 위한 검증은 java.nio 의 [AsynchronousFileChannel] 과 [AsynchronousSocketChannel] 구현체들을 뜯어보며 진행된다.
 
 > 참고로 java.nio 는 non-blocking api 를 제공한다고 `n` 이 아니라 `new` io 다.
-> non-blocking api, kernel-jvm buffer mapping 등의 최적화를 제공하는 패키지이며, File I/O 도 저렇게 AsynchronousFileChannel 이 아닌 synchronous I/O 를 위한 api (FileChannel.java) 도 존재한다!
+> non-blocking api, kernel-jvm buffer mapping 등의 최적화를 제공하는 패키지이며, File I/O 도 저렇게 AsynchronousFileChannel 이 아닌 synchronous I/O 를 위한 api (FileChannel.java) 도 존재한다! [참고](https://homoefficio.github.io/2016/08/06/Java-NIO%EB%8A%94-%EC%83%9D%EA%B0%81%EB%A7%8C%ED%81%BC-non-blocking-%ED%95%98%EC%A7%80-%EC%95%8A%EB%8B%A4/)
 
 > Socket 의 non-blocking I/O 는 `AsynchronousSocketChannel` 이 아닌 일반 `SocketChannel` 과 `Selector` 의 조합으로도 만들 수 있다. 하지만 file I/O 와의 적절한 비교를 위해 전자를 선택했다. [참고](https://jongmin92.github.io/2019/03/03/Java/java-nio/)
 
