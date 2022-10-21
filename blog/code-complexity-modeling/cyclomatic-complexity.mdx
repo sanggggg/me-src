@@ -57,21 +57,21 @@ function 아침준비() {
 수학적으로는 함수의 흐름을 순서도로 구성했을 때 `존재하는 간선의 수 - 존재하는 노드의 수 + 2` 로 정의할 수 있지만, 그냥 쉽게 말해서 함수에서 존재하는 if 문이나 while, switch(의 case) 문의 개수라고 볼 수 있다.
 
 ```js
-function doSomething(flag, len) {
-  if (len !== 0) { // +1 (1)
-    for (var i = 0; i < 10; i++) { // +1 (2)
+function doSomething(flag, len) { // default (1)
+  if (len !== 0) { // +1 (2)
+    for (var i = 0; i < 10; i++) { // +1 (3)
       doOnIter()
     }
   } else {
     switch (flag) {
-      case 1: doOn1() // +1 (3)
-      case 2: doOn2() // +1 (4)
+      case 1: doOn1() // +1 (4)
+      case 2: doOn2() // +1 (5)
       default: doOnDefault()
     }
   }
   return
 }
-// total 4 complexity in doSomething
+// total 5 complexity in doSomething
 ```
 
 ```mermaid
@@ -79,17 +79,18 @@ graph TD;
 
 if ---> for ---> return
 if ---> switch
+for ---> for
 switch ---> case_1 ---> return
 switch ---> case_2 ---> return
 switch ---> else ---> return
 ```
-> 간선 - 노드 + 2 = 9 - 7 + 2 = 4
+> 간선 - 노드 + 2 = 10 - 7 + 2 = 5
 
 이렇게 우리는 코드의 복잡도를 수치화할 수 있게되었다! 이제 이를 바탕으로, 함수의 복잡도를 확인하고 적절하게 낮추는 등 다양한 행동을 할 수 있게 되었다.
 하지만 위 정의는 가끔 우리의 직관과 반대되는 결과를 가져오기도 한다.
 
 ```js
-function sumOfPrimes(max) {
+function sumOfPrimes(max) { // +1
   var total = 0 
   for (var i = 1; i <= max; i++) { // +1
     for (var j = 2; j < i; j++) { // +1
@@ -101,19 +102,19 @@ function sumOfPrimes(max) {
   }
   return total;
 }
-// total 3 complexity
+// total 4 complexity
 ```
 
 ```js
-function getWords(number) {
+function getWords(number) { // +1
   switch (nubmer) {
     case 1: return "one" // +1
     case 2: return "two" // +1
     case 3: return "three" // +1
-    default: return "lots"
+    default: return "lots" //
   }
 }
-// total 3 complexity
+// total 4 complexity
 ```
 
 직관적으로도 `getWords` 의 복잡도가 `sumOfPrimes` 보다 훨씬 낮아보이지만, 실제로 complexity 는 차이가 없다.
