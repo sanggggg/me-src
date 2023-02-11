@@ -54,6 +54,19 @@ const config: GatsbyConfig = {
       },
     },
     `gatsby-transformer-sharp`,
+    {
+      resolve: `gatsby-plugin-google-gtag`,
+      options: {
+        trackingIds: [
+          process.env.GTAG_ID,
+        ],
+        pageConfig: {
+          head: true,
+          origin: 'https://sanggggg.me',
+        }
+      },
+
+    },
   ],
 };
 
