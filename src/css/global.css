@@ -86,3 +86,58 @@ h1 {
   font-weight: 500;
   color: unset;
 }
+
+.tooltip .tooltiptext {
+  @apply mt-1 bg-gray-600 text-gray-50 p-1 rounded-md;
+  visibility: hidden; /* 이벤트가 없으면 툴팁 영역을 숨김 */
+  text-align: center;
+  border-radius: 6px;
+  position: absolute; /* 절대 위치를 사용 */
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible; /* hover 이벤트 발생시 영역을 보여줌 */
+}
+
+.activity-monitor {
+  display: block;
+  @apply w-4 h-4 rounded-sm;
+}
+
+.activity-monitor.selected {
+  @apply border-2 border-gray-400 border-opacity-20;
+}
+
+.activity-monitor.neutral {
+  @apply border-2 border-gray-400 border-opacity-10;
+}
+
+.activity-monitor.unselected {
+  @apply opacity-50;
+}
+
+.activity-monitor.intensity-0 {
+  @apply bg-gray-50;
+}
+
+.activity-monitor.intensity-1 {
+  @apply bg-gray-200;
+}
+
+.activity-monitor.intensity-2 {
+  @apply bg-gray-300;
+}
+
+.activity-monitor.intensity-3 {
+  @apply bg-gray-400;
+}
+
+.activity-monitor.intensity-4 {
+  @apply bg-gray-500;
+}
+
+.day-indicator {
+  line-height: 0;
+  @apply text-gray-400;
+}

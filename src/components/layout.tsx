@@ -7,7 +7,7 @@ const Layout: React.FC<
   return (
     <article className="container prose prose-sm md:prose dark:prose-dark">
       <SEO isArticle={isArticle ?? false} title={pageTitle} />
-      <h1>{pageTitle}</h1>
+      <h1 style={{ fontWeight: 700 }}>{pageTitle}</h1>
       {children}
     </article>
   );
