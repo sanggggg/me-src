@@ -141,3 +141,7 @@ h1 {
   line-height: 0;
   @apply text-gray-400;
 }
+
+.month-indicator {
+  @apply text-gray-400;
+}

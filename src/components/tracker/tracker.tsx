@@ -69,7 +69,7 @@ const rawData: { day: Date; tags: Tag[] }[] = [
 
 export default function Main() {
   const start = new Date("2021-01-03");
-  const end = new Date("2021-01-31");
+  const end = new Date("2021-09-31");
   const modifiedData = transposeArray(modifyRawData(start, end, rawData));
   const [hoveredData, setHoveredData] = useState<DailyData | undefined>(
     undefined
@@ -77,6 +77,16 @@ export default function Main() {
   const [selectedData, setSelectedData] = useState<DailyData | undefined>(
     undefined
   );
+  const monthIndicator = modifiedData[modifiedData.length - 1]
+    .map((it) => it.day.getMonth())
+    .reduce<{ month: number; count: number }[]>((acc, cur) => {
+      if (acc.length === 0 || acc[acc.length - 1].month !== cur) {
+        acc.push({ month: cur, count: 1 });
+      } else {
+        acc[acc.length - 1].count = acc[acc.length - 1].count + 1;
+      }
+      return acc;
+    }, []);
 
   return (
     <>
@@ -86,8 +96,19 @@ export default function Main() {
           width: 0,
           borderSpacing: "3px",
           borderCollapse: "separate",
+          overflow: "hidden",
         }}
       >
+        <thead>
+          <tr>
+            <td /> {/* for day indicator */}
+            {monthIndicator.map((it) => (
+              <td className="month-indicator" colSpan={it.count}>
+                {monthToStr(it.month)}
+              </td>
+            ))}
+          </tr>
+        </thead>
         <tbody>
           {modifiedData.map((dayOfWeekDatas) => (
             <tr key={dayOfWeekDatas[0].day.getTime()}>
@@ -178,7 +199,13 @@ function modifyRawData(
         (data) => data.day.getTime() === targetDay.getTime()
       );
       if (targetData !== undefined && targetData.tags.length > 0) {
-        const description = `has ${targetData.tags.length} actions`;
+        const description = targetDay.toLocaleDateString("ko-KR", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+
         const tagCount = targetData.tags.filter(tagFilter).length;
         const intensity =
           Math.ceil(((tagCount - 1) * 3) / maxTagCountInPeriod) + 1;
@@ -234,6 +261,36 @@ function dayNumberToStr(dayNumber: number): string {
       return "Fri";
     case 6:
       return "";
+  }
+  return "";
+}
+
+function monthToStr(month: number): string {
+  switch (month) {
+    case 0:
+      return "Jan";
+    case 1:
+      return "Feb";
+    case 2:
+      return "Mar";
+    case 3:
+      return "Apr";
+    case 4:
+      return "May";
+    case 5:
+      return "Jun";
+    case 6:
+      return "Jul";
+    case 7:
+      return "Aug";
+    case 8:
+      return "Sep";
+    case 9:
+      return "Oct";
+    case 10:
+      return "Nov";
+    case 11:
+      return "Dec";
   }
   return "";
 }
