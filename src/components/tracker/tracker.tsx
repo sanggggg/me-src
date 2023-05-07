@@ -119,7 +119,7 @@ export default function TrackerContent({
           </tbody>
         </table>
       </div>
-      <div style={{ overflow: "scrollX" }}>
+      <div style={{ overflow: "scroll", width: "100%", height: "30px" }}>
         {tags.map((tag) => (
           <span
             className={`filter-tag ${
