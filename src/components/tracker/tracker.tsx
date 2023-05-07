@@ -24,9 +24,7 @@ export default function TrackerContent({
   end: Date;
 }) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [selectedData, setSelectedData] = useState<DailyData | undefined>(
-    undefined
-  );
+  const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
 
   const modifiedData = useMemo(() => {
     return transposeArray(
@@ -36,6 +34,11 @@ export default function TrackerContent({
       })
     );
   }, [rawData, selectedTags]);
+  const selectedData = useMemo(() => {
+    return modifiedData
+      .flat()
+      .find((it) => it.day.getTime() === selectedDay?.getTime());
+  }, [selectedDay, modifiedData]);
   const monthIndicator = modifiedData[modifiedData.length - 1]
     .map((it) => it.day.getMonth())
     .reduce<{ month: number; count: number }[]>((acc, cur) => {
@@ -90,10 +93,10 @@ export default function TrackerContent({
                 {dayOfWeekDatas.map((day) => (
                   <Day
                     onClick={() => {
-                      if (selectedData?.day.getTime() === day.day.getTime()) {
-                        setSelectedData(undefined);
+                      if (selectedDay?.getTime() === day.day.getTime()) {
+                        setSelectedDay(undefined);
                       } else {
-                        setSelectedData(day);
+                        setSelectedDay(day.day);
                       }
                     }}
                     onMouseOver={() => {
@@ -133,7 +136,6 @@ export default function TrackerContent({
                   return [...prev, tag];
                 }
               });
-              setSelectedData(undefined);
             }}
           >
             @{tag}
