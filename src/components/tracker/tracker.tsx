@@ -119,7 +119,7 @@ export default function TrackerContent({
           </tbody>
         </table>
       </div>
-      <div>
+      <div style={{ overflow: "scrollX" }}>
         {tags.map((tag) => (
           <span
             className={`filter-tag ${
@@ -201,8 +201,7 @@ function modifyRawData(
       });
       if (targetTags.length > 0) {
         const tagCount = targetTags.length;
-        const intensity =
-          Math.ceil(((tagCount - 1) * 3) / maxTagCountInPeriod) + 1;
+        const intensity = Math.ceil((tagCount * 3) / maxTagCountInPeriod) + 1;
         weekData.push({
           description,
           intensity,
