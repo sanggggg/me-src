@@ -133,6 +133,7 @@ export default function TrackerContent({
                   return [...prev, tag];
                 }
               });
+              setSelectedData(undefined);
             }}
           >
             @{tag}
