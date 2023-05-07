@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Day from "./day";
 import { useState } from "react";
 
@@ -14,69 +14,26 @@ interface DailyData {
   tags: Tag[];
 }
 
-const rawData: { day: Date; tags: Tag[] }[] = [
-  {
-    day: new Date("2021-01-01"),
-    tags: [{ name: "A" }, { name: "A" }, { name: "A" }],
-  },
-  {
-    day: new Date("2021-01-02"),
-    tags: [
-      { name: "A" },
-      { name: "B" },
-      { name: "A" },
-      { name: "D" },
-      { name: "A" },
-      { name: "C" },
-      { name: "A" },
-      { name: "A" },
-      { name: "A" },
-    ],
-  },
-  {
-    day: new Date("2021-01-03"),
-    tags: [{ name: "D" }],
-  },
-  { day: new Date("2021-01-04"), tags: [] },
-  { day: new Date("2021-01-05"), tags: [{ name: "A" }] },
-  { day: new Date("2021-01-06"), tags: [] },
-  { day: new Date("2021-01-07"), tags: [] },
-  {
-    day: new Date("2021-01-08"),
-    tags: [{ name: "C" }, { name: "A" }],
-  },
-  {
-    day: new Date("2021-01-09"),
-    tags: [
-      { name: "A" },
-      { name: "A" },
-      { name: "B" },
-      { name: "A" },
-      { name: "A" },
-      { name: "B" },
-    ],
-  },
-  { day: new Date("2021-01-10"), tags: [{ name: "A" }, { name: "A" }] },
-  {
-    day: new Date("2021-01-11"),
-    tags: [{ name: "A" }, { name: "B" }, { name: "A" }, { name: "A" }],
-  },
-  {
-    day: new Date("2021-01-12"),
-    tags: [{ name: "A" }, { name: "A" }, { name: "A" }, { name: "C" }],
-  },
-];
-
-export default function Main() {
+export default function Main({
+  rawData,
+}: {
+  rawData: { day: Date; tags: Tag[] }[];
+}) {
   const start = new Date("2021-01-03");
   const end = new Date("2021-09-31");
-  const modifiedData = transposeArray(modifyRawData(start, end, rawData));
-  const [hoveredData, setHoveredData] = useState<DailyData | undefined>(
-    undefined
-  );
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedData, setSelectedData] = useState<DailyData | undefined>(
     undefined
   );
+
+  const modifiedData = useMemo(() => {
+    return transposeArray(
+      modifyRawData(start, end, rawData, (tag) => {
+        if (selectedTags.length === 0) return true;
+        return selectedTags.includes(tag.name);
+      })
+    );
+  }, [rawData, selectedTags]);
   const monthIndicator = modifiedData[modifiedData.length - 1]
     .map((it) => it.day.getMonth())
     .reduce<{ month: number; count: number }[]>((acc, cur) => {
@@ -87,6 +44,9 @@ export default function Main() {
       }
       return acc;
     }, []);
+  const tags = Array.from(
+    new Set(modifiedData.flat().flatMap((it) => it.tags.map((it) => it.name)))
+  );
 
   return (
     <>
@@ -125,10 +85,10 @@ export default function Main() {
                     }
                   }}
                   onMouseOver={() => {
-                    setHoveredData(day);
+                    // setHoveredData(day);
                   }}
                   onMouseOut={() => {
-                    setHoveredData(undefined);
+                    // setHoveredData(undefined);
                   }}
                   key={day.day.getTime()}
                   description={day.description}
@@ -146,6 +106,26 @@ export default function Main() {
           ))}
         </tbody>
       </table>
+      <div>
+        {tags.map((tag) => (
+          <span
+            className={`filter-tag ${
+              selectedTags.includes(tag) ? "selected" : ""
+            }`}
+            onClick={() => {
+              setSelectedTags((prev) => {
+                if (prev.includes(tag)) {
+                  return prev.filter((it) => it !== tag);
+                } else {
+                  return [...prev, tag];
+                }
+              });
+            }}
+          >
+            @{tag}
+          </span>
+        ))}
+      </div>
       {selectedData !== undefined && (
         <>
           <p>On {`${selectedData?.day.toUTCString()}`}</p>
@@ -198,7 +178,8 @@ function modifyRawData(
       const targetData = rawData.find(
         (data) => data.day.getTime() === targetDay.getTime()
       );
-      if (targetData !== undefined && targetData.tags.length > 0) {
+      const targetTags = targetData?.tags?.filter(tagFilter) ?? [];
+      if (targetTags.length > 0) {
         const description = targetDay.toLocaleDateString("ko-KR", {
           weekday: "long",
           year: "numeric",
@@ -206,14 +187,14 @@ function modifyRawData(
           day: "numeric",
         });
 
-        const tagCount = targetData.tags.filter(tagFilter).length;
+        const tagCount = targetTags.length;
         const intensity =
           Math.ceil(((tagCount - 1) * 3) / maxTagCountInPeriod) + 1;
         weekData.push({
           description,
           intensity,
           day: targetDay,
-          tags: targetData.tags,
+          tags: targetTags,
         });
       } else {
         weekData.push({ intensity: 0, day: targetDay, tags: [] });

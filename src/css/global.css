@@ -145,3 +145,12 @@ h1 {
 .month-indicator {
   @apply text-gray-400;
 }
+
+.filter-tag {
+  border-width: 1px;
+  @apply ml-1 px-2 py-1 text-gray-400 rounded-md border-gray-100 hover:bg-gray-50;
+}
+
+.filter-tag.selected {
+  @apply text-white bg-gray-600 border-gray-600;
+}
