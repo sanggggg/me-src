@@ -27,7 +27,7 @@ const Navigation: React.FC<Props> = ({ activePagePath }) => {
 export const PAGES = [
   { path: "/", name: "소개" },
   { path: "/blog", name: "블로그" },
-  { path: "/tracker", name: "트래커" },
+  { path: "/tracker", name: "하루 기록" },
 ];
 
 export default Navigation;

@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "../../components/layout";
 import Navigation from "../../components/navigation";
-import Main from "../../components/tracker/tracker";
+import TrackerContent from "../../components/tracker/tracker";
 
 const rawData = [
   {
@@ -58,9 +58,9 @@ const rawData = [
 
 const Tracker: React.FC<{}> = () => {
   return (
-    <Layout pageTitle="기록">
+    <Layout pageTitle="하루 기록">
       <Navigation activePagePath="/tracker" />
-      <Main rawData={rawData} />
+      <TrackerContent rawData={rawData} />
     </Layout>
   );
 };

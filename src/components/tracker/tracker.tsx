@@ -14,7 +14,7 @@ interface DailyData {
   tags: Tag[];
 }
 
-export default function Main({
+export default function TrackerContent({
   rawData,
 }: {
   rawData: { day: Date; tags: Tag[] }[];
@@ -45,67 +45,78 @@ export default function Main({
       return acc;
     }, []);
   const tags = Array.from(
-    new Set(modifiedData.flat().flatMap((it) => it.tags.map((it) => it.name)))
+    new Set(rawData.flatMap((it) => it.tags.map((it) => it.name)))
   );
 
   return (
     <>
-      <table
-        className="not-prose"
+      <pre>
+        매일 진행한 일을 기록합니다. <br />
+        시각적으로 스스로의 게으름을 확인하고 싶어서 만들었습니다. <br />
+      </pre>
+      <div
         style={{
-          width: 0,
-          borderSpacing: "3px",
-          borderCollapse: "separate",
-          overflow: "hidden",
+          width: "100%",
+          marginBottom: "20px",
+          overflowX: "scroll",
         }}
       >
-        <thead>
-          <tr>
-            <td /> {/* for day indicator */}
-            {monthIndicator.map((it) => (
-              <td className="month-indicator" colSpan={it.count}>
-                {monthToStr(it.month)}
-              </td>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {modifiedData.map((dayOfWeekDatas) => (
-            <tr key={dayOfWeekDatas[0].day.getTime()}>
-              <td className="day-indicator">
-                <span>{dayNumberToStr(dayOfWeekDatas[0].day.getDay())}</span>
-              </td>
-              {dayOfWeekDatas.map((day) => (
-                <Day
-                  onClick={() => {
-                    if (selectedData?.day.getTime() === day.day.getTime()) {
-                      setSelectedData(undefined);
-                    } else {
-                      setSelectedData(day);
-                    }
-                  }}
-                  onMouseOver={() => {
-                    // setHoveredData(day);
-                  }}
-                  onMouseOut={() => {
-                    // setHoveredData(undefined);
-                  }}
-                  key={day.day.getTime()}
-                  description={day.description}
-                  intensity={day.intensity}
-                  state={
-                    selectedData === undefined
-                      ? "neutral"
-                      : day.day.getTime() === selectedData.day.getTime()
-                      ? "selected"
-                      : "unselected"
-                  }
-                />
+        <table
+          className="not-prose"
+          style={{
+            width: "",
+            borderSpacing: "3px",
+            borderCollapse: "separate",
+          }}
+        >
+          <thead>
+            <tr>
+              <td /> {/* for day indicator */}
+              {monthIndicator.map((it) => (
+                <td className="month-indicator" colSpan={it.count}>
+                  {monthToStr(it.month)}
+                </td>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {modifiedData.map((dayOfWeekDatas) => (
+              <tr key={dayOfWeekDatas[0].day.getTime()}>
+                <td className="day-indicator">
+                  <span>{dayNumberToStr(dayOfWeekDatas[0].day.getDay())}</span>
+                </td>
+                {dayOfWeekDatas.map((day) => (
+                  <Day
+                    onClick={() => {
+                      if (selectedData?.day.getTime() === day.day.getTime()) {
+                        setSelectedData(undefined);
+                      } else {
+                        setSelectedData(day);
+                      }
+                    }}
+                    onMouseOver={() => {
+                      // setHoveredData(day);
+                    }}
+                    onMouseOut={() => {
+                      // setHoveredData(undefined);
+                    }}
+                    key={day.day.getTime()}
+                    description={day.description}
+                    intensity={day.intensity}
+                    state={
+                      selectedData === undefined
+                        ? "neutral"
+                        : day.day.getTime() === selectedData.day.getTime()
+                        ? "selected"
+                        : "unselected"
+                    }
+                  />
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div>
         {tags.map((tag) => (
           <span
@@ -126,13 +137,14 @@ export default function Main({
           </span>
         ))}
       </div>
+      <br />
       {selectedData !== undefined && (
         <>
-          <p>On {`${selectedData?.day.toUTCString()}`}</p>
+          <h3>{`${selectedData?.description}`}의 기록</h3>
           <ul>
             {selectedData?.tags?.map((tag) => (
               <li>
-                {tag.content ?? "한 일 상세  "}
+                {tag.content ?? "."}{" "}
                 <span key={tag.name} className="meta">
                   <a className="tag">{tag.name}</a>
                 </span>
