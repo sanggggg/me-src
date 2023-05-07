@@ -16,11 +16,13 @@ interface DailyData {
 
 export default function TrackerContent({
   rawData,
+  start,
+  end,
 }: {
   rawData: { day: Date; tags: Tag[] }[];
+  start: Date;
+  end: Date;
 }) {
-  const start = new Date("2021-01-03");
-  const end = new Date("2021-09-31");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedData, setSelectedData] = useState<DailyData | undefined>(
     undefined
@@ -191,14 +193,13 @@ function modifyRawData(
         (data) => data.day.getTime() === targetDay.getTime()
       );
       const targetTags = targetData?.tags?.filter(tagFilter) ?? [];
+      const description = targetDay.toLocaleDateString("ko-KR", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
       if (targetTags.length > 0) {
-        const description = targetDay.toLocaleDateString("ko-KR", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        });
-
         const tagCount = targetTags.length;
         const intensity =
           Math.ceil(((tagCount - 1) * 3) / maxTagCountInPeriod) + 1;
@@ -209,7 +210,12 @@ function modifyRawData(
           tags: targetTags,
         });
       } else {
-        weekData.push({ intensity: 0, day: targetDay, tags: [] });
+        weekData.push({
+          description,
+          intensity: 0,
+          day: targetDay,
+          tags: [],
+        });
       }
     }
     modifiedData.push(weekData);
