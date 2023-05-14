@@ -1,52 +1,39 @@
 {
-  "name": "my-gatsby-site",
-  "version": "1.0.0",
   "private": true,
-  "description": "my-gatsby-site",
-  "author": "sanggggg",
-  "keywords": [
-    "gatsby"
+  "name": "me-src",
+  "version": "1.0.0",
+  "description": "me src",
+  "workspaces": [
+    "site",
+    "plugin"
   ],
   "scripts": {
-    "develop": "gatsby develop",
-    "start": "gatsby develop",
-    "build": "gatsby build",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean",
-    "typecheck": "tsc --noEmit"
+    "develop:site": "yarn workspace site develop",
+    "debug:site": "yarn workspace site debug",
+    "develop:plugin": "yarn workspace plugin develop",
+    "develop:deps": "npm-run-all -l -p 'develop:api' 'develop:plugin'",
+    "build:site": "yarn workspace site build",
+    "build:plugin": "yarn workspace plugin build",
+    "build": "npm-run-all -s 'build:plugin' 'build:site'",
+    "serve:site": "yarn workspace site serve",
+    "lint:site": "yarn workspace site lint",
+    "lint:plugin": "yarn workspace plugin lint",
+    "lint": "npm-run-all -s 'lint:plugin' 'lint:site'",
+    "test": "yarn workspace plugin test",
+    "clean": "npm-run-all -p 'clean:*'",
+    "clean:site": "yarn workspace site clean"
   },
-  "dependencies": {
-    "@mdx-js/mdx": "v1",
-    "@mdx-js/react": "v1",
-    "@tailwindcss/typography": "^0.5.3",
-    "gatsby": "^4.16.0",
-    "gatsby-plugin-google-gtag": "4.25.0",
-    "gatsby-plugin-image": "^2.16.1",
-    "gatsby-plugin-manifest": "^4.18.0",
-    "gatsby-plugin-mdx": "^3.16.1",
-    "gatsby-plugin-react-helmet": "^5.18.0",
-    "gatsby-plugin-sharp": "^4.16.1",
-    "gatsby-remark-graph": "^0.2.6",
-    "gatsby-remark-images": "^6.16.0",
-    "gatsby-remark-prismjs": "^6.16.0",
-    "gatsby-source-filesystem": "^4.16.0",
-    "gatsby-transformer-remark": "^5.16.0",
-    "gatsby-transformer-sharp": "^4.16.0",
-    "prismjs": "^1.28.0",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-helmet": "^6.1.0",
-    "tailwindcss": "^3.1.5"
-  },
+  "license": "MIT",
   "devDependencies": {
-    "@types/node": "^17.0.42",
-    "@types/react": "^18.0.12",
-    "@types/react-dom": "^18.0.5",
-    "@types/react-helmet": "^6.1.5",
-    "autoprefixer": "^10.4.7",
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/parser": "^5.49.0",
+    "eslint": "^8.32.0",
+    "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-graphql": "^4.0.0",
-    "gatsby-plugin-postcss": "^5.18.0",
-    "postcss": "^8.4.14",
-    "typescript": "^4.7.3"
-  }
+    "eslint-plugin-prettier": "^4.2.1",
+    "gatsby-plugin-postcss": "^6.9.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.8.3"
+  },
+  "packageManager": "yarn@3.5.1"
 }

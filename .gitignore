@@ -1,10 +1,13 @@
 node_modules/
 .cache/
 public
-src/gatsby-types.d.ts
+site/src/gatsby-types.d.ts
+dist/
+.yarn/install-state.gz
 
 ### macOS ###
 # General
 .DS_Store
 .AppleDouble
 .LSOverride
+.env
