@@ -8,6 +8,7 @@
     "plugin"
   ],
   "scripts": {
+    "preinstall": "yarn workspace plugin build",
     "develop:site": "yarn workspace site develop",
     "debug:site": "yarn workspace site debug",
     "develop:plugin": "yarn workspace plugin develop",
