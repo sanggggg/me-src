@@ -34,10 +34,13 @@ function parseDailyTracker(file: FileWithPath) {
 export const sourceNodes: GatsbyNode[`sourceNodes`] = async (gatsbyApi) => {
   const { reporter } = gatsbyApi;
   try {
-    const result = await fetchDocuments(
-      { debug: true, fileId: DAILY_TRACKER_FILE_ID },
-      reporter
-    );
+    // const result: FileWithPath[] = await fetchDocuments(
+    //   { debug: true, fileId: DAILY_TRACKER_FILE_ID },
+    //   reporter
+    // );
+    const result: FileWithPath[] = [
+      { name: "2021-08-01-Wednesday", content: "### TODO\n- [x] test #test", path: "" },
+    ];
     result
       .map((doc) => parseDailyTracker(doc))
       .forEach((dailyTracker) => {
