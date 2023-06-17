@@ -7181,6 +7181,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv@npm:^16.3.0":
+  version: 16.3.0
+  resolution: "dotenv@npm:16.3.0"
+  checksum: 43a90ec87868c8b962a028b69cbe86e71621c76837249a9d65fb131b03ee69817b019d34a5456174cb04095052a496b4e1b5da72e4af2393df6083513ab62d4b
+  languageName: node
+  linkType: hard
+
 "dotenv@npm:^7.0.0":
   version: 7.0.0
   resolution: "dotenv@npm:7.0.0"
@@ -12404,6 +12411,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.49.0
     "@typescript-eslint/parser": ^5.49.0
     autoprefixer: ^10.4.7
+    dotenv: ^16.3.0
     eslint: ^8.32.0
     eslint-config-prettier: ^8.6.0
     eslint-plugin-graphql: ^4.0.0

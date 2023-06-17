@@ -1,4 +1,5 @@
 import type { GatsbyConfig } from "gatsby";
+require("dotenv");
 
 const config: GatsbyConfig = {
   siteMetadata: {
@@ -25,7 +26,7 @@ const config: GatsbyConfig = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `tracker`,
-        path: `/Users/sanggggg/Google Drive/My Drive/obsidian/sanggggg/Timestamps`,
+        path: process.env.TRACKER_MOUNTED_PATH,
       },
     },
     {
