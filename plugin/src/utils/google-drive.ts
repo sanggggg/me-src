@@ -19,6 +19,12 @@ type FileWithPath = drive_v3.Schema$File & {
   content: string;
 };
 
+type FileWithPath2 = {
+  name: string;
+  path: string | undefined;
+  content: string;
+};
+
 function evenlyChunk<T>(arr: Array<T>, count: number): Array<Array<T>> {
   const chunks = Math.ceil(arr.length / count);
   if (chunks <= 1) {
@@ -164,4 +170,4 @@ async function fetchFiles(folder: string, options: any) {
   return documentsFiles;
 }
 
-export { fetchFiles, FileWithPath };
+export { fetchFiles, FileWithPath, FileWithPath2 };

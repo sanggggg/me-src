@@ -1,9 +1,7 @@
 import type { GatsbyNode } from "gatsby";
-import { fetchDocuments } from "./utils/google-docs";
-import type { FileWithPath } from "./utils/google-drive";
-import { DAILY_TRACKER_FILE_ID } from "./utils/constants";
+import type { FileWithPath2 } from "./utils/google-drive";
 
-function parseDailyTracker(file: FileWithPath) {
+function parseDailyTracker(file: FileWithPath2) {
   const parsedDate = file.name?.split("-").slice(0, -1).join("-");
   const timestamp = new Date(parsedDate!);
   const contentLines = file.content.split("\n");
@@ -34,12 +32,12 @@ function parseDailyTracker(file: FileWithPath) {
 export const sourceNodes: GatsbyNode[`sourceNodes`] = async (gatsbyApi) => {
   const { reporter } = gatsbyApi;
   try {
-    // const result: FileWithPath[] = await fetchDocuments(
-    //   { debug: true, fileId: DAILY_TRACKER_FILE_ID },
-    //   reporter
-    // );
-    const result: FileWithPath[] = [
-      { name: "2021-08-01-Wednesday", content: "### TODO\n- [x] test #test", path: "" },
+    const result: FileWithPath2[] = [
+      {
+        name: "2023-05-01-Wednesday",
+        content: "### TODO\n- [x] test #test",
+        path: "",
+      },
     ];
     result
       .map((doc) => parseDailyTracker(doc))

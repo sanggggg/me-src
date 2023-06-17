@@ -15,7 +15,18 @@ const config: GatsbyConfig = {
   graphqlTypegen: true,
   plugins: [
     {
-      resolve: `plugin`,
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `blog`,
+        path: `${__dirname}/blog`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `tracker`,
+        path: `/Users/sanggggg/Google Drive/My Drive/obsidian/sanggggg/Timestamps`,
+      },
     },
     {
       resolve: `gatsby-plugin-manifest`,
@@ -33,13 +44,6 @@ const config: GatsbyConfig = {
     `gatsby-plugin-postcss`,
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `blog`,
-        path: `${__dirname}/blog`,
-      },
-    },
     {
       resolve: `gatsby-plugin-mdx`,
       options: {
