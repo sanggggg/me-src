@@ -4,24 +4,15 @@
   "version": "1.0.0",
   "description": "me src",
   "workspaces": [
-    "site",
-    "plugin"
+    "site"
   ],
   "scripts": {
-    "preinstall": "yarn workspace plugin build",
-    "develop:site": "yarn workspace site develop",
-    "debug:site": "yarn workspace site debug",
-    "develop:plugin": "yarn workspace plugin develop",
-    "build:site": "yarn workspace site build",
-    "build:plugin": "yarn workspace plugin build",
-    "build": "yarn build:plugin && yarn build:site",
-    "serve:site": "yarn workspace site serve",
-    "lint:site": "yarn workspace site lint",
-    "lint:plugin": "yarn workspace plugin lint",
-    "lint": "npm-run-all -s 'lint:plugin' 'lint:site'",
-    "test": "yarn workspace plugin test",
-    "clean": "npm-run-all -p 'clean:*'",
-    "clean:site": "yarn workspace site clean"
+    "develop": "yarn workspace site develop",
+    "debug": "yarn workspace site debug",
+    "build": "yarn workspace site build",
+    "serve": "yarn workspace site serve",
+    "lint": "yarn workspace site lint",
+    "clean": "yarn workspace site clean"
   },
   "license": "MIT",
   "devDependencies": {
