@@ -1,9 +1,0 @@
-{
-  "extends": "../tsconfig.json",
-  "include": [
-    "./src/**/*",
-    "./gatsby-node.ts",
-    "site/gatsby-config.ts",
-    "./plugins/**/*"
-  ]
-}
