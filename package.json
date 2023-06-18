@@ -10,7 +10,7 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "lint": "eslint src --ext .ts,.tsx,.js",
-    "deploy": "wrangler pages deploy ./public",
+    "deploy": "yarn clean && yarn build && wrangler pages deploy ./public",
     "typecheck": "tsc --noEmit"
   },
   "license": "MIT",
