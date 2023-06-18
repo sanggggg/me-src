@@ -8,7 +8,7 @@ const BlogList: React.FC<PageProps<Queries.BlogListQuery>> = ({ data }) => {
     <Layout pageTitle="개발">
       <Navigation activePagePath="/blog" />
       <ul>
-        {data.allMdx.nodes.map((node) => (
+        {data.allMarkdownRemark.nodes.map((node) => (
           <div className="post-item" key={node.id}>
             <h3>
               <Link to={`${node?.fields?.slug}`} className="post-item-title">
@@ -25,7 +25,7 @@ const BlogList: React.FC<PageProps<Queries.BlogListQuery>> = ({ data }) => {
 
 export const query = graphql`
   query BlogList {
-    allMdx(sort: { frontmatter: { date: DESC } }) {
+    allMarkdownRemark(sort: { frontmatter: { date: DESC } }) {
       nodes {
         frontmatter {
           date(formatString: "MMMM D, YYYY")

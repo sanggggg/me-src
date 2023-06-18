@@ -5,18 +5,20 @@ import Layout from "../components/layout";
 import Comment from "../components/comment";
 import Meta from "../components/meta";
 
-const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({
-  data,
-  children,
-}) => {
-  const heroImage =
-    data.mdx?.frontmatter?.hero_image?.childImageSharp?.gatsbyImageData;
-  const tags = data.mdx?.frontmatter?.tag?.split(",").map((it) => it.trim());
-  const series = data.allMdx.nodes;
+const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
+  const heroImage = data.markdownRemark?.frontmatter?.hero_image;
+  const html = data.markdownRemark?.html;
+  const tags = data.markdownRemark?.frontmatter?.tag
+    ?.split(",")
+    .map((it) => it.trim());
+  const series = data.allMarkdownRemark.nodes;
 
   return (
-    <Layout pageTitle={data.mdx?.frontmatter?.title ?? "-"} isArticle>
-      <Meta tags={tags} date={data.mdx?.frontmatter?.date} />
+    <Layout
+      pageTitle={data.markdownRemark?.frontmatter?.title ?? "-"}
+      isArticle
+    >
+      <Meta tags={tags} date={data.markdownRemark?.frontmatter?.date} />
       {series.length > 1 ? (
         <>
           <blockquote>
@@ -37,10 +39,10 @@ const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({
       {heroImage && (
         <GatsbyImage
           image={heroImage}
-          alt={data.mdx.frontmatter?.hero_image_alt ?? "-"}
+          alt={data.markdownRemark.frontmatter?.hero_image_alt ?? "-"}
         />
       )}
-      {children}
+      <div dangerouslySetInnerHTML={{ __html: html ?? "" }} />
       <div className="h-16" />
       <Comment />
     </Layout>
@@ -49,7 +51,7 @@ const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({
 
 export const query = graphql`
   query PostDetail($slug: String!, $series: String) {
-    allMdx(
+    allMarkdownRemark(
       sort: { frontmatter: { date: DESC } }
       filter: { fields: { series: { eq: $series } } }
     ) {
@@ -62,15 +64,12 @@ export const query = graphql`
         }
       }
     }
-    mdx(fields: { slug: { eq: $slug } }) {
+    markdownRemark(fields: { slug: { eq: $slug } }) {
+      html
       frontmatter {
         title
         date(formatString: "MMMM D, YYYY")
-        hero_image {
-          childImageSharp {
-            gatsbyImageData
-          }
-        }
+        hero_image
         author
         tag
         hero_image_alt

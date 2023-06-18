@@ -36,7 +36,7 @@ export const onCreateNode: GatsbyNode<{
       },
     });
   }
-  if (context.node.internal.type === "Mdx") {
+  if (context.node.internal.type === "MarkdownRemark") {
     const prefix = "/blog";
     const { node, getNode } = context;
     const slug = createFilePath({
@@ -76,7 +76,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
 }) => {
   const { data, errors } = await graphql<AllPostQuery>(`
     query AllPosts {
-      allMdx(sort: { frontmatter: { date: DESC } }) {
+      allMarkdownRemark(sort: { frontmatter: { date: DESC } }) {
         nodes {
           frontmatter {
             date(formatString: "MMMM D, YYYY")
@@ -100,16 +100,18 @@ export const createPages: GatsbyNode["createPages"] = async ({
     throw new Error(errors);
   }
 
-  const allPosts = data?.allMdx.nodes ?? [];
+  const allPosts = data?.allMarkdownRemark.nodes ?? [];
   const allTags = new Set(
-    data?.allMdx.nodes.flatMap((it) => it.fields?.tags).filter((it) => it)
+    data?.allMarkdownRemark.nodes
+      .flatMap((it) => it.fields?.tags)
+      .filter((it) => it)
   );
 
   allPosts.forEach((node) => {
     if (!(node.fields?.slug && node.fields?.series)) return;
     createPage({
       path: node.fields.slug,
-      component: `${__dirname}/src/templates/post.tsx?__contentFilePath=${node.internal.contentFilePath}`,
+      component: `${__dirname}/src/templates/post.tsx`,
       context: { slug: node.fields.slug, series: node.fields.series },
     });
   });

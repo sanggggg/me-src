@@ -101,7 +101,7 @@ Gatsby 처럼 node 와 page 라는 백엔드와 프론트엔드를 분리 시키
 ```ts
 export const query = graphql`
   query BlogList {
-    allMdx(sort: { fields: frontmatter___date, order: DESC }) {
+    allMarkdownRemark(sort: { fields: frontmatter___date, order: DESC }) {
       nodes {
         frontmatter {
           date(formatString: "MMMM D, YYYY")
@@ -126,7 +126,7 @@ const BlogList: React.FC<PageProps<Queries.BlogListQuery>> = ({ data }) => {
   return (
     <Layout pageTitle="개발">
       <ul>
-        {data.allMdx.nodes.map((node) => (
+        {data.allMarkdownRemark.nodes.map((node) => (
           <div className="post-item" key={node.id}>
             <h3>
               <Link to={`${node?.fields?.slug}`} className="post-item-title">

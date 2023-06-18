@@ -1,5 +1,7 @@
 import type { GatsbyConfig } from "gatsby";
-require("dotenv");
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require("dotenv").config();
 
 const config: GatsbyConfig = {
   siteMetadata: {
@@ -46,7 +48,7 @@ const config: GatsbyConfig = {
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     {
-      resolve: `gatsby-plugin-mdx`,
+      resolve: `gatsby-transformer-remark`,
       options: {
         gatsbyRemarkPlugins: [
           `gatsby-remark-images`,

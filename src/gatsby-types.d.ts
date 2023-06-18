@@ -534,13 +534,13 @@ type File = Node & {
   readonly changeTime: Scalars['Date'];
   /** Returns the first child node of type ImageSharp or null if there are no children of given type on this node */
   readonly childImageSharp: Maybe<ImageSharp>;
-  /** Returns the first child node of type Mdx or null if there are no children of given type on this node */
-  readonly childMdx: Maybe<Mdx>;
+  /** Returns the first child node of type MarkdownRemark or null if there are no children of given type on this node */
+  readonly childMarkdownRemark: Maybe<MarkdownRemark>;
   readonly children: ReadonlyArray<Node>;
   /** Returns all children nodes filtered by type ImageSharp */
   readonly childrenImageSharp: Maybe<ReadonlyArray<Maybe<ImageSharp>>>;
-  /** Returns all children nodes filtered by type Mdx */
-  readonly childrenMdx: Maybe<ReadonlyArray<Maybe<Mdx>>>;
+  /** Returns all children nodes filtered by type MarkdownRemark */
+  readonly childrenMarkdownRemark: Maybe<ReadonlyArray<Maybe<MarkdownRemark>>>;
   readonly ctime: Scalars['Date'];
   readonly ctimeMs: Scalars['Float'];
   readonly dev: Scalars['Int'];
@@ -684,10 +684,10 @@ type FileFieldSelector = {
   readonly blocks: InputMaybe<FieldSelectorEnum>;
   readonly changeTime: InputMaybe<FieldSelectorEnum>;
   readonly childImageSharp: InputMaybe<ImageSharpFieldSelector>;
-  readonly childMdx: InputMaybe<MdxFieldSelector>;
+  readonly childMarkdownRemark: InputMaybe<MarkdownRemarkFieldSelector>;
   readonly children: InputMaybe<NodeFieldSelector>;
   readonly childrenImageSharp: InputMaybe<ImageSharpFieldSelector>;
-  readonly childrenMdx: InputMaybe<MdxFieldSelector>;
+  readonly childrenMarkdownRemark: InputMaybe<MarkdownRemarkFieldSelector>;
   readonly ctime: InputMaybe<FieldSelectorEnum>;
   readonly ctimeMs: InputMaybe<FieldSelectorEnum>;
   readonly dev: InputMaybe<FieldSelectorEnum>;
@@ -729,10 +729,10 @@ type FileFilterInput = {
   readonly blocks: InputMaybe<IntQueryOperatorInput>;
   readonly changeTime: InputMaybe<DateQueryOperatorInput>;
   readonly childImageSharp: InputMaybe<ImageSharpFilterInput>;
-  readonly childMdx: InputMaybe<MdxFilterInput>;
+  readonly childMarkdownRemark: InputMaybe<MarkdownRemarkFilterInput>;
   readonly children: InputMaybe<NodeFilterListInput>;
   readonly childrenImageSharp: InputMaybe<ImageSharpFilterListInput>;
-  readonly childrenMdx: InputMaybe<MdxFilterListInput>;
+  readonly childrenMarkdownRemark: InputMaybe<MarkdownRemarkFilterListInput>;
   readonly ctime: InputMaybe<DateQueryOperatorInput>;
   readonly ctimeMs: InputMaybe<FloatQueryOperatorInput>;
   readonly dev: InputMaybe<IntQueryOperatorInput>;
@@ -815,10 +815,10 @@ type FileSortInput = {
   readonly blocks: InputMaybe<SortOrderEnum>;
   readonly changeTime: InputMaybe<SortOrderEnum>;
   readonly childImageSharp: InputMaybe<ImageSharpSortInput>;
-  readonly childMdx: InputMaybe<MdxSortInput>;
+  readonly childMarkdownRemark: InputMaybe<MarkdownRemarkSortInput>;
   readonly children: InputMaybe<NodeSortInput>;
   readonly childrenImageSharp: InputMaybe<ImageSharpSortInput>;
-  readonly childrenMdx: InputMaybe<MdxSortInput>;
+  readonly childrenMarkdownRemark: InputMaybe<MarkdownRemarkSortInput>;
   readonly ctime: InputMaybe<SortOrderEnum>;
   readonly ctimeMs: InputMaybe<SortOrderEnum>;
   readonly dev: InputMaybe<SortOrderEnum>;
@@ -1399,130 +1399,208 @@ type JSONQueryOperatorInput = {
   readonly regex: InputMaybe<Scalars['JSON']>;
 };
 
-type Mdx = Node & {
-  readonly body: Maybe<Scalars['String']>;
+type MarkdownExcerptFormats =
+  | 'HTML'
+  | 'MARKDOWN'
+  | 'PLAIN';
+
+type MarkdownHeading = {
+  readonly depth: Maybe<Scalars['Int']>;
+  readonly id: Maybe<Scalars['String']>;
+  readonly value: Maybe<Scalars['String']>;
+};
+
+type MarkdownHeadingFieldSelector = {
+  readonly depth: InputMaybe<FieldSelectorEnum>;
+  readonly id: InputMaybe<FieldSelectorEnum>;
+  readonly value: InputMaybe<FieldSelectorEnum>;
+};
+
+type MarkdownHeadingFilterInput = {
+  readonly depth: InputMaybe<IntQueryOperatorInput>;
+  readonly id: InputMaybe<StringQueryOperatorInput>;
+  readonly value: InputMaybe<StringQueryOperatorInput>;
+};
+
+type MarkdownHeadingFilterListInput = {
+  readonly elemMatch: InputMaybe<MarkdownHeadingFilterInput>;
+};
+
+type MarkdownHeadingLevels =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6';
+
+type MarkdownHeadingSortInput = {
+  readonly depth: InputMaybe<SortOrderEnum>;
+  readonly id: InputMaybe<SortOrderEnum>;
+  readonly value: InputMaybe<SortOrderEnum>;
+};
+
+type MarkdownRemark = Node & {
   readonly children: ReadonlyArray<Node>;
   readonly excerpt: Maybe<Scalars['String']>;
-  readonly fields: Maybe<MdxFields>;
-  readonly frontmatter: Maybe<MdxFrontmatter>;
+  readonly excerptAst: Maybe<Scalars['JSON']>;
+  readonly fields: Maybe<MarkdownRemarkFields>;
+  readonly fileAbsolutePath: Maybe<Scalars['String']>;
+  readonly frontmatter: Maybe<MarkdownRemarkFrontmatter>;
+  readonly headings: Maybe<ReadonlyArray<Maybe<MarkdownHeading>>>;
+  readonly html: Maybe<Scalars['String']>;
+  readonly htmlAst: Maybe<Scalars['JSON']>;
   readonly id: Scalars['ID'];
   readonly internal: Internal;
   readonly parent: Maybe<Node>;
-  readonly tableOfContents: Maybe<Scalars['JSON']>;
+  readonly rawMarkdownBody: Maybe<Scalars['String']>;
+  readonly tableOfContents: Maybe<Scalars['String']>;
+  readonly timeToRead: Maybe<Scalars['Int']>;
+  readonly wordCount: Maybe<MarkdownWordCount>;
 };
 
 
-type Mdx_excerptArgs = {
+type MarkdownRemark_excerptArgs = {
+  format?: InputMaybe<MarkdownExcerptFormats>;
   pruneLength?: InputMaybe<Scalars['Int']>;
+  truncate?: InputMaybe<Scalars['Boolean']>;
 };
 
 
-type Mdx_tableOfContentsArgs = {
+type MarkdownRemark_excerptAstArgs = {
+  pruneLength?: InputMaybe<Scalars['Int']>;
+  truncate?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+type MarkdownRemark_headingsArgs = {
+  depth: InputMaybe<MarkdownHeadingLevels>;
+};
+
+
+type MarkdownRemark_tableOfContentsArgs = {
+  absolute?: InputMaybe<Scalars['Boolean']>;
+  heading: InputMaybe<Scalars['String']>;
   maxDepth: InputMaybe<Scalars['Int']>;
+  pathToSlugField?: InputMaybe<Scalars['String']>;
 };
 
-type MdxConnection = {
+type MarkdownRemarkConnection = {
   readonly distinct: ReadonlyArray<Scalars['String']>;
-  readonly edges: ReadonlyArray<MdxEdge>;
-  readonly group: ReadonlyArray<MdxGroupConnection>;
+  readonly edges: ReadonlyArray<MarkdownRemarkEdge>;
+  readonly group: ReadonlyArray<MarkdownRemarkGroupConnection>;
   readonly max: Maybe<Scalars['Float']>;
   readonly min: Maybe<Scalars['Float']>;
-  readonly nodes: ReadonlyArray<Mdx>;
+  readonly nodes: ReadonlyArray<MarkdownRemark>;
   readonly pageInfo: PageInfo;
   readonly sum: Maybe<Scalars['Float']>;
   readonly totalCount: Scalars['Int'];
 };
 
 
-type MdxConnection_distinctArgs = {
-  field: MdxFieldSelector;
+type MarkdownRemarkConnection_distinctArgs = {
+  field: MarkdownRemarkFieldSelector;
 };
 
 
-type MdxConnection_groupArgs = {
-  field: MdxFieldSelector;
+type MarkdownRemarkConnection_groupArgs = {
+  field: MarkdownRemarkFieldSelector;
   limit: InputMaybe<Scalars['Int']>;
   skip: InputMaybe<Scalars['Int']>;
 };
 
 
-type MdxConnection_maxArgs = {
-  field: MdxFieldSelector;
+type MarkdownRemarkConnection_maxArgs = {
+  field: MarkdownRemarkFieldSelector;
 };
 
 
-type MdxConnection_minArgs = {
-  field: MdxFieldSelector;
+type MarkdownRemarkConnection_minArgs = {
+  field: MarkdownRemarkFieldSelector;
 };
 
 
-type MdxConnection_sumArgs = {
-  field: MdxFieldSelector;
+type MarkdownRemarkConnection_sumArgs = {
+  field: MarkdownRemarkFieldSelector;
 };
 
-type MdxEdge = {
-  readonly next: Maybe<Mdx>;
-  readonly node: Mdx;
-  readonly previous: Maybe<Mdx>;
+type MarkdownRemarkEdge = {
+  readonly next: Maybe<MarkdownRemark>;
+  readonly node: MarkdownRemark;
+  readonly previous: Maybe<MarkdownRemark>;
 };
 
-type MdxFieldSelector = {
-  readonly body: InputMaybe<FieldSelectorEnum>;
+type MarkdownRemarkFieldSelector = {
   readonly children: InputMaybe<NodeFieldSelector>;
   readonly excerpt: InputMaybe<FieldSelectorEnum>;
-  readonly fields: InputMaybe<MdxFieldsFieldSelector>;
-  readonly frontmatter: InputMaybe<MdxFrontmatterFieldSelector>;
+  readonly excerptAst: InputMaybe<FieldSelectorEnum>;
+  readonly fields: InputMaybe<MarkdownRemarkFieldsFieldSelector>;
+  readonly fileAbsolutePath: InputMaybe<FieldSelectorEnum>;
+  readonly frontmatter: InputMaybe<MarkdownRemarkFrontmatterFieldSelector>;
+  readonly headings: InputMaybe<MarkdownHeadingFieldSelector>;
+  readonly html: InputMaybe<FieldSelectorEnum>;
+  readonly htmlAst: InputMaybe<FieldSelectorEnum>;
   readonly id: InputMaybe<FieldSelectorEnum>;
   readonly internal: InputMaybe<InternalFieldSelector>;
   readonly parent: InputMaybe<NodeFieldSelector>;
+  readonly rawMarkdownBody: InputMaybe<FieldSelectorEnum>;
   readonly tableOfContents: InputMaybe<FieldSelectorEnum>;
+  readonly timeToRead: InputMaybe<FieldSelectorEnum>;
+  readonly wordCount: InputMaybe<MarkdownWordCountFieldSelector>;
 };
 
-type MdxFields = {
+type MarkdownRemarkFields = {
   readonly series: Maybe<Scalars['String']>;
   readonly slug: Maybe<Scalars['String']>;
   readonly tags: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
 };
 
-type MdxFieldsFieldSelector = {
+type MarkdownRemarkFieldsFieldSelector = {
   readonly series: InputMaybe<FieldSelectorEnum>;
   readonly slug: InputMaybe<FieldSelectorEnum>;
   readonly tags: InputMaybe<FieldSelectorEnum>;
 };
 
-type MdxFieldsFilterInput = {
+type MarkdownRemarkFieldsFilterInput = {
   readonly series: InputMaybe<StringQueryOperatorInput>;
   readonly slug: InputMaybe<StringQueryOperatorInput>;
   readonly tags: InputMaybe<StringQueryOperatorInput>;
 };
 
-type MdxFieldsSortInput = {
+type MarkdownRemarkFieldsSortInput = {
   readonly series: InputMaybe<SortOrderEnum>;
   readonly slug: InputMaybe<SortOrderEnum>;
   readonly tags: InputMaybe<SortOrderEnum>;
 };
 
-type MdxFilterInput = {
-  readonly body: InputMaybe<StringQueryOperatorInput>;
+type MarkdownRemarkFilterInput = {
   readonly children: InputMaybe<NodeFilterListInput>;
   readonly excerpt: InputMaybe<StringQueryOperatorInput>;
-  readonly fields: InputMaybe<MdxFieldsFilterInput>;
-  readonly frontmatter: InputMaybe<MdxFrontmatterFilterInput>;
+  readonly excerptAst: InputMaybe<JSONQueryOperatorInput>;
+  readonly fields: InputMaybe<MarkdownRemarkFieldsFilterInput>;
+  readonly fileAbsolutePath: InputMaybe<StringQueryOperatorInput>;
+  readonly frontmatter: InputMaybe<MarkdownRemarkFrontmatterFilterInput>;
+  readonly headings: InputMaybe<MarkdownHeadingFilterListInput>;
+  readonly html: InputMaybe<StringQueryOperatorInput>;
+  readonly htmlAst: InputMaybe<JSONQueryOperatorInput>;
   readonly id: InputMaybe<StringQueryOperatorInput>;
   readonly internal: InputMaybe<InternalFilterInput>;
   readonly parent: InputMaybe<NodeFilterInput>;
-  readonly tableOfContents: InputMaybe<JSONQueryOperatorInput>;
+  readonly rawMarkdownBody: InputMaybe<StringQueryOperatorInput>;
+  readonly tableOfContents: InputMaybe<StringQueryOperatorInput>;
+  readonly timeToRead: InputMaybe<IntQueryOperatorInput>;
+  readonly wordCount: InputMaybe<MarkdownWordCountFilterInput>;
 };
 
-type MdxFilterListInput = {
-  readonly elemMatch: InputMaybe<MdxFilterInput>;
+type MarkdownRemarkFilterListInput = {
+  readonly elemMatch: InputMaybe<MarkdownRemarkFilterInput>;
 };
 
-type MdxFrontmatter = {
+type MarkdownRemarkFrontmatter = {
   readonly author: Maybe<Scalars['String']>;
   readonly categories: Maybe<Scalars['String']>;
   readonly date: Maybe<Scalars['Date']>;
-  readonly hero_image: Maybe<File>;
+  readonly hero_image: Maybe<Scalars['String']>;
   readonly hero_image_alt: Maybe<Scalars['String']>;
   readonly layout: Maybe<Scalars['String']>;
   readonly tag: Maybe<Scalars['String']>;
@@ -1530,97 +1608,128 @@ type MdxFrontmatter = {
 };
 
 
-type MdxFrontmatter_dateArgs = {
+type MarkdownRemarkFrontmatter_dateArgs = {
   difference: InputMaybe<Scalars['String']>;
   formatString: InputMaybe<Scalars['String']>;
   fromNow: InputMaybe<Scalars['Boolean']>;
   locale: InputMaybe<Scalars['String']>;
 };
 
-type MdxFrontmatterFieldSelector = {
+type MarkdownRemarkFrontmatterFieldSelector = {
   readonly author: InputMaybe<FieldSelectorEnum>;
   readonly categories: InputMaybe<FieldSelectorEnum>;
   readonly date: InputMaybe<FieldSelectorEnum>;
-  readonly hero_image: InputMaybe<FileFieldSelector>;
+  readonly hero_image: InputMaybe<FieldSelectorEnum>;
   readonly hero_image_alt: InputMaybe<FieldSelectorEnum>;
   readonly layout: InputMaybe<FieldSelectorEnum>;
   readonly tag: InputMaybe<FieldSelectorEnum>;
   readonly title: InputMaybe<FieldSelectorEnum>;
 };
 
-type MdxFrontmatterFilterInput = {
+type MarkdownRemarkFrontmatterFilterInput = {
   readonly author: InputMaybe<StringQueryOperatorInput>;
   readonly categories: InputMaybe<StringQueryOperatorInput>;
   readonly date: InputMaybe<DateQueryOperatorInput>;
-  readonly hero_image: InputMaybe<FileFilterInput>;
+  readonly hero_image: InputMaybe<StringQueryOperatorInput>;
   readonly hero_image_alt: InputMaybe<StringQueryOperatorInput>;
   readonly layout: InputMaybe<StringQueryOperatorInput>;
   readonly tag: InputMaybe<StringQueryOperatorInput>;
   readonly title: InputMaybe<StringQueryOperatorInput>;
 };
 
-type MdxFrontmatterSortInput = {
+type MarkdownRemarkFrontmatterSortInput = {
   readonly author: InputMaybe<SortOrderEnum>;
   readonly categories: InputMaybe<SortOrderEnum>;
   readonly date: InputMaybe<SortOrderEnum>;
-  readonly hero_image: InputMaybe<FileSortInput>;
+  readonly hero_image: InputMaybe<SortOrderEnum>;
   readonly hero_image_alt: InputMaybe<SortOrderEnum>;
   readonly layout: InputMaybe<SortOrderEnum>;
   readonly tag: InputMaybe<SortOrderEnum>;
   readonly title: InputMaybe<SortOrderEnum>;
 };
 
-type MdxGroupConnection = {
+type MarkdownRemarkGroupConnection = {
   readonly distinct: ReadonlyArray<Scalars['String']>;
-  readonly edges: ReadonlyArray<MdxEdge>;
+  readonly edges: ReadonlyArray<MarkdownRemarkEdge>;
   readonly field: Scalars['String'];
   readonly fieldValue: Maybe<Scalars['String']>;
-  readonly group: ReadonlyArray<MdxGroupConnection>;
+  readonly group: ReadonlyArray<MarkdownRemarkGroupConnection>;
   readonly max: Maybe<Scalars['Float']>;
   readonly min: Maybe<Scalars['Float']>;
-  readonly nodes: ReadonlyArray<Mdx>;
+  readonly nodes: ReadonlyArray<MarkdownRemark>;
   readonly pageInfo: PageInfo;
   readonly sum: Maybe<Scalars['Float']>;
   readonly totalCount: Scalars['Int'];
 };
 
 
-type MdxGroupConnection_distinctArgs = {
-  field: MdxFieldSelector;
+type MarkdownRemarkGroupConnection_distinctArgs = {
+  field: MarkdownRemarkFieldSelector;
 };
 
 
-type MdxGroupConnection_groupArgs = {
-  field: MdxFieldSelector;
+type MarkdownRemarkGroupConnection_groupArgs = {
+  field: MarkdownRemarkFieldSelector;
   limit: InputMaybe<Scalars['Int']>;
   skip: InputMaybe<Scalars['Int']>;
 };
 
 
-type MdxGroupConnection_maxArgs = {
-  field: MdxFieldSelector;
+type MarkdownRemarkGroupConnection_maxArgs = {
+  field: MarkdownRemarkFieldSelector;
 };
 
 
-type MdxGroupConnection_minArgs = {
-  field: MdxFieldSelector;
+type MarkdownRemarkGroupConnection_minArgs = {
+  field: MarkdownRemarkFieldSelector;
 };
 
 
-type MdxGroupConnection_sumArgs = {
-  field: MdxFieldSelector;
+type MarkdownRemarkGroupConnection_sumArgs = {
+  field: MarkdownRemarkFieldSelector;
 };
 
-type MdxSortInput = {
-  readonly body: InputMaybe<SortOrderEnum>;
+type MarkdownRemarkSortInput = {
   readonly children: InputMaybe<NodeSortInput>;
   readonly excerpt: InputMaybe<SortOrderEnum>;
-  readonly fields: InputMaybe<MdxFieldsSortInput>;
-  readonly frontmatter: InputMaybe<MdxFrontmatterSortInput>;
+  readonly excerptAst: InputMaybe<SortOrderEnum>;
+  readonly fields: InputMaybe<MarkdownRemarkFieldsSortInput>;
+  readonly fileAbsolutePath: InputMaybe<SortOrderEnum>;
+  readonly frontmatter: InputMaybe<MarkdownRemarkFrontmatterSortInput>;
+  readonly headings: InputMaybe<MarkdownHeadingSortInput>;
+  readonly html: InputMaybe<SortOrderEnum>;
+  readonly htmlAst: InputMaybe<SortOrderEnum>;
   readonly id: InputMaybe<SortOrderEnum>;
   readonly internal: InputMaybe<InternalSortInput>;
   readonly parent: InputMaybe<NodeSortInput>;
+  readonly rawMarkdownBody: InputMaybe<SortOrderEnum>;
   readonly tableOfContents: InputMaybe<SortOrderEnum>;
+  readonly timeToRead: InputMaybe<SortOrderEnum>;
+  readonly wordCount: InputMaybe<MarkdownWordCountSortInput>;
+};
+
+type MarkdownWordCount = {
+  readonly paragraphs: Maybe<Scalars['Int']>;
+  readonly sentences: Maybe<Scalars['Int']>;
+  readonly words: Maybe<Scalars['Int']>;
+};
+
+type MarkdownWordCountFieldSelector = {
+  readonly paragraphs: InputMaybe<FieldSelectorEnum>;
+  readonly sentences: InputMaybe<FieldSelectorEnum>;
+  readonly words: InputMaybe<FieldSelectorEnum>;
+};
+
+type MarkdownWordCountFilterInput = {
+  readonly paragraphs: InputMaybe<IntQueryOperatorInput>;
+  readonly sentences: InputMaybe<IntQueryOperatorInput>;
+  readonly words: InputMaybe<IntQueryOperatorInput>;
+};
+
+type MarkdownWordCountSortInput = {
+  readonly paragraphs: InputMaybe<SortOrderEnum>;
+  readonly sentences: InputMaybe<SortOrderEnum>;
+  readonly words: InputMaybe<SortOrderEnum>;
 };
 
 /** Node Interface */
@@ -1696,7 +1805,7 @@ type Query = {
   readonly allDirectory: DirectoryConnection;
   readonly allFile: FileConnection;
   readonly allImageSharp: ImageSharpConnection;
-  readonly allMdx: MdxConnection;
+  readonly allMarkdownRemark: MarkdownRemarkConnection;
   readonly allSite: SiteConnection;
   readonly allSiteBuildMetadata: SiteBuildMetadataConnection;
   readonly allSiteFunction: SiteFunctionConnection;
@@ -1706,7 +1815,7 @@ type Query = {
   readonly directory: Maybe<Directory>;
   readonly file: Maybe<File>;
   readonly imageSharp: Maybe<ImageSharp>;
-  readonly mdx: Maybe<Mdx>;
+  readonly markdownRemark: Maybe<MarkdownRemark>;
   readonly site: Maybe<Site>;
   readonly siteBuildMetadata: Maybe<SiteBuildMetadata>;
   readonly siteFunction: Maybe<SiteFunction>;
@@ -1747,11 +1856,11 @@ type Query_allImageSharpArgs = {
 };
 
 
-type Query_allMdxArgs = {
-  filter: InputMaybe<MdxFilterInput>;
+type Query_allMarkdownRemarkArgs = {
+  filter: InputMaybe<MarkdownRemarkFilterInput>;
   limit: InputMaybe<Scalars['Int']>;
   skip: InputMaybe<Scalars['Int']>;
-  sort: InputMaybe<ReadonlyArray<InputMaybe<MdxSortInput>>>;
+  sort: InputMaybe<ReadonlyArray<InputMaybe<MarkdownRemarkSortInput>>>;
 };
 
 
@@ -1857,10 +1966,10 @@ type Query_fileArgs = {
   blocks: InputMaybe<IntQueryOperatorInput>;
   changeTime: InputMaybe<DateQueryOperatorInput>;
   childImageSharp: InputMaybe<ImageSharpFilterInput>;
-  childMdx: InputMaybe<MdxFilterInput>;
+  childMarkdownRemark: InputMaybe<MarkdownRemarkFilterInput>;
   children: InputMaybe<NodeFilterListInput>;
   childrenImageSharp: InputMaybe<ImageSharpFilterListInput>;
-  childrenMdx: InputMaybe<MdxFilterListInput>;
+  childrenMarkdownRemark: InputMaybe<MarkdownRemarkFilterListInput>;
   ctime: InputMaybe<DateQueryOperatorInput>;
   ctimeMs: InputMaybe<FloatQueryOperatorInput>;
   dev: InputMaybe<IntQueryOperatorInput>;
@@ -1903,16 +2012,23 @@ type Query_imageSharpArgs = {
 };
 
 
-type Query_mdxArgs = {
-  body: InputMaybe<StringQueryOperatorInput>;
+type Query_markdownRemarkArgs = {
   children: InputMaybe<NodeFilterListInput>;
   excerpt: InputMaybe<StringQueryOperatorInput>;
-  fields: InputMaybe<MdxFieldsFilterInput>;
-  frontmatter: InputMaybe<MdxFrontmatterFilterInput>;
+  excerptAst: InputMaybe<JSONQueryOperatorInput>;
+  fields: InputMaybe<MarkdownRemarkFieldsFilterInput>;
+  fileAbsolutePath: InputMaybe<StringQueryOperatorInput>;
+  frontmatter: InputMaybe<MarkdownRemarkFrontmatterFilterInput>;
+  headings: InputMaybe<MarkdownHeadingFilterListInput>;
+  html: InputMaybe<StringQueryOperatorInput>;
+  htmlAst: InputMaybe<JSONQueryOperatorInput>;
   id: InputMaybe<StringQueryOperatorInput>;
   internal: InputMaybe<InternalFilterInput>;
   parent: InputMaybe<NodeFilterInput>;
-  tableOfContents: InputMaybe<JSONQueryOperatorInput>;
+  rawMarkdownBody: InputMaybe<StringQueryOperatorInput>;
+  tableOfContents: InputMaybe<StringQueryOperatorInput>;
+  timeToRead: InputMaybe<IntQueryOperatorInput>;
+  wordCount: InputMaybe<MarkdownWordCountFilterInput>;
 };
 
 
@@ -2800,14 +2916,14 @@ type AllDailyTrackersQuery = { readonly allDailyTracker: { readonly nodes: Reado
 type BlogListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type BlogListQuery = { readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly frontmatter: { readonly date: string | null, readonly title: string | null } | null, readonly fields: { readonly slug: string | null } | null }> } };
+type BlogListQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly frontmatter: { readonly date: string | null, readonly title: string | null } | null, readonly fields: { readonly slug: string | null } | null }> } };
 
 type BlogListWithTagQueryVariables = Exact<{
   tag: Scalars['String'];
 }>;
 
 
-type BlogListWithTagQuery = { readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly frontmatter: { readonly date: string | null, readonly title: string | null } | null, readonly fields: { readonly slug: string | null } | null }> } };
+type BlogListWithTagQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly frontmatter: { readonly date: string | null, readonly title: string | null } | null, readonly fields: { readonly slug: string | null } | null }> } };
 
 type GatsbyImageSharpFixedFragment = { readonly base64: string | null, readonly width: number, readonly height: number, readonly src: string, readonly srcSet: string };
 
@@ -2841,7 +2957,7 @@ type PostDetailQueryVariables = Exact<{
 }>;
 
 
-type PostDetailQuery = { readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly title: string | null } | null, readonly fields: { readonly slug: string | null } | null }> }, readonly mdx: { readonly frontmatter: { readonly title: string | null, readonly date: string | null, readonly author: string | null, readonly tag: string | null, readonly hero_image_alt: string | null, readonly hero_image: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null } | null };
+type PostDetailQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly title: string | null } | null, readonly fields: { readonly slug: string | null } | null }> }, readonly markdownRemark: { readonly html: string | null, readonly frontmatter: { readonly title: string | null, readonly date: string | null, readonly hero_image: string | null, readonly author: string | null, readonly tag: string | null, readonly hero_image_alt: string | null } | null } | null };
 
 type SEOQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2851,7 +2967,7 @@ type SEOQuery = { readonly site: { readonly siteMetadata: { readonly titleTempla
 type AllPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type AllPostsQuery = { readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly frontmatter: { readonly date: string | null, readonly title: string | null } | null, readonly fields: { readonly slug: string | null, readonly series: string | null, readonly tags: ReadonlyArray<string | null> | null } | null, readonly internal: { readonly contentFilePath: string | null } }> } };
+type AllPostsQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly frontmatter: { readonly date: string | null, readonly title: string | null } | null, readonly fields: { readonly slug: string | null, readonly series: string | null, readonly tags: ReadonlyArray<string | null> | null } | null, readonly internal: { readonly contentFilePath: string | null } }> } };
 
 
 }

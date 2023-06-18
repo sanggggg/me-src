@@ -16,7 +16,7 @@ const BlogPage: React.FC<
     <Layout pageTitle={`Posts with tag "${tag}"`}>
       <Navigation activePagePath="/tag" />
       <ul>
-        {data.allMdx.nodes.map((node) => (
+        {data.allMarkdownRemark.nodes.map((node) => (
           <div className="post-item" key={node.id}>
             <h3>
               <Link to={`${node?.fields?.slug}`} className="post-item-title">
@@ -33,7 +33,7 @@ const BlogPage: React.FC<
 
 export const query = graphql`
   query BlogListWithTag($tag: String!) {
-    allMdx(
+    allMarkdownRemark(
       sort: { frontmatter: { date: DESC } }
       filter: { fields: { tags: { eq: $tag } } }
     ) {
