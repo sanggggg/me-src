@@ -48,160 +48,6 @@ type BooleanQueryOperatorInput = {
   readonly nin: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Boolean']>>>;
 };
 
-type DailyTracker = Node & {
-  readonly children: ReadonlyArray<Node>;
-  readonly id: Scalars['ID'];
-  readonly internal: Internal;
-  readonly parent: Maybe<Node>;
-  readonly tags: Maybe<ReadonlyArray<Maybe<DailyTrackerTags>>>;
-  readonly timestamp: Maybe<Scalars['Date']>;
-};
-
-
-type DailyTracker_timestampArgs = {
-  difference: InputMaybe<Scalars['String']>;
-  formatString: InputMaybe<Scalars['String']>;
-  fromNow: InputMaybe<Scalars['Boolean']>;
-  locale: InputMaybe<Scalars['String']>;
-};
-
-type DailyTrackerConnection = {
-  readonly distinct: ReadonlyArray<Scalars['String']>;
-  readonly edges: ReadonlyArray<DailyTrackerEdge>;
-  readonly group: ReadonlyArray<DailyTrackerGroupConnection>;
-  readonly max: Maybe<Scalars['Float']>;
-  readonly min: Maybe<Scalars['Float']>;
-  readonly nodes: ReadonlyArray<DailyTracker>;
-  readonly pageInfo: PageInfo;
-  readonly sum: Maybe<Scalars['Float']>;
-  readonly totalCount: Scalars['Int'];
-};
-
-
-type DailyTrackerConnection_distinctArgs = {
-  field: DailyTrackerFieldSelector;
-};
-
-
-type DailyTrackerConnection_groupArgs = {
-  field: DailyTrackerFieldSelector;
-  limit: InputMaybe<Scalars['Int']>;
-  skip: InputMaybe<Scalars['Int']>;
-};
-
-
-type DailyTrackerConnection_maxArgs = {
-  field: DailyTrackerFieldSelector;
-};
-
-
-type DailyTrackerConnection_minArgs = {
-  field: DailyTrackerFieldSelector;
-};
-
-
-type DailyTrackerConnection_sumArgs = {
-  field: DailyTrackerFieldSelector;
-};
-
-type DailyTrackerEdge = {
-  readonly next: Maybe<DailyTracker>;
-  readonly node: DailyTracker;
-  readonly previous: Maybe<DailyTracker>;
-};
-
-type DailyTrackerFieldSelector = {
-  readonly children: InputMaybe<NodeFieldSelector>;
-  readonly id: InputMaybe<FieldSelectorEnum>;
-  readonly internal: InputMaybe<InternalFieldSelector>;
-  readonly parent: InputMaybe<NodeFieldSelector>;
-  readonly tags: InputMaybe<DailyTrackerTagsFieldSelector>;
-  readonly timestamp: InputMaybe<FieldSelectorEnum>;
-};
-
-type DailyTrackerFilterInput = {
-  readonly children: InputMaybe<NodeFilterListInput>;
-  readonly id: InputMaybe<StringQueryOperatorInput>;
-  readonly internal: InputMaybe<InternalFilterInput>;
-  readonly parent: InputMaybe<NodeFilterInput>;
-  readonly tags: InputMaybe<DailyTrackerTagsFilterListInput>;
-  readonly timestamp: InputMaybe<DateQueryOperatorInput>;
-};
-
-type DailyTrackerGroupConnection = {
-  readonly distinct: ReadonlyArray<Scalars['String']>;
-  readonly edges: ReadonlyArray<DailyTrackerEdge>;
-  readonly field: Scalars['String'];
-  readonly fieldValue: Maybe<Scalars['String']>;
-  readonly group: ReadonlyArray<DailyTrackerGroupConnection>;
-  readonly max: Maybe<Scalars['Float']>;
-  readonly min: Maybe<Scalars['Float']>;
-  readonly nodes: ReadonlyArray<DailyTracker>;
-  readonly pageInfo: PageInfo;
-  readonly sum: Maybe<Scalars['Float']>;
-  readonly totalCount: Scalars['Int'];
-};
-
-
-type DailyTrackerGroupConnection_distinctArgs = {
-  field: DailyTrackerFieldSelector;
-};
-
-
-type DailyTrackerGroupConnection_groupArgs = {
-  field: DailyTrackerFieldSelector;
-  limit: InputMaybe<Scalars['Int']>;
-  skip: InputMaybe<Scalars['Int']>;
-};
-
-
-type DailyTrackerGroupConnection_maxArgs = {
-  field: DailyTrackerFieldSelector;
-};
-
-
-type DailyTrackerGroupConnection_minArgs = {
-  field: DailyTrackerFieldSelector;
-};
-
-
-type DailyTrackerGroupConnection_sumArgs = {
-  field: DailyTrackerFieldSelector;
-};
-
-type DailyTrackerSortInput = {
-  readonly children: InputMaybe<NodeSortInput>;
-  readonly id: InputMaybe<SortOrderEnum>;
-  readonly internal: InputMaybe<InternalSortInput>;
-  readonly parent: InputMaybe<NodeSortInput>;
-  readonly tags: InputMaybe<DailyTrackerTagsSortInput>;
-  readonly timestamp: InputMaybe<SortOrderEnum>;
-};
-
-type DailyTrackerTags = {
-  readonly description: Maybe<Scalars['String']>;
-  readonly name: Maybe<Scalars['String']>;
-};
-
-type DailyTrackerTagsFieldSelector = {
-  readonly description: InputMaybe<FieldSelectorEnum>;
-  readonly name: InputMaybe<FieldSelectorEnum>;
-};
-
-type DailyTrackerTagsFilterInput = {
-  readonly description: InputMaybe<StringQueryOperatorInput>;
-  readonly name: InputMaybe<StringQueryOperatorInput>;
-};
-
-type DailyTrackerTagsFilterListInput = {
-  readonly elemMatch: InputMaybe<DailyTrackerTagsFilterInput>;
-};
-
-type DailyTrackerTagsSortInput = {
-  readonly description: InputMaybe<SortOrderEnum>;
-  readonly name: InputMaybe<SortOrderEnum>;
-};
-
 type DateQueryOperatorInput = {
   readonly eq: InputMaybe<Scalars['Date']>;
   readonly gt: InputMaybe<Scalars['Date']>;
@@ -1782,7 +1628,6 @@ type PotraceTurnPolicy =
   | 'white';
 
 type Query = {
-  readonly allDailyTracker: DailyTrackerConnection;
   readonly allDirectory: DirectoryConnection;
   readonly allFile: FileConnection;
   readonly allImageSharp: ImageSharpConnection;
@@ -1792,7 +1637,6 @@ type Query = {
   readonly allSiteFunction: SiteFunctionConnection;
   readonly allSitePage: SitePageConnection;
   readonly allSitePlugin: SitePluginConnection;
-  readonly dailyTracker: Maybe<DailyTracker>;
   readonly directory: Maybe<Directory>;
   readonly file: Maybe<File>;
   readonly imageSharp: Maybe<ImageSharp>;
@@ -1802,14 +1646,6 @@ type Query = {
   readonly siteFunction: Maybe<SiteFunction>;
   readonly sitePage: Maybe<SitePage>;
   readonly sitePlugin: Maybe<SitePlugin>;
-};
-
-
-type Query_allDailyTrackerArgs = {
-  filter: InputMaybe<DailyTrackerFilterInput>;
-  limit: InputMaybe<Scalars['Int']>;
-  skip: InputMaybe<Scalars['Int']>;
-  sort: InputMaybe<ReadonlyArray<InputMaybe<DailyTrackerSortInput>>>;
 };
 
 
@@ -1882,16 +1718,6 @@ type Query_allSitePluginArgs = {
   limit: InputMaybe<Scalars['Int']>;
   skip: InputMaybe<Scalars['Int']>;
   sort: InputMaybe<ReadonlyArray<InputMaybe<SitePluginSortInput>>>;
-};
-
-
-type Query_dailyTrackerArgs = {
-  children: InputMaybe<NodeFilterListInput>;
-  id: InputMaybe<StringQueryOperatorInput>;
-  internal: InputMaybe<InternalFilterInput>;
-  parent: InputMaybe<NodeFilterInput>;
-  tags: InputMaybe<DailyTrackerTagsFilterListInput>;
-  timestamp: InputMaybe<DateQueryOperatorInput>;
 };
 
 
@@ -2888,11 +2714,6 @@ type TransformOptions = {
 type WebPOptions = {
   readonly quality: InputMaybe<Scalars['Int']>;
 };
-
-type AllDailyTrackersQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type AllDailyTrackersQuery = { readonly allDailyTracker: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly timestamp: string | null, readonly tags: ReadonlyArray<{ readonly name: string | null, readonly description: string | null } | null> | null }> } };
 
 type BlogListQueryVariables = Exact<{ [key: string]: never; }>;
 

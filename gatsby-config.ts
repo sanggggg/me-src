@@ -25,13 +25,6 @@ const config: GatsbyConfig = {
       },
     },
     {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `tracker`,
-        path: process.env.TRACKER_MOUNTED_PATH,
-      },
-    },
-    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `Sangmin Kim @sanggggg`,
