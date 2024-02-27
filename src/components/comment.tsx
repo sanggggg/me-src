@@ -8,7 +8,7 @@ const Comment = () => {
     utterances.setAttribute("src", "https://utteranc.es/client.js");
     utterances.setAttribute("repo", "sanggggg/me-comment");
     utterances.setAttribute("theme", "github-light");
-    utterances.setAttribute("issue-term", "path-name");
+    utterances.setAttribute("issue-term", "pathname");
     utterances.setAttribute("async", "true");
     utterances.setAttribute("crossorigin", "anonymous");
     if (!commentRef.current?.hasChildNodes()) {
