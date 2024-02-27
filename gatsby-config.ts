@@ -21,7 +21,7 @@ const config: GatsbyConfig = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `blog`,
-        path: process.env.BLOG_MOUNTED_PATH,
+        path: "./blog",
       },
     },
     {
