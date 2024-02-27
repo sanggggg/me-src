@@ -45,22 +45,11 @@ const config: GatsbyConfig = {
     },
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-postcss`,
-    `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-transformer-remark`,
       options: {
-        plugins: [
-          `gatsby-remark-images`,
-          {
-            resolve: `gatsby-remark-graph`,
-            options: {
-              language: "mermaid",
-              theme: "dark",
-            },
-          },
-          `gatsby-remark-prismjs`,
-        ],
+        plugins: [`gatsby-remark-images`, `gatsby-remark-prismjs`],
       },
     },
     `gatsby-transformer-sharp`,

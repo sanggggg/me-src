@@ -1,12 +1,10 @@
 import * as React from "react";
 import { graphql, Link, PageProps } from "gatsby";
-import { GatsbyImage } from "gatsby-plugin-image";
 import Layout from "../components/layout";
 import Comment from "../components/comment";
 import Meta from "../components/meta";
 
 const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
-  const heroImage = data.markdownRemark?.frontmatter?.hero_image;
   const html = data.markdownRemark?.html;
   const tags = data.markdownRemark?.frontmatter?.tag
     ?.split(",")
@@ -36,12 +34,6 @@ const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
           <br />
         </>
       ) : null}
-      {heroImage && (
-        <GatsbyImage
-          image={heroImage}
-          alt={data.markdownRemark.frontmatter?.hero_image_alt ?? "-"}
-        />
-      )}
       <div dangerouslySetInnerHTML={{ __html: html ?? "" }} />
       <div className="h-16" />
       <Comment />
