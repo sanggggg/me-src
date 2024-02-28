@@ -43,7 +43,7 @@ const IndexPage = () => {
         <a href="https://nearthlab.oopy.io/">
           <strong>니어스랩</strong>
         </a>{" "}
-        의 딥러닝 엔지니어로 재직 후,
+        의 딥러닝 엔지니어로 재직 후,{" "}
         <a href="https://tadatada.com/">
           <strong>vcnc</strong>
         </a>{" "}
