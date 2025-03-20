@@ -2746,6 +2746,13 @@ type GatsbyImageSharpFluid_withWebp_tracedSVGFragment = { readonly tracedSVG: st
 
 type GatsbyImageSharpFluidLimitPresentationSizeFragment = { readonly maxHeight: number, readonly maxWidth: number };
 
+type IntroQueryVariables = Exact<{
+  lang: Scalars['String'];
+}>;
+
+
+type IntroQuery = { readonly markdownRemark: { readonly html: string | null, readonly frontmatter: { readonly title: string | null, readonly date: string | null, readonly author: string | null, readonly tag: string | null } | null } | null };
+
 type PostDetailQueryVariables = Exact<{
   slug: Scalars['String'];
   series: InputMaybe<Scalars['String']>;

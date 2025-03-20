@@ -61,7 +61,7 @@ export const onCreatePage: GatsbyNode<{
     };
   };
 }>["onCreatePage"] = async ({
-  actions: { createPage, createRedirect },
+  actions: { createPage, createRedirect, deletePage },
   page,
 }) => {
   // avoid 404
@@ -72,6 +72,7 @@ export const onCreatePage: GatsbyNode<{
   ) {
     return;
   }
+  deletePage(page);
 
   AllLangs.forEach((lang) => {
     createPage({
@@ -84,7 +85,7 @@ export const onCreatePage: GatsbyNode<{
     });
   });
   createRedirect({
-    fromPath: `/${page.path}`,
+    fromPath: page.path === "/" ? "/" : `/${page.path}`,
     toPath: `/${DefaultLang}${page.path}`,
     isPermanent: true,
   });
@@ -96,7 +97,10 @@ export const createPages: GatsbyNode["createPages"] = async ({
 }) => {
   const { data, errors } = await graphql<AllPostQuery>(`
     query AllPosts {
-      allMarkdownRemark(sort: { frontmatter: { date: DESC } }) {
+      allMarkdownRemark(
+        sort: { frontmatter: { date: DESC } }
+        filter: { fileAbsolutePath: { regex: "/blog/" } }
+      ) {
         nodes {
           frontmatter {
             date(formatString: "MMMM D, YYYY")

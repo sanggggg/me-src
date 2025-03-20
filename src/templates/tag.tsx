@@ -41,7 +41,10 @@ export const query = graphql`
   query BlogListWithTag($tag: String!, $lang: String!) {
     allMarkdownRemark(
       sort: { frontmatter: { date: DESC } }
-      filter: { fields: { tags: { eq: $tag }, lang: { eq: $lang } } }
+      filter: {
+        fields: { tags: { eq: $tag }, lang: { eq: $lang } }
+        fileAbsolutePath: { regex: "/blog/" }
+      }
     ) {
       nodes {
         frontmatter {

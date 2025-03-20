@@ -49,7 +49,10 @@ export const query = graphql`
   query PostDetail($slug: String!, $series: String, $lang: String!) {
     allMarkdownRemark(
       sort: { frontmatter: { date: DESC } }
-      filter: { fields: { series: { eq: $series }, lang: { eq: $lang } } }
+      filter: {
+        fields: { series: { eq: $series }, lang: { eq: $lang } }
+        fileAbsolutePath: { regex: "/blog/" }
+      }
     ) {
       nodes {
         frontmatter {
@@ -60,7 +63,10 @@ export const query = graphql`
         }
       }
     }
-    markdownRemark(fields: { slug: { eq: $slug }, lang: { eq: $lang } }) {
+    markdownRemark(
+      fields: { slug: { eq: $slug }, lang: { eq: $lang } }
+      fileAbsolutePath: { regex: "/blog/" }
+    ) {
       html
       frontmatter {
         title

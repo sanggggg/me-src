@@ -3,7 +3,10 @@ import { graphql } from "gatsby";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const AllPostsQuery = graphql`
   query AllPosts {
-    allMarkdownRemark(sort: { frontmatter: { date: DESC } }) {
+    allMarkdownRemark(
+      sort: { frontmatter: { date: DESC } }
+      filter: { fileAbsolutePath: { regex: "/blog/" } }
+    ) {
       nodes {
         frontmatter {
           date(formatString: "MMMM D, YYYY")
