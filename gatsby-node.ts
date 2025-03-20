@@ -7,7 +7,10 @@ const AllLangs = ["ko", "en"];
 
 export const onCreateNode: GatsbyNode<{
   frontmatter: { tag: string };
-}>["onCreateNode"] = async ({ actions: { createNodeField }, ...context }) => {
+}>["onCreateNode"] = async ({
+  actions: { createNodeField, createRedirect },
+  ...context
+}) => {
   if (context.node.internal.type === "MarkdownRemark") {
     const { node, getNode } = context;
     const slugCandidate = createFilePath({
@@ -57,7 +60,11 @@ export const onCreatePage: GatsbyNode<{
       lang: string;
     };
   };
-}>["onCreatePage"] = async ({ actions: { createPage, deletePage }, page }) => {
+}>["onCreatePage"] = async ({
+  actions: { createPage, deletePage, createRedirect },
+  page,
+}) => {
+  console.log(page.path);
   deletePage(page);
   AllLangs.forEach((lang) => {
     createPage({
@@ -69,11 +76,16 @@ export const onCreatePage: GatsbyNode<{
       },
     });
   });
+  createRedirect({
+    fromPath: `/${page.path}`,
+    toPath: `/${DefaultLang}${page.path}`,
+    isPermanent: true,
+  });
 };
 
 export const createPages: GatsbyNode["createPages"] = async ({
   graphql,
-  actions: { createPage },
+  actions: { createPage, createRedirect },
 }) => {
   const { data, errors } = await graphql<AllPostQuery>(`
     query AllPosts {
@@ -89,7 +101,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
             tags
             lang
           }
-          
+
           internal {
             contentFilePath
           }
@@ -122,6 +134,11 @@ export const createPages: GatsbyNode["createPages"] = async ({
       },
     });
   });
+  createRedirect({
+    fromPath: `/blog/*`,
+    toPath: `/${DefaultLang}/blog/*`,
+    isPermanent: true,
+  });
 
   allTags.forEach((tag) => {
     AllLangs.forEach((lang) => {
@@ -131,5 +148,10 @@ export const createPages: GatsbyNode["createPages"] = async ({
         context: { tag: tag, lang },
       });
     });
+  });
+  createRedirect({
+    fromPath: `/tag/*`,
+    toPath: `/${DefaultLang}/tag/*`,
+    isPermanent: true,
   });
 };
