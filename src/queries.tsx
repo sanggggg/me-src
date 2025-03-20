@@ -13,6 +13,7 @@ const AllPostsQuery = graphql`
           slug
           series
           tags
+          lang
         }
         id
       }

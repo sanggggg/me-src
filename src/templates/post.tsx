@@ -1,10 +1,13 @@
 import * as React from "react";
-import { graphql, Link, PageProps } from "gatsby";
+import { graphql, PageProps } from "gatsby";
 import Layout from "../components/layout";
 import Comment from "../components/comment";
 import Meta from "../components/meta";
+import LocalizedLink from "../components/LocaleLink";
 
-const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
+const BlogPost: React.FC<
+  PageProps<Queries.PostDetailQuery, { lang: string }>
+> = ({ data, pageContext }) => {
   const html = data.markdownRemark?.html;
   const tags = data.markdownRemark?.frontmatter?.tag
     ?.split(",")
@@ -14,6 +17,7 @@ const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
   return (
     <Layout
       pageTitle={data.markdownRemark?.frontmatter?.title ?? "-"}
+      lang={pageContext.lang}
       isArticle
     >
       <Meta tags={tags} date={data.markdownRemark?.frontmatter?.date} />
@@ -24,9 +28,9 @@ const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
             <ul>
               {series.map((it) => (
                 <li key={it.fields?.slug}>
-                  <Link to={it.fields?.slug ?? "/"}>
+                  <LocalizedLink to={it.fields?.slug ?? "/"}>
                     {it?.frontmatter?.title}
-                  </Link>
+                  </LocalizedLink>
                 </li>
               ))}
             </ul>
@@ -42,10 +46,10 @@ const BlogPost: React.FC<PageProps<Queries.PostDetailQuery>> = ({ data }) => {
 };
 
 export const query = graphql`
-  query PostDetail($slug: String!, $series: String) {
+  query PostDetail($slug: String!, $series: String, $lang: String!) {
     allMarkdownRemark(
       sort: { frontmatter: { date: DESC } }
-      filter: { fields: { series: { eq: $series } } }
+      filter: { fields: { series: { eq: $series }, lang: { eq: $lang } } }
     ) {
       nodes {
         frontmatter {
@@ -56,15 +60,13 @@ export const query = graphql`
         }
       }
     }
-    markdownRemark(fields: { slug: { eq: $slug } }) {
+    markdownRemark(fields: { slug: { eq: $slug }, lang: { eq: $lang } }) {
       html
       frontmatter {
         title
         date(formatString: "MMMM D, YYYY")
-        hero_image
         author
         tag
-        hero_image_alt
       }
     }
   }

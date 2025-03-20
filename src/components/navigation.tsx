@@ -1,5 +1,5 @@
-import { Link } from "gatsby";
 import * as React from "react";
+import LocalizedLink from "./LocaleLink";
 
 interface Props {
   activePagePath: string;
@@ -15,9 +15,9 @@ const Navigation: React.FC<Props> = ({ activePagePath }) => {
             {it.name}
           </span>
         ) : (
-          <Link key={it.path} className="nav-link" to={it.path}>
+          <LocalizedLink key={it.path} className="nav-link" to={it.path}>
             {it.name}
-          </Link>
+          </LocalizedLink>
         )
       )}
     </div>

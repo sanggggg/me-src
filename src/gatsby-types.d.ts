@@ -1379,24 +1379,28 @@ type MarkdownRemarkFieldSelector = {
 };
 
 type MarkdownRemarkFields = {
+  readonly lang: Maybe<Scalars['String']>;
   readonly series: Maybe<Scalars['String']>;
   readonly slug: Maybe<Scalars['String']>;
   readonly tags: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
 };
 
 type MarkdownRemarkFieldsFieldSelector = {
+  readonly lang: InputMaybe<FieldSelectorEnum>;
   readonly series: InputMaybe<FieldSelectorEnum>;
   readonly slug: InputMaybe<FieldSelectorEnum>;
   readonly tags: InputMaybe<FieldSelectorEnum>;
 };
 
 type MarkdownRemarkFieldsFilterInput = {
+  readonly lang: InputMaybe<StringQueryOperatorInput>;
   readonly series: InputMaybe<StringQueryOperatorInput>;
   readonly slug: InputMaybe<StringQueryOperatorInput>;
   readonly tags: InputMaybe<StringQueryOperatorInput>;
 };
 
 type MarkdownRemarkFieldsSortInput = {
+  readonly lang: InputMaybe<SortOrderEnum>;
   readonly series: InputMaybe<SortOrderEnum>;
   readonly slug: InputMaybe<SortOrderEnum>;
   readonly tags: InputMaybe<SortOrderEnum>;
@@ -1427,11 +1431,7 @@ type MarkdownRemarkFilterListInput = {
 
 type MarkdownRemarkFrontmatter = {
   readonly author: Maybe<Scalars['String']>;
-  readonly categories: Maybe<Scalars['String']>;
   readonly date: Maybe<Scalars['Date']>;
-  readonly hero_image: Maybe<Scalars['String']>;
-  readonly hero_image_alt: Maybe<Scalars['String']>;
-  readonly layout: Maybe<Scalars['String']>;
   readonly tag: Maybe<Scalars['String']>;
   readonly title: Maybe<Scalars['String']>;
 };
@@ -1446,33 +1446,21 @@ type MarkdownRemarkFrontmatter_dateArgs = {
 
 type MarkdownRemarkFrontmatterFieldSelector = {
   readonly author: InputMaybe<FieldSelectorEnum>;
-  readonly categories: InputMaybe<FieldSelectorEnum>;
   readonly date: InputMaybe<FieldSelectorEnum>;
-  readonly hero_image: InputMaybe<FieldSelectorEnum>;
-  readonly hero_image_alt: InputMaybe<FieldSelectorEnum>;
-  readonly layout: InputMaybe<FieldSelectorEnum>;
   readonly tag: InputMaybe<FieldSelectorEnum>;
   readonly title: InputMaybe<FieldSelectorEnum>;
 };
 
 type MarkdownRemarkFrontmatterFilterInput = {
   readonly author: InputMaybe<StringQueryOperatorInput>;
-  readonly categories: InputMaybe<StringQueryOperatorInput>;
   readonly date: InputMaybe<DateQueryOperatorInput>;
-  readonly hero_image: InputMaybe<StringQueryOperatorInput>;
-  readonly hero_image_alt: InputMaybe<StringQueryOperatorInput>;
-  readonly layout: InputMaybe<StringQueryOperatorInput>;
   readonly tag: InputMaybe<StringQueryOperatorInput>;
   readonly title: InputMaybe<StringQueryOperatorInput>;
 };
 
 type MarkdownRemarkFrontmatterSortInput = {
   readonly author: InputMaybe<SortOrderEnum>;
-  readonly categories: InputMaybe<SortOrderEnum>;
   readonly date: InputMaybe<SortOrderEnum>;
-  readonly hero_image: InputMaybe<SortOrderEnum>;
-  readonly hero_image_alt: InputMaybe<SortOrderEnum>;
-  readonly layout: InputMaybe<SortOrderEnum>;
   readonly tag: InputMaybe<SortOrderEnum>;
   readonly title: InputMaybe<SortOrderEnum>;
 };
@@ -2717,13 +2705,16 @@ type WebPOptions = {
   readonly quality: InputMaybe<Scalars['Int']>;
 };
 
-type BlogListQueryVariables = Exact<{ [key: string]: never; }>;
+type BlogListQueryVariables = Exact<{
+  lang: Scalars['String'];
+}>;
 
 
 type BlogListQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly frontmatter: { readonly date: string | null, readonly title: string | null } | null, readonly fields: { readonly slug: string | null } | null }> } };
 
 type BlogListWithTagQueryVariables = Exact<{
   tag: Scalars['String'];
+  lang: Scalars['String'];
 }>;
 
 
@@ -2758,10 +2749,11 @@ type GatsbyImageSharpFluidLimitPresentationSizeFragment = { readonly maxHeight: 
 type PostDetailQueryVariables = Exact<{
   slug: Scalars['String'];
   series: InputMaybe<Scalars['String']>;
+  lang: Scalars['String'];
 }>;
 
 
-type PostDetailQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly title: string | null } | null, readonly fields: { readonly slug: string | null } | null }> }, readonly markdownRemark: { readonly html: string | null, readonly frontmatter: { readonly title: string | null, readonly date: string | null, readonly hero_image: string | null, readonly author: string | null, readonly tag: string | null, readonly hero_image_alt: string | null } | null } | null };
+type PostDetailQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly title: string | null } | null, readonly fields: { readonly slug: string | null } | null }> }, readonly markdownRemark: { readonly html: string | null, readonly frontmatter: { readonly title: string | null, readonly date: string | null, readonly author: string | null, readonly tag: string | null } | null } | null };
 
 type SEOQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2771,7 +2763,7 @@ type SEOQuery = { readonly site: { readonly siteMetadata: { readonly titleTempla
 type AllPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type AllPostsQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly frontmatter: { readonly date: string | null, readonly title: string | null } | null, readonly fields: { readonly slug: string | null, readonly series: string | null, readonly tags: ReadonlyArray<string | null> | null } | null, readonly internal: { readonly contentFilePath: string | null } }> } };
+type AllPostsQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly frontmatter: { readonly date: string | null, readonly title: string | null } | null, readonly fields: { readonly slug: string | null, readonly series: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly lang: string | null } | null, readonly internal: { readonly contentFilePath: string | null } }> } };
 
 
 }

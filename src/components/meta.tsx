@@ -1,5 +1,5 @@
-import { Link } from "gatsby";
 import * as React from "react";
+import LocalizedLink from "./LocaleLink";
 
 interface Props {
   tags?: Array<string>;
@@ -14,14 +14,14 @@ const Meta: React.FC<Props> = ({ tags, date }) => {
         <time>{date}</time>
         {tags ? " • " : ""}
         {tags?.map((it) => (
-          <Link className="tag" to={`/tag/${it}`}>
+          <LocalizedLink className="tag" to={`/tag/${it}`}>
             {it}
-          </Link>
+          </LocalizedLink>
         ))}
       </div>
-      <Link className="meta-back" to="/blog">
+      <LocalizedLink className="meta-back" to="/blog">
         뒤로가기
-      </Link>
+      </LocalizedLink>
     </div>
   );
 };

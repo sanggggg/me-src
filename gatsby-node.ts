@@ -2,18 +2,25 @@ import type { GatsbyNode } from "gatsby";
 import { createFilePath } from "gatsby-source-filesystem";
 import { AllPostQuery } from "./src/queries";
 
+const DefaultLang = "ko";
+const AllLangs = ["ko", "en"];
+
 export const onCreateNode: GatsbyNode<{
   frontmatter: { tag: string };
 }>["onCreateNode"] = async ({ actions: { createNodeField }, ...context }) => {
   if (context.node.internal.type === "MarkdownRemark") {
-    const prefix = "/blog";
     const { node, getNode } = context;
-    const slug = createFilePath({
+    const slugCandidate = createFilePath({
       node,
       getNode,
       basePath: "posts",
       trailingSlash: false,
     });
+    const langMatch = slugCandidate.match(/\.([a-z]{2,})$/);
+    const lang = langMatch ? langMatch[1] : DefaultLang;
+    const slug = langMatch
+      ? slugCandidate.slice(0, -lang.length - 1)
+      : slugCandidate;
     const series = (() => {
       const candidate = slug.split("/").slice(0, -1).join("/");
       if (candidate) return candidate;
@@ -29,14 +36,39 @@ export const onCreateNode: GatsbyNode<{
     createNodeField({
       node: context.node,
       name: "slug",
-      value: prefix + slug,
+      value: "/blog" + slug,
     });
     createNodeField({
       node: context.node,
       name: "tags",
       value: tags,
     });
+    createNodeField({
+      node: context.node,
+      name: "lang",
+      value: lang,
+    });
   }
+};
+
+export const onCreatePage: GatsbyNode<{
+  page: {
+    context: {
+      lang: string;
+    };
+  };
+}>["onCreatePage"] = async ({ actions: { createPage, deletePage }, page }) => {
+  deletePage(page);
+  AllLangs.forEach((lang) => {
+    createPage({
+      ...page,
+      path: `/${lang}${page.path}`,
+      context: {
+        ...page.context,
+        lang,
+      },
+    });
+  });
 };
 
 export const createPages: GatsbyNode["createPages"] = async ({
@@ -55,7 +87,9 @@ export const createPages: GatsbyNode["createPages"] = async ({
             slug
             series
             tags
+            lang
           }
+          
           internal {
             contentFilePath
           }
@@ -79,16 +113,23 @@ export const createPages: GatsbyNode["createPages"] = async ({
   allPosts.forEach((node) => {
     if (!(node.fields?.slug && node.fields?.series)) return;
     createPage({
-      path: node.fields.slug,
+      path: `/${node.fields.lang}${node.fields.slug}`,
       component: `${__dirname}/src/templates/post.tsx`,
-      context: { slug: node.fields.slug, series: node.fields.series },
+      context: {
+        slug: node.fields.slug,
+        series: node.fields.series,
+        lang: node.fields.lang,
+      },
     });
   });
+
   allTags.forEach((tag) => {
-    createPage({
-      path: `/tag/${tag}`,
-      component: `${__dirname}/src/templates/tag.tsx`,
-      context: { tag: tag },
+    AllLangs.forEach((lang) => {
+      createPage({
+        path: `/${lang}/tag/${tag}`,
+        component: `${__dirname}/src/templates/tag.tsx`,
+        context: { tag: tag, lang },
+      });
     });
   });
 };

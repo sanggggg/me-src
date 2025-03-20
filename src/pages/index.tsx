@@ -1,10 +1,13 @@
 import * as React from "react";
 import Layout from "../components/layout";
 import Navigation from "../components/navigation";
+import { PageProps } from "gatsby";
 
-const IndexPage = () => {
+const IndexPage: React.FC<PageProps<any, { lang: string }>> = ({
+  pageContext,
+}) => {
   return (
-    <Layout pageTitle="김상민 (@sanggggg)">
+    <Layout pageTitle="김상민 (@sanggggg)" lang={pageContext.lang}>
       <Navigation activePagePath="/" />
       <p>
         <strong>넓고 얕은 지식</strong>을 선호하는 소프트웨어 개발자 입니다.

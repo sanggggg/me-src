@@ -1,27 +1,33 @@
 import * as React from "react";
-import { Link, graphql, PageProps } from "gatsby";
+import { graphql, PageProps } from "gatsby";
 import Layout from "../components/layout";
 import Navigation from "../components/navigation";
+import LocalizedLink from "../components/LocaleLink";
 
 export interface TagPageContext {
   tag: string;
+  lang: string;
 }
 
 const BlogPage: React.FC<
-  PageProps<Queries.BlogListWithTagQuery, { tag: string }>
+  PageProps<Queries.BlogListWithTagQuery, TagPageContext>
 > = ({ data, pageContext }) => {
   const tag = pageContext.tag;
+  const lang = pageContext.lang;
 
   return (
-    <Layout pageTitle={`Posts with tag "${tag}"`}>
+    <Layout pageTitle={`Posts with tag "${tag}"`} lang={lang}>
       <Navigation activePagePath="/tag" />
       <ul>
         {data.allMarkdownRemark.nodes.map((node) => (
           <div className="post-item" key={node.id}>
             <h3>
-              <Link to={`${node?.fields?.slug}`} className="post-item-title">
+              <LocalizedLink
+                to={`${node?.fields?.slug}`}
+                className="post-item-title"
+              >
                 {node?.frontmatter?.title}
-              </Link>
+              </LocalizedLink>
             </h3>
             <time className="post-item-date">{node?.frontmatter?.date}</time>
           </div>
@@ -32,10 +38,10 @@ const BlogPage: React.FC<
 };
 
 export const query = graphql`
-  query BlogListWithTag($tag: String!) {
+  query BlogListWithTag($tag: String!, $lang: String!) {
     allMarkdownRemark(
       sort: { frontmatter: { date: DESC } }
-      filter: { fields: { tags: { eq: $tag } } }
+      filter: { fields: { tags: { eq: $tag }, lang: { eq: $lang } } }
     ) {
       nodes {
         frontmatter {
