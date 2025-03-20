@@ -61,11 +61,18 @@ export const onCreatePage: GatsbyNode<{
     };
   };
 }>["onCreatePage"] = async ({
-  actions: { createPage, deletePage, createRedirect },
+  actions: { createPage, createRedirect },
   page,
 }) => {
-  console.log(page.path);
-  deletePage(page);
+  // avoid 404
+  if (
+    page.path.endsWith("404/") ||
+    page.path.endsWith("404") ||
+    page.path.endsWith("404.html")
+  ) {
+    return;
+  }
+
   AllLangs.forEach((lang) => {
     createPage({
       ...page,
