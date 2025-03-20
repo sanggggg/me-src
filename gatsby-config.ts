@@ -28,7 +28,7 @@ const config: GatsbyConfig = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `intro`,
-        path: "./intro.md",
+        path: "./intro",
       },
     },
     {
