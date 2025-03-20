@@ -11,21 +11,19 @@ const BlogList: React.FC<
   return (
     <Layout pageTitle="개발" lang={lang}>
       <Navigation activePagePath="/blog" />
-      <ul>
-        {data.allMarkdownRemark.nodes.map((node) => (
-          <div className="post-item" key={node.id}>
-            <h3>
-              <LocalizedLink
-                to={`${node?.fields?.slug}`}
-                className="post-item-title"
-              >
-                {node?.frontmatter?.title}
-              </LocalizedLink>
-            </h3>
-            <time className="post-item-date">{node?.frontmatter?.date}</time>
-          </div>
-        ))}
-      </ul>
+      {data.allMarkdownRemark.nodes.map((node) => (
+        <div className="post-item" key={node.id}>
+          <h3>
+            <LocalizedLink
+              to={`${node?.fields?.slug}`}
+              className="post-item-title"
+            >
+              {node?.frontmatter?.title}
+            </LocalizedLink>
+          </h3>
+          <time className="post-item-date">{node?.frontmatter?.date}</time>
+        </div>
+      ))}
     </Layout>
   );
 };
