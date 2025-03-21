@@ -67,6 +67,7 @@ const config: GatsbyConfig = {
         },
       },
     },
+    `gatsby-plugin-cloudflare-pages`,
   ],
 };
 

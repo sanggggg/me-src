@@ -68,7 +68,8 @@ export const onCreatePage: GatsbyNode<{
   if (
     page.path.endsWith("404/") ||
     page.path.endsWith("404") ||
-    page.path.endsWith("404.html")
+    page.path.endsWith("404.html") ||
+    page.path.endsWith("404.html/")
   ) {
     return;
   }

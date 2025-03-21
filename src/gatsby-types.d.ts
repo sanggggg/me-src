@@ -1431,7 +1431,11 @@ type MarkdownRemarkFilterListInput = {
 
 type MarkdownRemarkFrontmatter = {
   readonly author: Maybe<Scalars['String']>;
+  readonly categories: Maybe<Scalars['String']>;
   readonly date: Maybe<Scalars['Date']>;
+  readonly hero_image: Maybe<Scalars['String']>;
+  readonly hero_image_alt: Maybe<Scalars['String']>;
+  readonly layout: Maybe<Scalars['String']>;
   readonly tag: Maybe<Scalars['String']>;
   readonly title: Maybe<Scalars['String']>;
 };
@@ -1446,21 +1450,33 @@ type MarkdownRemarkFrontmatter_dateArgs = {
 
 type MarkdownRemarkFrontmatterFieldSelector = {
   readonly author: InputMaybe<FieldSelectorEnum>;
+  readonly categories: InputMaybe<FieldSelectorEnum>;
   readonly date: InputMaybe<FieldSelectorEnum>;
+  readonly hero_image: InputMaybe<FieldSelectorEnum>;
+  readonly hero_image_alt: InputMaybe<FieldSelectorEnum>;
+  readonly layout: InputMaybe<FieldSelectorEnum>;
   readonly tag: InputMaybe<FieldSelectorEnum>;
   readonly title: InputMaybe<FieldSelectorEnum>;
 };
 
 type MarkdownRemarkFrontmatterFilterInput = {
   readonly author: InputMaybe<StringQueryOperatorInput>;
+  readonly categories: InputMaybe<StringQueryOperatorInput>;
   readonly date: InputMaybe<DateQueryOperatorInput>;
+  readonly hero_image: InputMaybe<StringQueryOperatorInput>;
+  readonly hero_image_alt: InputMaybe<StringQueryOperatorInput>;
+  readonly layout: InputMaybe<StringQueryOperatorInput>;
   readonly tag: InputMaybe<StringQueryOperatorInput>;
   readonly title: InputMaybe<StringQueryOperatorInput>;
 };
 
 type MarkdownRemarkFrontmatterSortInput = {
   readonly author: InputMaybe<SortOrderEnum>;
+  readonly categories: InputMaybe<SortOrderEnum>;
   readonly date: InputMaybe<SortOrderEnum>;
+  readonly hero_image: InputMaybe<SortOrderEnum>;
+  readonly hero_image_alt: InputMaybe<SortOrderEnum>;
+  readonly layout: InputMaybe<SortOrderEnum>;
   readonly tag: InputMaybe<SortOrderEnum>;
   readonly title: InputMaybe<SortOrderEnum>;
 };
