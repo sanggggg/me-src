@@ -17,7 +17,7 @@ const BlogPage: React.FC<
 
   return (
     <Layout pageTitle={`Posts with tag "${tag}"`} lang={lang}>
-      <Navigation activePagePath="/tag" />
+      <Navigation activePagePath="/tag" lang={lang} />
       <ul>
         {data.allMarkdownRemark.nodes.map((node) => (
           <div className="post-item" key={node.id}>

@@ -100,12 +100,13 @@
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
-    "plugins": [{ "name": "typescript-plugin-css-modules" }]
+    "plugins": [{ "name": "typescript-plugin-css-modules" }],
+    "resolveJsonModule": true
   },
   "include": [
     "./src/**/*",
     "./gatsby-node.ts",
     "site/gatsby-config.ts",
-    "./plugins/**/*"
+    "./plugins/**/*",
   ]
 }

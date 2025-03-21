@@ -1,0 +1,17 @@
+{
+  "common": {
+    "language": "English",
+    "back": "뒤로가기"
+  },
+  "nav": {
+    "intro": "소개",
+    "blog": "블로그"
+  },
+  "blog": {
+    "title": "개발",
+    "series": "시리즈 게시글"
+  },
+  "meta": {
+    "author": "상민"
+  }
+}

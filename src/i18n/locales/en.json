@@ -1,0 +1,17 @@
+{
+  "common": {
+    "language": "한국어",
+    "back": "Back"
+  },
+  "nav": {
+    "intro": "About",
+    "blog": "Blog"
+  },
+  "blog": {
+    "title": "Development",
+    "series": "Series Posts"
+  },
+  "meta": {
+    "author": "Sangmin Kim"
+  }
+}

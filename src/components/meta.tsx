@@ -1,16 +1,20 @@
 import * as React from "react";
 import LocalizedLink from "./LocaleLink";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 interface Props {
   tags?: Array<string>;
   date?: string | null;
+  lang: string;
 }
 
-const Meta: React.FC<Props> = ({ tags, date }) => {
+const Meta: React.FC<Props> = ({ tags, date, lang }) => {
+  const { t } = useTranslation();
   return (
     <div className="meta-line">
       <div className="meta">
-        {"상민, "}
+        {t("meta.author") + ", "}
         <time>{date}</time>
         {tags ? " • " : ""}
         {tags?.map((it) => (
@@ -20,8 +24,10 @@ const Meta: React.FC<Props> = ({ tags, date }) => {
         ))}
       </div>
       <LocalizedLink className="meta-back" to="/blog">
-        뒤로가기
+        {t("common.back")}
       </LocalizedLink>
+      <div className="meta-back-separator">|</div>
+      <LanguageSwitcher lang={lang} />
     </div>
   );
 };

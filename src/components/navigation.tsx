@@ -1,12 +1,20 @@
 import * as React from "react";
 import LocalizedLink from "./LocaleLink";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 interface Props {
   activePagePath: string;
+  lang: string;
 }
 
-const Navigation: React.FC<Props> = ({ activePagePath }) => {
-  const pages = PAGES;
+const Navigation: React.FC<Props> = ({ activePagePath, lang }) => {
+  const { t } = useTranslation();
+  const pages = [
+    { path: "/", name: t("nav.intro") },
+    { path: "/blog", name: t("nav.blog") },
+  ];
+
   return (
     <div className="nav-line">
       {pages.map((it) =>
@@ -20,13 +28,10 @@ const Navigation: React.FC<Props> = ({ activePagePath }) => {
           </LocalizedLink>
         )
       )}
+      <div className="mx-4 text-gray-400">|</div>
+      <LanguageSwitcher lang={lang} />
     </div>
   );
 };
-
-export const PAGES = [
-  { path: "/", name: "소개" },
-  { path: "/blog", name: "블로그" },
-];
 
 export default Navigation;

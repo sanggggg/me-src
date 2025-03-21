@@ -4,6 +4,7 @@ import Layout from "../components/layout";
 import Comment from "../components/comment";
 import Meta from "../components/meta";
 import LocalizedLink from "../components/LocaleLink";
+import { useTranslation } from "react-i18next";
 
 const BlogPost: React.FC<
   PageProps<Queries.PostDetailQuery, { lang: string }>
@@ -13,6 +14,7 @@ const BlogPost: React.FC<
     ?.split(",")
     .map((it) => it.trim());
   const series = data.allMarkdownRemark.nodes;
+  const { t } = useTranslation();
 
   return (
     <Layout
@@ -20,11 +22,15 @@ const BlogPost: React.FC<
       lang={pageContext.lang}
       isArticle
     >
-      <Meta tags={tags} date={data.markdownRemark?.frontmatter?.date} />
+      <Meta
+        tags={tags}
+        date={data.markdownRemark?.frontmatter?.date}
+        lang={pageContext.lang}
+      />
       {series.length > 1 ? (
         <>
           <blockquote>
-            <h4>시리즈 게시글</h4>
+            <h4>{t("blog.series")}</h4>
             <ul>
               {series.map((it) => (
                 <li key={it.fields?.slug}>

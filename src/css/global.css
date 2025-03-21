@@ -47,6 +47,9 @@ h1 {
 .meta .tag {
   @apply inline-block px-1 rounded-md mr-1 text-sm leading-5 no-underline bg-gray-200 text-gray-400 select-none;
 }
+.meta-line .meta-back-separator {
+  @apply mx-4 text-gray-400;
+}
 .dark .meta .tag {
   @apply bg-gray-400 text-gray-100;
 }
