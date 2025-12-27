@@ -13,5 +13,8 @@
   },
   "meta": {
     "author": "상민"
+  },
+  "home": {
+    "title": "$t(meta.author) (@sanggggg)"
   }
 }

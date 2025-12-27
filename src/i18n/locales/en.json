@@ -13,5 +13,8 @@
   },
   "meta": {
     "author": "Sangmin Kim"
+  },
+  "home": {
+    "title": "$t(meta.author) (@sanggggg)"
   }
 }

@@ -3,16 +3,14 @@ import { graphql, HeadProps, PageProps } from "gatsby";
 import Layout from "../../components/layout";
 import Navigation from "../../components/navigation";
 import LocalizedLink from "../../components/LocaleLink";
-import { useTranslation } from "react-i18next";
 import { SEO } from "../../components/seo";
 
 const BlogList: React.FC<
   PageProps<Queries.BlogListQuery, { lang: string }>
 > = ({ data, pageContext }) => {
   const lang = pageContext.lang;
-  const { t } = useTranslation();
   return (
-    <Layout pageTitle={t("blog.title")} lang={lang}>
+    <Layout pageTitleKey="blog.title" lang={lang}>
       <Navigation activePagePath="/blog" lang={lang} />
       {data.allMarkdownRemark.nodes.map((node) => (
         <div className="post-item" key={node.id}>
