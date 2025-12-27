@@ -1,7 +1,7 @@
 import * as React from "react";
-import LocalizedLink from "./LocaleLink";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "./LanguageSwitcher";
+import LocalizedLink from "./LocaleLink";
 
 interface Props {
   activePagePath: string;
@@ -26,7 +26,7 @@ const Navigation: React.FC<Props> = ({ activePagePath, lang }) => {
           <LocalizedLink key={it.path} className="nav-link" to={it.path}>
             {it.name}
           </LocalizedLink>
-        )
+        ),
       )}
       <div className="mx-4 text-gray-400">|</div>
       <LanguageSwitcher lang={lang} />

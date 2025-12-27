@@ -1,8 +1,8 @@
+import { graphql, type HeadProps, type PageProps } from "gatsby";
 import * as React from "react";
-import { graphql, HeadProps, PageProps } from "gatsby";
+import LocalizedLink from "../../components/LocaleLink";
 import Layout from "../../components/layout";
 import Navigation from "../../components/navigation";
-import LocalizedLink from "../../components/LocaleLink";
 import { SEO } from "../../components/seo";
 
 const BlogList: React.FC<

@@ -1,7 +1,7 @@
+import { graphql, type HeadProps, type PageProps } from "gatsby";
 import * as React from "react";
 import Layout from "../components/layout";
 import Navigation from "../components/navigation";
-import { graphql, HeadProps, PageProps } from "gatsby";
 import { SEO } from "../components/seo";
 
 const IndexPage: React.FC<PageProps<Queries.IntroQuery, { lang: string }>> = ({

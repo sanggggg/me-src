@@ -1,7 +1,7 @@
 import { graphql } from "gatsby";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const AllPostsQuery = graphql`
+const _AllPostsQuery = graphql`
   query AllPosts {
     allMarkdownRemark(
       sort: { frontmatter: { date: DESC } }

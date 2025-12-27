@@ -34,7 +34,11 @@ const Layout: React.FC<
       <LocaleContext.Provider value={{ locale: lang }}>
         <div className="relative">
           <article className="container prose prose-sm md:prose dark:prose-dark">
-            <PageTitle titleKey={pageTitleKey} titleParams={pageTitleParams} title={pageTitle} />
+            <PageTitle
+              titleKey={pageTitleKey}
+              titleParams={pageTitleParams}
+              title={pageTitle}
+            />
             {children}
           </article>
         </div>

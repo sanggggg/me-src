@@ -1,10 +1,10 @@
+import { graphql, type HeadProps, type PageProps } from "gatsby";
 import * as React from "react";
-import { graphql, HeadProps, PageProps } from "gatsby";
-import Layout from "../components/layout";
-import Comment from "../components/comment";
-import Meta from "../components/meta";
-import LocalizedLink from "../components/LocaleLink";
 import { useTranslation } from "react-i18next";
+import Comment from "../components/comment";
+import LocalizedLink from "../components/LocaleLink";
+import Layout from "../components/layout";
+import Meta from "../components/meta";
 import { SEO } from "../components/seo";
 
 const BlogPost: React.FC<

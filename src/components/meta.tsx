@@ -1,7 +1,7 @@
 import * as React from "react";
-import LocalizedLink from "./LocaleLink";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "./LanguageSwitcher";
+import LocalizedLink from "./LocaleLink";
 
 interface Props {
   tags?: Array<string>;
@@ -14,11 +14,11 @@ const Meta: React.FC<Props> = ({ tags, date, lang }) => {
   return (
     <div className="meta-line">
       <div className="meta">
-        {t("meta.author") + ", "}
+        {`${t("meta.author")}, `}
         <time>{date}</time>
         {tags ? " • " : ""}
         {tags?.map((it) => (
-          <LocalizedLink className="tag" to={`/tag/${it}`}>
+          <LocalizedLink key={it} className="tag" to={`/tag/${it}`}>
             {it}
           </LocalizedLink>
         ))}
