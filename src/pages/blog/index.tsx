@@ -1,9 +1,10 @@
 import * as React from "react";
-import { graphql, PageProps } from "gatsby";
+import { graphql, HeadProps, PageProps } from "gatsby";
 import Layout from "../../components/layout";
 import Navigation from "../../components/navigation";
 import LocalizedLink from "../../components/LocaleLink";
 import { useTranslation } from "react-i18next";
+import { SEO } from "../../components/seo";
 
 const BlogList: React.FC<
   PageProps<Queries.BlogListQuery, { lang: string }>
@@ -29,6 +30,10 @@ const BlogList: React.FC<
     </Layout>
   );
 };
+
+export const Head: React.FC<HeadProps<Queries.BlogListQuery>> = ({
+  location,
+}) => <SEO title="Blog" pathname={location.pathname} />;
 
 export const query = graphql`
   query BlogList($lang: String!) {

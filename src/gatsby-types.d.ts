@@ -2781,7 +2781,7 @@ type PostDetailQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyA
 type SEOQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type SEOQuery = { readonly site: { readonly siteMetadata: { readonly titleTemplate: string | null, readonly twitterUsername: string | null, readonly defaultTitle: string | null, readonly defaultDescription: string | null, readonly siteUrl: string | null, readonly defaultImage: string | null } | null } | null };
+type SEOQuery = { readonly site: { readonly siteMetadata: { readonly twitterUsername: string | null, readonly defaultTitle: string | null, readonly defaultDescription: string | null, readonly siteUrl: string | null, readonly defaultImage: string | null } | null } | null };
 
 type AllPostsQueryVariables = Exact<{ [key: string]: never; }>;
 

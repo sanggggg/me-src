@@ -1,8 +1,9 @@
 import * as React from "react";
-import { graphql, PageProps } from "gatsby";
+import { graphql, HeadProps, PageProps } from "gatsby";
 import Layout from "../components/layout";
 import Navigation from "../components/navigation";
 import LocalizedLink from "../components/LocaleLink";
+import { SEO } from "../components/seo";
 
 export interface TagPageContext {
   tag: string;
@@ -36,6 +37,12 @@ const BlogPage: React.FC<
     </Layout>
   );
 };
+
+export const Head: React.FC<
+  HeadProps<Queries.BlogListWithTagQuery, TagPageContext>
+> = ({ pageContext, location }) => (
+  <SEO title={`Tag: ${pageContext.tag}`} pathname={location.pathname} />
+);
 
 export const query = graphql`
   query BlogListWithTag($tag: String!, $lang: String!) {

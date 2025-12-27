@@ -1,8 +1,9 @@
 import * as React from "react";
 import Layout from "../components/layout";
 import Navigation from "../components/navigation";
-import { graphql, PageProps } from "gatsby";
+import { graphql, HeadProps, PageProps } from "gatsby";
 import { useTranslation } from "react-i18next";
+import { SEO } from "../components/seo";
 
 const IndexPage: React.FC<PageProps<Queries.IntroQuery, { lang: string }>> = ({
   data,
@@ -19,6 +20,10 @@ const IndexPage: React.FC<PageProps<Queries.IntroQuery, { lang: string }>> = ({
     </Layout>
   );
 };
+
+export const Head: React.FC<HeadProps<Queries.IntroQuery>> = ({ location }) => (
+  <SEO pathname={location.pathname} />
+);
 
 export const query = graphql`
   query Intro($lang: String!) {

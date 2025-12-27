@@ -1,10 +1,11 @@
 import * as React from "react";
-import { graphql, PageProps } from "gatsby";
+import { graphql, HeadProps, PageProps } from "gatsby";
 import Layout from "../components/layout";
 import Comment from "../components/comment";
 import Meta from "../components/meta";
 import LocalizedLink from "../components/LocaleLink";
 import { useTranslation } from "react-i18next";
+import { SEO } from "../components/seo";
 
 const BlogPost: React.FC<
   PageProps<Queries.PostDetailQuery, { lang: string }>
@@ -20,7 +21,6 @@ const BlogPost: React.FC<
     <Layout
       pageTitle={data.markdownRemark?.frontmatter?.title ?? "-"}
       lang={pageContext.lang}
-      isArticle
     >
       <Meta
         tags={tags}
@@ -50,6 +50,17 @@ const BlogPost: React.FC<
     </Layout>
   );
 };
+
+export const Head: React.FC<HeadProps<Queries.PostDetailQuery>> = ({
+  data,
+  location,
+}) => (
+  <SEO
+    title={data.markdownRemark?.frontmatter?.title ?? undefined}
+    pathname={location.pathname}
+    isArticle
+  />
+);
 
 export const query = graphql`
   query PostDetail($slug: String!, $series: String, $lang: String!) {
