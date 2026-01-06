@@ -48,7 +48,17 @@ const config: GatsbyConfig = {
     {
       resolve: `gatsby-transformer-remark`,
       options: {
-        plugins: [`gatsby-remark-images`, `gatsby-remark-prismjs`],
+        plugins: [
+          `gatsby-remark-images`,
+          {
+            resolve: `gatsby-remark-graph`,
+            options: {
+              language: "mermaid",
+              theme: "default",
+            },
+          },
+          `gatsby-remark-prismjs`,
+        ],
       },
     },
     `gatsby-transformer-sharp`,

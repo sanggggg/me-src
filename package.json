@@ -4,7 +4,7 @@
   "description": "personal website",
   "author": "sanggggg",
   "scripts": {
-    "develop": "gatsby develop",
+    "dev": "gatsby develop",
     "start": "gatsby develop",
     "build": "pnpm typecheck && gatsby build",
     "serve": "gatsby serve",
