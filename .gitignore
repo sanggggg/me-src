@@ -4,6 +4,7 @@ public
 site/src/gatsby-types.d.ts
 dist/
 .yarn/install-state.gz
+.playwright-mcp/
 
 ### macOS ###
 # General
