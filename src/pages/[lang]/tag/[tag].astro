@@ -1,0 +1,67 @@
+---
+import LocalizedLink from "../../../components/LocalizedLink.astro";
+import Navigation from "../../../components/Navigation.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import {
+  buildBlogPath,
+  buildTagPath,
+  formatPostDate,
+  getAllTags,
+  getOtherLocale,
+  getPostsForTag,
+  isLocale,
+  type Locale,
+  type PostMeta,
+  SUPPORTED_LANGS,
+} from "../../../lib/content-meta";
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGS.flatMap((lang: Locale) =>
+    getAllTags().map((tag: string) => ({
+      params: { lang, tag },
+      props: { tag },
+    })),
+  );
+}
+
+const lang = Astro.params.lang;
+const tag = Astro.params.tag;
+
+if (!lang || !isLocale(lang)) {
+  throw new Error(`Invalid locale: ${lang}`);
+}
+
+if (!tag) {
+  throw new Error("Missing tag parameter.");
+}
+
+const decodedTag = decodeURIComponent(tag);
+const posts = getPostsForTag(lang, decodedTag);
+const pathname = buildTagPath(lang, decodedTag);
+const switcherLang = getOtherLocale(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  pathname={pathname}
+  heading={`Posts with tag "${decodedTag}"`}
+  seoTitle={`Tag: ${decodedTag}`}
+>
+  <Navigation
+    activePagePath="/blog"
+    lang={lang}
+    switcherHref={buildTagPath(switcherLang, decodedTag)}
+  />
+  {
+    posts.map((post: PostMeta) => (
+      <div class="post-item">
+        <h3>
+          <LocalizedLink class="post-item-title" href={buildBlogPath(lang, post.slugSegments)}>
+            {post.title}
+          </LocalizedLink>
+        </h3>
+        <time class="post-item-date">{formatPostDate(post.date)}</time>
+      </div>
+    ))
+  }
+</BaseLayout>

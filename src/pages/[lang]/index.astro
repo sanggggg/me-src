@@ -1,0 +1,44 @@
+---
+import { getCollection, render } from "astro:content";
+import Navigation from "../../components/Navigation.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import {
+  getAllIntroMeta,
+  getIntroMetaByLang,
+  isLocale,
+} from "../../lib/content-meta";
+
+export function getStaticPaths() {
+  return getAllIntroMeta().map((intro) => ({
+    params: { lang: intro.lang },
+  }));
+}
+
+const lang = Astro.params.lang;
+
+if (!lang || !isLocale(lang)) {
+  throw new Error(`Invalid locale: ${lang}`);
+}
+
+const introMeta = getIntroMetaByLang(lang);
+
+if (!introMeta) {
+  throw new Error(`Missing intro content for locale: ${lang}`);
+}
+
+const [entry] = await getCollection(
+  "intro",
+  ({ filePath }) => filePath === introMeta.collectionFilePath,
+);
+
+if (!entry) {
+  throw new Error(`Missing intro entry for id: ${introMeta.id}`);
+}
+
+const { Content } = await render(entry);
+---
+
+<BaseLayout lang={lang} pathname={introMeta.path} headingKey="home.title">
+  <Navigation activePagePath="/" lang={lang} />
+  <Content />
+</BaseLayout>

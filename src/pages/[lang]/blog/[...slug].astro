@@ -1,0 +1,95 @@
+---
+import { getCollection, render } from "astro:content";
+import Comments from "../../../components/Comments.astro";
+import LocalizedLink from "../../../components/LocalizedLink.astro";
+import MetaLine from "../../../components/MetaLine.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import {
+  buildBlogIndexPath,
+  buildBlogPath,
+  formatPostDate,
+  getAllPostMeta,
+  getOtherLocale,
+  getSeriesPosts,
+  isLocale,
+  type PostMeta,
+} from "../../../lib/content-meta";
+import { t } from "../../../lib/i18n";
+
+export function getStaticPaths() {
+  return getAllPostMeta().map((post: PostMeta) => ({
+    params: {
+      lang: post.lang,
+      slug: post.slugSegments.join("/"),
+    },
+    props: {
+      post,
+      switcherHref:
+        post.translatedPath ?? buildBlogIndexPath(getOtherLocale(post.lang)),
+    },
+  }));
+}
+
+interface Props {
+  post: PostMeta;
+  switcherHref: string;
+}
+
+const { post, switcherHref } = Astro.props;
+const lang = Astro.params.lang;
+
+if (!lang || !isLocale(lang) || lang !== post.lang) {
+  throw new Error(`Invalid locale for post route: ${lang}`);
+}
+
+const [entry] = await getCollection(
+  "blog",
+  ({ filePath }) => filePath === post.collectionFilePath,
+);
+
+if (!entry) {
+  throw new Error(`Missing blog entry for id: ${post.id}`);
+}
+
+const { Content } = await render(entry);
+const seriesPosts = getSeriesPosts(post);
+---
+
+<BaseLayout
+  lang={post.lang}
+  pathname={post.path}
+  heading={post.title}
+  seoTitle={post.title}
+  isArticle
+>
+  <MetaLine
+    lang={post.lang}
+    date={formatPostDate(post.date)}
+    tags={post.tags}
+    switcherHref={switcherHref}
+  />
+  {
+    seriesPosts.length > 1 ? (
+      <>
+        <blockquote>
+          <h4>{t(post.lang, "blog.series")}</h4>
+          <ul>
+            {
+              seriesPosts.map((seriesPost: PostMeta) => (
+                <li>
+                  <LocalizedLink href={buildBlogPath(post.lang, seriesPost.slugSegments)}>
+                    {seriesPost.title}
+                  </LocalizedLink>
+                </li>
+              ))
+            }
+          </ul>
+        </blockquote>
+        <br />
+      </>
+    ) : null
+  }
+  <Content />
+  <div class="h-16" />
+  <Comments />
+</BaseLayout>

@@ -1,0 +1,3 @@
+/blog/*  /ko/blog/:splat  301
+/tag/*  /ko/tag/:splat  301
+/  /ko/  301

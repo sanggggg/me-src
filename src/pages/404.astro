@@ -1,0 +1,44 @@
+---
+import { formatDocumentTitle, resolveSiteImage, site } from "../lib/site";
+
+const title = "Not found";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{formatDocumentTitle(title)}</title>
+    <meta name="description" content={site.description} />
+    <meta name="image" content={resolveSiteImage()} />
+    <meta property="og:url" content={site.url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={site.description} />
+    <meta property="og:image" content={resolveSiteImage()} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content={site.twitterUsername} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={site.description} />
+    <meta name="twitter:image" content={resolveSiteImage()} />
+  </head>
+  <body>
+    <main
+      style="color: #232129; font-family: -apple-system, Roboto, sans-serif, serif; padding: 96px;"
+    >
+      <h1 style="margin-bottom: 64px; margin-top: 0; max-width: 320px;">
+        Page not found
+      </h1>
+      <p style="margin-bottom: 48px;">
+        Sorry{" "}
+        <span role="img" aria-label="Pensive emoji">
+          😔
+        </span>{" "}
+        we couldn't find what you were looking for.
+        <br />
+        <br />
+        <a href="/ko/">Go home</a>.
+      </p>
+    </main>
+  </body>
+</html>

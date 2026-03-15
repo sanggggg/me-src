@@ -1,0 +1,36 @@
+---
+import type { Locale } from "../lib/content-meta";
+import { buildBlogIndexPath, buildTagPath } from "../lib/content-meta";
+import { t } from "../lib/i18n";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import LocalizedLink from "./LocalizedLink.astro";
+
+interface Props {
+  date?: string;
+  lang: Locale;
+  switcherHref: string;
+  tags?: string[];
+}
+
+const { date, lang, switcherHref, tags = [] } = Astro.props;
+---
+
+<div class="meta-line">
+  <div class="meta">
+    {`${t(lang, "meta.author")}, `}
+    {date ? <time>{date}</time> : null}
+    {tags.length ? " • " : ""}
+    {
+      tags.map((tag) => (
+        <LocalizedLink class="tag" href={buildTagPath(lang, tag)}>
+          {tag}
+        </LocalizedLink>
+      ))
+    }
+  </div>
+  <LocalizedLink class="meta-back" href={buildBlogIndexPath(lang)}>
+    {t(lang, "common.back")}
+  </LocalizedLink>
+  <div class="meta-back-separator">|</div>
+  <LanguageSwitcher href={switcherHref} label={t(lang, "common.language")} />
+</div>

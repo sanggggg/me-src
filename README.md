@@ -1,54 +1,29 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Gatsby minimal TypeScript starter
-</h1>
+# sanggggg.me
 
-## 🚀 Quick start
+Personal site built with Astro, TypeScript, Tailwind CSS, and file-based Markdown content.
 
-1.  **Create a Gatsby site.**
+## Development
 
-    Use the Gatsby CLI to create a new site, specifying the minimal TypeScript starter.
+```bash
+pnpm dev
+```
 
-    ```shell
-    # create a new Gatsby site using the minimal TypeScript starter
-    npm init gatsby
-    ```
+The Astro dev server runs at `http://localhost:4321` by default if that port is available, otherwise Astro will pick the next open port. For redirect parity, Playwright validation runs against `wrangler pages dev ./dist` instead of `astro preview`.
 
-2.  **Start developing.**
+## Content
 
-    Navigate into your new site’s directory and start it up.
+- Blog posts live in `src/content/blog/`
+- Intro pages live in `src/content/intro/`
+- Locale suffixes stay file-based, for example `retrospect-organization.en.md`
+- Adjacent images remain next to their Markdown files and are optimized at build time
 
-    ```shell
-    cd my-gatsby-site/
-    npm run develop
-    ```
+## Commands
 
-3.  **Open the code and start customizing!**
-
-    Your site is now running at http://localhost:8000!
-
-    Edit `src/pages/index.tsx` to see your site update in real-time!
-
-4.  **Learn more**
-
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-
-    - [Tutorials](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-
-    - [Guides](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-
-## 🚀 Quick start (Gatsby Cloud)
-
-Deploy this starter with one click on [Gatsby Cloud](https://www.gatsbyjs.com/cloud/):
-
-[<img src="https://www.gatsbyjs.com/deploynow.svg" alt="Deploy to Gatsby Cloud">](https://www.gatsbyjs.com/dashboard/deploynow?url=https://github.com/gatsbyjs/gatsby-starter-minimal-ts)
+- `pnpm dev`: start the Astro development server
+- `pnpm build`: run `astro check` and create a production build in `dist/`
+- `pnpm serve`: build and serve `dist/` through `wrangler pages dev` so redirects and headers match Cloudflare Pages locally
+- `pnpm lint`: run Biome checks
+- `pnpm lint:fix`: apply Biome fixes
+- `pnpm format`: format supported files with Biome
+- `pnpm test:e2e`: rebuild and run Playwright against `wrangler pages dev ./dist`
+- `pnpm wrangler-deploy`: build and upload `dist/` to Cloudflare Pages

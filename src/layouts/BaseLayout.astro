@@ -1,0 +1,89 @@
+---
+import "../css/global.css";
+import "../css/prism-js.css";
+import type { Locale } from "../lib/content-meta";
+import { t } from "../lib/i18n";
+import { formatDocumentTitle, resolveSiteImage, site } from "../lib/site";
+
+interface Props {
+  description?: string;
+  heading?: string;
+  headingKey?: string;
+  isArticle?: boolean;
+  lang: Locale;
+  pathname: string;
+  seoTitle?: string;
+  seoTitleKey?: string;
+}
+
+const {
+  description = site.description,
+  heading,
+  headingKey,
+  isArticle = false,
+  lang,
+  pathname,
+  seoTitle,
+  seoTitleKey,
+} = Astro.props;
+const resolvedHeading = headingKey ? t(lang, headingKey) : heading;
+const resolvedSeoTitle = seoTitleKey ? t(lang, seoTitleKey) : seoTitle;
+const pageTitle = formatDocumentTitle(resolvedSeoTitle);
+const openGraphTitle = resolvedSeoTitle ?? site.title;
+const siteImage = resolveSiteImage();
+const siteUrl = new URL(pathname, site.url).toString();
+const gtagId = import.meta.env.GTAG_ID;
+const analyticsInlineScript = gtagId
+  ? [
+      "window.dataLayer = window.dataLayer || [];",
+      "function gtag(){dataLayer.push(arguments);}",
+      'gtag("js", new Date());',
+      `gtag("config", ${JSON.stringify(gtagId)});`,
+    ].join("")
+  : null;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="image" content={siteImage} />
+    <meta property="og:url" content={siteUrl} />
+    {isArticle ? <meta property="og:type" content="article" /> : null}
+    <meta property="og:title" content={openGraphTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={siteImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content={site.twitterUsername} />
+    <meta name="twitter:title" content={openGraphTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={siteImage} />
+    <meta name="theme-color" content={site.manifest.themeColor} />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="/icon.png" />
+    {
+      gtagId ? (
+        <>
+          <script
+            is:inline
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${gtagId}`}
+          />
+          <script is:inline set:html={analyticsInlineScript} />
+        </>
+      ) : null
+    }
+  </head>
+  <body>
+    <div class="relative">
+      <article class="container prose prose-sm md:prose dark:prose-dark">
+        {resolvedHeading ? <h1 style="font-weight: 700;">{resolvedHeading}</h1> : null}
+        <slot />
+      </article>
+    </div>
+  </body>
+</html>

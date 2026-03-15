@@ -1,0 +1,49 @@
+---
+import Navigation from "../../../components/Navigation.astro";
+import LocalizedLink from "../../../components/LocalizedLink.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import {
+  buildBlogIndexPath,
+  buildBlogPath,
+  formatPostDate,
+  getPostsForLang,
+  isLocale,
+  SUPPORTED_LANGS,
+} from "../../../lib/content-meta";
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGS.map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const lang = Astro.params.lang;
+
+if (!lang || !isLocale(lang)) {
+  throw new Error(`Invalid locale: ${lang}`);
+}
+
+const posts = getPostsForLang(lang);
+const pathname = buildBlogIndexPath(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  pathname={pathname}
+  headingKey="blog.title"
+  seoTitle="Blog"
+>
+  <Navigation activePagePath="/blog" lang={lang} />
+  {
+    posts.map((post) => (
+      <div class="post-item">
+        <h3>
+          <LocalizedLink class="post-item-title" href={buildBlogPath(lang, post.slugSegments)}>
+            {post.title}
+          </LocalizedLink>
+        </h3>
+        <time class="post-item-date">{formatPostDate(post.date)}</time>
+      </div>
+    ))
+  }
+</BaseLayout>
