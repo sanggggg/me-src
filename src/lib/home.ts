@@ -4,10 +4,12 @@ export const homeCopy: Record<
   Locale,
   {
     contact: Array<{ href: string; label: string }>;
+    contactPrompt: string;
     intro: string[];
   }
 > = {
   en: {
+    contactPrompt: "Connect with me on",
     intro: [
       "I’m a software developer who enjoys working as a generalist.",
       "I like exploring different product domains and frameworks, and finding patterns that help turn ideas into useful products.",
@@ -19,9 +21,11 @@ export const homeCopy: Record<
         href: "https://www.linkedin.com/in/sangmin-kim-6696a4197/",
         label: "LinkedIn",
       },
+      { href: "mailto:ksme6776@gmail.com", label: "Email" },
     ],
   },
   ko: {
+    contactPrompt: "연락하고 싶다면",
     intro: [
       "제너럴리스트로 일하는 것을 좋아하는 소프트웨어 개발자입니다.",
       "제품 도메인과 프레임워크를 넓게 배우며, 아이디어를 유용한 제품으로 바꾸는 패턴에 끌립니다.",
@@ -33,6 +37,7 @@ export const homeCopy: Record<
         href: "https://www.linkedin.com/in/sangmin-kim-6696a4197/",
         label: "LinkedIn",
       },
+      { href: "mailto:ksme6776@gmail.com", label: "Email" },
     ],
   },
 };

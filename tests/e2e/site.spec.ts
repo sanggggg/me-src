@@ -166,8 +166,14 @@ test("homepage presents experience, education, and recent thoughts", async ({
     page.getByText("President, SNU Web/App Programming Club"),
   ).toBeVisible();
   await expect(page.getByRole("link", { name: "View all" })).toHaveCount(1);
+  await expect(page.locator("[data-contact-item]")).toHaveCount(3);
+  await expect(page.getByRole("link", { name: "GitHub" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "LinkedIn" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Email" })).toHaveAttribute(
+    "href",
+    "mailto:ksme6776@gmail.com",
+  );
   await expect(page.locator("main section h2")).toHaveText([
-    "Contact",
     "Experience",
     "Education",
     "Thought",

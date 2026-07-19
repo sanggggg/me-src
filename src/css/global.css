@@ -283,23 +283,48 @@ p {
   white-space: nowrap;
 }
 
-.contact-block h2 {
-  margin-bottom: 10px;
-}
-
-.contact-links {
+.intro-contact-line {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  gap: 4px;
+  align-items: center;
+  margin-top: 12px;
+  color: var(--color-muted);
+  font-size: 13px;
+  line-height: 20px;
 }
 
-.contact-links a {
+.intro-social-links {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.social-icon-link {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
   color: var(--color-muted);
   text-decoration: none;
+  transition-duration: var(--duration-regular);
+  transition-property: background-color, color;
+  transition-timing-function: var(--ease-out-expo);
 }
 
-.contact-links a:hover {
+.social-icon-link:hover {
+  background: var(--color-soft);
   color: var(--color-text);
+}
+
+.social-icon-link svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
 }
 
 article :where(h2, h3, h4) {

@@ -1,4 +1,9 @@
 ---
+import {
+  faGithub,
+  faLinkedin,
+} from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import LocalizedLink from "../../components/LocalizedLink.astro";
 import Navigation from "../../components/Navigation.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
@@ -38,6 +43,22 @@ if (!introMeta) {
 }
 
 const copy = homeCopy[lang];
+const contactItems = copy.contact.map((link) => {
+  const icon =
+    link.label === "GitHub"
+      ? faGithub
+      : link.label === "LinkedIn"
+        ? faLinkedin
+        : faEnvelope;
+  const path = icon.icon[4];
+
+  return {
+    ...link,
+    iconHeight: icon.icon[1],
+    iconPath: Array.isArray(path) ? path.join(" ") : path,
+    iconWidth: icon.icon[0],
+  };
+});
 const recentPosts = getThoughtPostsForLang(lang).slice(0, 5);
 const localizedExperienceItems = experienceItems.map((item) =>
   localizeWorkItem(item, lang),
@@ -54,22 +75,37 @@ const localizedEducationItems = educationItems.map((item) =>
   seoTitleKey="home.title"
 >
   <Navigation activePagePath="/" lang={lang} />
-  <section class="home-intro" aria-label={t(lang, "home.eyebrow")}>
-    {copy.intro.map((paragraph) => <p>{paragraph}</p>)}
-  </section>
-
-  <section class="section-block contact-block" aria-labelledby="home-contact">
-    <h2 id="home-contact">{t(lang, "home.contactLabel")}</h2>
-    <div class="contact-links">
+  <div class="home-summary">
+    <section class="home-intro" aria-label={t(lang, "home.eyebrow")}>
+      {copy.intro.map((paragraph) => <p>{paragraph}</p>)}
+    </section>
+    <p class="intro-contact-line">
+      <span>{copy.contactPrompt}</span>
+      <span class="intro-social-links">
       {
-        copy.contact.map((link) => (
-          <a href={link.href} rel="noreferrer" target="_blank">
-            {link.label}
+        contactItems.map((link) => (
+          <a
+            aria-label={link.label}
+            class="social-icon-link"
+            data-contact-item
+            href={link.href}
+            rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+            target={link.href.startsWith("http") ? "_blank" : undefined}
+            title={link.label}
+          >
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              viewBox={`0 0 ${link.iconWidth} ${link.iconHeight}`}
+            >
+              <path d={link.iconPath} />
+            </svg>
           </a>
         ))
       }
-    </div>
-  </section>
+      </span>
+    </p>
+  </div>
 
   <section class="section-block" aria-labelledby="home-work">
     <div class="section-heading">
