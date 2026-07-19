@@ -210,6 +210,10 @@ test("renders localized experience and thought pages", async ({ page }) => {
 
   await page.goto("/en/thought/");
   await expect(page.getByRole("heading", { name: "Thought" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Back" })).toHaveAttribute(
+    "href",
+    "/en/",
+  );
   await expect(page.locator("[data-thought-item]")).toHaveCount(
     getThoughtPostsForLang("en").length,
   );

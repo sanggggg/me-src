@@ -12,10 +12,11 @@ import LanguageSwitcher from "./LanguageSwitcher.astro";
 interface Props {
   activePagePath: "/" | "/thought" | "/work";
   lang: Locale;
+  showHomeLink?: boolean;
   switcherHref?: string;
 }
 
-const { activePagePath, lang, switcherHref } = Astro.props;
+const { activePagePath, lang, showHomeLink = false, switcherHref } = Astro.props;
 const otherLang = getOtherLocale(lang);
 const resolvedSwitcherHref =
   switcherHref ??
@@ -26,7 +27,17 @@ const resolvedSwitcherHref =
       : buildThoughtIndexPath(otherLang));
 ---
 
-<nav class="nav-line" aria-label="Primary">
+<nav class:list={["nav-line", { "has-home-link": showHomeLink }]} aria-label="Primary">
+  {
+    showHomeLink ? (
+      <>
+        <a class="nav-link" href={buildHomePath(lang)}>
+          {t(lang, "common.back")}
+        </a>
+        <span class="nav-separator" aria-hidden="true">|</span>
+      </>
+    ) : null
+  }
   <LanguageSwitcher
     class="nav-link"
     href={resolvedSwitcherHref}

@@ -152,6 +152,10 @@ p {
   line-height: 24px;
 }
 
+.nav-line.has-home-link {
+  gap: 0 12px;
+}
+
 .nav-link {
   display: inline-flex;
   align-items: center;

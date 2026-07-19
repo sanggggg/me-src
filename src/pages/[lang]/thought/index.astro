@@ -39,6 +39,7 @@ const pathname = buildThoughtIndexPath(lang);
   <Navigation
     activePagePath="/thought"
     lang={lang}
+    showHomeLink
     switcherHref={buildThoughtIndexPath(getOtherLocale(lang))}
   />
   <p class="page-description">{t(lang, "thought.description")}</p>
