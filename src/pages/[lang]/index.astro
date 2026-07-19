@@ -58,6 +58,19 @@ const localizedEducationItems = educationItems.map((item) =>
     {copy.intro.map((paragraph) => <p>{paragraph}</p>)}
   </section>
 
+  <section class="section-block contact-block" aria-labelledby="home-contact">
+    <h2 id="home-contact">{t(lang, "home.contactLabel")}</h2>
+    <div class="contact-links">
+      {
+        copy.contact.map((link) => (
+          <a href={link.href} rel="noreferrer" target="_blank">
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
   <section class="section-block" aria-labelledby="home-work">
     <div class="section-heading">
       <h2 id="home-work">{t(lang, "home.workLabel")}</h2>
@@ -133,16 +146,4 @@ const localizedEducationItems = educationItems.map((item) =>
     </div>
   </section>
 
-  <section class="section-block contact-block" aria-labelledby="home-contact">
-    <h2 id="home-contact">{t(lang, "home.contactLabel")}</h2>
-    <div class="contact-links">
-      {
-        copy.contact.map((link) => (
-          <a href={link.href} rel="noreferrer" target="_blank">
-            {link.label}
-          </a>
-        ))
-      }
-    </div>
-  </section>
 </BaseLayout>

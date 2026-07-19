@@ -166,6 +166,12 @@ test("homepage presents experience, education, and recent thoughts", async ({
     page.getByText("President, SNU Web/App Programming Club"),
   ).toBeVisible();
   await expect(page.getByRole("link", { name: "View all" })).toHaveCount(1);
+  await expect(page.locator("main section h2")).toHaveText([
+    "Contact",
+    "Experience",
+    "Education",
+    "Thought",
+  ]);
   await expect(page.locator("[data-thought-item]")).toHaveCount(
     expectedEnglishThoughtCount,
   );
