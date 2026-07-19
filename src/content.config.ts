@@ -9,12 +9,12 @@ const contentSchema = z.object({
 });
 
 const blog = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/blog" }),
   schema: contentSchema,
 });
 
 const intro = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/intro" }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/intro" }),
   schema: contentSchema,
 });
 

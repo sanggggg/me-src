@@ -2,11 +2,12 @@
 interface Props {
   class?: string;
   href: string;
+  [key: string]: unknown;
 }
 
-const { class: className, href } = Astro.props;
+const { class: className, href, ...attributes } = Astro.props;
 ---
 
-<a class={className} href={href}>
+<a class={className} href={href} {...attributes}>
   <slot />
 </a>

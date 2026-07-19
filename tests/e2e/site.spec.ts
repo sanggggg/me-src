@@ -6,6 +6,7 @@ import {
   getAllPostMeta,
   getAllTags,
   getPostsForTag,
+  getThoughtPostsForLang,
 } from "../../src/lib/content-meta";
 
 function isIgnoredError(text: string) {
@@ -72,6 +73,10 @@ async function assertLocalImagesLoaded(page: import("@playwright/test").Page) {
 const contentRoutes = [
   ...["ko", "en"].map((lang) => buildHomePath(lang as "ko" | "en")),
   ...["ko", "en"].map((lang) => buildBlogIndexPath(lang as "ko" | "en")),
+  "/ko/work/",
+  "/en/work/",
+  "/ko/thought/",
+  "/en/thought/",
   ...getAllPostMeta().map((post) => post.path),
   ...["ko", "en"].flatMap((lang) =>
     getAllTags().map((tag) => buildTagPath(lang as "ko" | "en", tag)),
@@ -113,10 +118,195 @@ test("switches locales on the intro page", async ({ page }) => {
   await expect(page).toHaveURL("/en/");
 });
 
-test("switches locales on the translated post", async ({ page }) => {
+test("homepage presents experience, education, and recent thoughts", async ({
+  page,
+}) => {
+  const recentEnglishPosts = getThoughtPostsForLang("en").slice(0, 5);
+  const expectedEnglishThoughtCount = Math.min(5, recentEnglishPosts.length);
+
+  expect(recentEnglishPosts.every((post) => post.lang === "ko")).toBe(true);
+
+  await page.goto("/en/");
+
+  await expect(
+    page.getByRole("heading", { name: "Sangmin Kim @sanggggg" }),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "I’m a software developer who enjoys working as a generalist.",
+    ),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "I like exploring different product domains and frameworks, and finding patterns that help turn ideas into useful products.",
+    ),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "I’m especially interested in startups, AI-assisted problem-solving, and small teams using technology to solve real-world problems.",
+    ),
+  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Experience" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Thought" })).toBeVisible();
+  await expect(page.locator("[data-work-item]")).toHaveCount(5);
+  await expect(page.locator("[data-work-item] .row-title")).toHaveText([
+    "Pensive",
+    "Stair Crusher Club",
+    "VCNC",
+    "Nearthlab",
+    "NAVER",
+  ]);
+  await expect(page.getByRole("heading", { name: "Education" })).toBeVisible();
+  await expect(page.locator("[data-education-item]")).toHaveCount(2);
+  await expect(page.locator("[data-education-item] .row-title")).toHaveText([
+    "Seoul National University",
+    "Waffle Studio",
+  ]);
+  await expect(
+    page.getByText("President, SNU Web/App Programming Club"),
+  ).toBeVisible();
+  await expect(page.getByRole("link", { name: "View all" })).toHaveCount(1);
+  await expect(page.locator("[data-thought-item]")).toHaveCount(
+    expectedEnglishThoughtCount,
+  );
+
+  for (const post of recentEnglishPosts) {
+    await expect(page.getByRole("link", { name: post.title })).toBeVisible();
+  }
+});
+
+test("renders localized experience and thought pages", async ({ page }) => {
+  await page.goto("/ko/work/");
+  await expect(page.getByRole("heading", { name: "Experience" })).toBeVisible();
+  await expect(page.locator("[data-work-item]")).toHaveCount(5);
+  await expect(page.locator("[data-work-item] .row-title")).toHaveText([
+    "Pensive",
+    "계단뿌셔클럽",
+    "VCNC",
+    "니어스랩",
+    "네이버",
+  ]);
+  await expect(page.getByRole("heading", { name: "Education" })).toBeVisible();
+  await expect(page.locator("[data-education-item]")).toHaveCount(2);
+  await expect(page.locator("[data-education-item] .row-title")).toHaveText([
+    "서울대학교",
+    "와플스튜디오",
+  ]);
+  await expect(
+    page.getByText("회장, 서울대학교 웹/앱 프로그래밍 동아리"),
+  ).toBeVisible();
+  await expect(
+    page
+      .locator("[data-work-item]")
+      .first()
+      .locator(".row-description")
+      .first(),
+  ).toHaveText("파운딩 엔지니어");
+  await expect(page.locator("[data-work-item] .row-meta").first()).toHaveText(
+    "2026.03 - 현재",
+  );
+  await page.getByRole("link", { name: "English" }).click();
+  await expect(page).toHaveURL("/en/work/");
+
+  await page.goto("/en/thought/");
+  await expect(page.getByRole("heading", { name: "Thought" })).toBeVisible();
+  await expect(page.locator("[data-thought-item]")).toHaveCount(
+    getThoughtPostsForLang("en").length,
+  );
+  await page.getByRole("link", { name: "한국어" }).click();
+  await expect(page).toHaveURL("/ko/thought/");
+});
+
+test("uses calm reference-inspired navigation and motion", async ({ page }) => {
+  await page.goto("/en/");
+
+  const primaryNav = page.getByRole("navigation", { name: "Primary" });
+  await expect(primaryNav.getByText("Sangmin", { exact: true })).toHaveCount(0);
+  await expect(primaryNav.getByText("Work", { exact: true })).toHaveCount(0);
+  await expect(primaryNav.getByText("Thought", { exact: true })).toHaveCount(0);
+  await expect(primaryNav.getByRole("link", { name: "한국어" })).toBeVisible();
+
+  const motion = await page.evaluate(() => {
+    const rootStyles = getComputedStyle(document.documentElement);
+    const navLink = document.querySelector(".nav-link");
+    const pageShell = document.querySelector(".page-shell");
+    const listRow = document.querySelector(".list-row");
+
+    if (!navLink || !listRow || !pageShell) {
+      return null;
+    }
+
+    const navLinkStyles = getComputedStyle(navLink);
+    const listRowStyles = getComputedStyle(listRow);
+    const pageShellStyles = getComputedStyle(pageShell);
+
+    return {
+      durationQuick: rootStyles.getPropertyValue("--duration-quick").trim(),
+      durationRegular: rootStyles.getPropertyValue("--duration-regular").trim(),
+      easeOut: rootStyles.getPropertyValue("--ease-out-expo").trim(),
+      listRowTransitionProperty: listRowStyles.transitionProperty,
+      pageAnimation: pageShellStyles.animationName,
+      transitionDuration: navLinkStyles.transitionDuration,
+      transitionProperty: navLinkStyles.transitionProperty,
+    };
+  });
+
+  expect(Number.parseFloat(motion?.durationQuick ?? "")).toBeCloseTo(0.1);
+  expect(Number.parseFloat(motion?.durationRegular ?? "")).toBeCloseTo(0.18);
+  expect(motion?.easeOut.replaceAll("0.", ".")).toBe(
+    "cubic-bezier(.19, 1, .22, 1)",
+  );
+  expect(motion?.pageAnimation).toBe("page-enter");
+  expect(motion?.transitionDuration).toBe("0.18s");
+  expect(motion?.transitionProperty).toBe("color, opacity");
+  expect(motion?.listRowTransitionProperty).toBe("color, opacity");
+
+  const languageLink = primaryNav.getByRole("link", { name: "한국어" });
+  const languageColorBefore = await languageLink.evaluate(
+    (node) => getComputedStyle(node).color,
+  );
+
+  await languageLink.hover();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          getComputedStyle(document.querySelector(".nav-line a")!).transform,
+      ),
+    )
+    .toBe("none");
+  await expect
+    .poll(() => languageLink.evaluate((node) => getComputedStyle(node).color))
+    .not.toBe(languageColorBefore);
+
+  const thoughtItem = page.locator("[data-thought-item]").first();
+  const titleColorBefore = await thoughtItem
+    .locator(".row-title")
+    .evaluate((node) => getComputedStyle(node).color);
+
+  await thoughtItem.hover();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => getComputedStyle(document.querySelector(".list-row")!).transform,
+      ),
+    )
+    .toBe("none");
+  await expect
+    .poll(() =>
+      thoughtItem
+        .locator(".row-title")
+        .evaluate((node) => getComputedStyle(node).color),
+    )
+    .not.toBe(titleColorBefore);
+});
+
+test("falls back to the English blog index without a translation", async ({
+  page,
+}) => {
   await page.goto("/ko/blog/retrospect-organization/");
   await page.getByRole("link", { name: "English" }).click();
-  await expect(page).toHaveURL("/en/blog/retrospect-organization/");
+  await expect(page).toHaveURL("/en/blog/");
 });
 
 test("falls back to the other locale blog index for untranslated posts", async ({

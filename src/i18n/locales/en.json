@@ -1,20 +1,37 @@
 {
   "common": {
     "language": "한국어",
-    "back": "Back"
+    "back": "Back",
+    "viewAll": "View all"
   },
   "nav": {
+    "home": "Sangmin",
     "intro": "About",
-    "blog": "Blog"
+    "blog": "Thought",
+    "work": "Experience",
+    "thought": "Thought"
   },
   "blog": {
-    "title": "Development",
+    "title": "Thought",
     "series": "Series Posts"
+  },
+  "work": {
+    "title": "Experience",
+    "description": "A compact record of my work, community, and education."
+  },
+  "thought": {
+    "title": "Thought",
+    "description": "Notes and writing about engineering, products, and what I am learning."
   },
   "meta": {
     "author": "Sangmin Kim"
   },
   "home": {
-    "title": "$t(meta.author) (@sanggggg)"
+    "title": "Sangmin Kim",
+    "eyebrow": "Software developer",
+    "workLabel": "Experience",
+    "educationLabel": "Education",
+    "thoughtLabel": "Thought",
+    "contactLabel": "Contact"
   }
 }

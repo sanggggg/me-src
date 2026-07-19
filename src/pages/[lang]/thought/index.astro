@@ -3,14 +3,15 @@ import LocalizedLink from "../../../components/LocalizedLink.astro";
 import Navigation from "../../../components/Navigation.astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import {
-  buildBlogIndexPath,
   buildBlogPath,
+  buildThoughtIndexPath,
   formatPostDate,
   getOtherLocale,
   getThoughtPostsForLang,
   isLocale,
   SUPPORTED_LANGS,
 } from "../../../lib/content-meta";
+import { t } from "../../../lib/i18n";
 
 export function getStaticPaths() {
   return SUPPORTED_LANGS.map((lang) => ({
@@ -25,7 +26,7 @@ if (!lang || !isLocale(lang)) {
 }
 
 const posts = getThoughtPostsForLang(lang);
-const pathname = buildBlogIndexPath(lang);
+const pathname = buildThoughtIndexPath(lang);
 ---
 
 <BaseLayout
@@ -33,12 +34,14 @@ const pathname = buildBlogIndexPath(lang);
   pathname={pathname}
   headingKey="thought.title"
   seoTitleKey="thought.title"
+  description={t(lang, "thought.description")}
 >
   <Navigation
     activePagePath="/thought"
     lang={lang}
-    switcherHref={buildBlogIndexPath(getOtherLocale(lang))}
+    switcherHref={buildThoughtIndexPath(getOtherLocale(lang))}
   />
+  <p class="page-description">{t(lang, "thought.description")}</p>
   <div class="thought-list full-list">
     {
       posts.map((post) => (

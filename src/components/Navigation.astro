@@ -1,12 +1,16 @@
 ---
-import { buildBlogIndexPath, buildHomePath, getOtherLocale } from "../lib/content-meta";
 import type { Locale } from "../lib/content-meta";
+import {
+  buildHomePath,
+  buildThoughtIndexPath,
+  buildWorkIndexPath,
+  getOtherLocale,
+} from "../lib/content-meta";
 import { t } from "../lib/i18n";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
-import LocalizedLink from "./LocalizedLink.astro";
 
 interface Props {
-  activePagePath: "/" | "/blog";
+  activePagePath: "/" | "/thought" | "/work";
   lang: Locale;
   switcherHref?: string;
 }
@@ -15,25 +19,17 @@ const { activePagePath, lang, switcherHref } = Astro.props;
 const otherLang = getOtherLocale(lang);
 const resolvedSwitcherHref =
   switcherHref ??
-  (activePagePath === "/" ? buildHomePath(otherLang) : buildBlogIndexPath(otherLang));
-const pages = [
-  { href: buildHomePath(lang), name: t(lang, "nav.intro"), path: "/" },
-  { href: buildBlogIndexPath(lang), name: t(lang, "nav.blog"), path: "/blog" },
-];
+  (activePagePath === "/"
+    ? buildHomePath(otherLang)
+    : activePagePath === "/work"
+      ? buildWorkIndexPath(otherLang)
+      : buildThoughtIndexPath(otherLang));
 ---
 
-<div class="nav-line">
-  {
-    pages.map((page) =>
-      page.path === activePagePath ? (
-        <span class="nav-link">{page.name}</span>
-      ) : (
-        <LocalizedLink class="nav-link" href={page.href}>
-          {page.name}
-        </LocalizedLink>
-      ),
-    )
-  }
-  <div class="mx-4 text-gray-400">|</div>
-  <LanguageSwitcher href={resolvedSwitcherHref} label={t(lang, "common.language")} />
-</div>
+<nav class="nav-line" aria-label="Primary">
+  <LanguageSwitcher
+    class="nav-link"
+    href={resolvedSwitcherHref}
+    label={t(lang, "common.language")}
+  />
+</nav>

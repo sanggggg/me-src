@@ -9,6 +9,7 @@ playwright-report/
 test-results/
 .yarn/install-state.gz
 .playwright-mcp/
+.codex/
 
 ### macOS ###
 # General

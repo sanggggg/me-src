@@ -1,6 +1,6 @@
 ---
 import type { Locale } from "../lib/content-meta";
-import { buildBlogIndexPath, buildTagPath } from "../lib/content-meta";
+import { buildTagPath, buildThoughtIndexPath } from "../lib/content-meta";
 import { t } from "../lib/i18n";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 import LocalizedLink from "./LocalizedLink.astro";
@@ -28,7 +28,7 @@ const { date, lang, switcherHref, tags = [] } = Astro.props;
       ))
     }
   </div>
-  <LocalizedLink class="meta-back" href={buildBlogIndexPath(lang)}>
+  <LocalizedLink class="meta-back" href={buildThoughtIndexPath(lang)}>
     {t(lang, "common.back")}
   </LocalizedLink>
   <div class="meta-back-separator">|</div>

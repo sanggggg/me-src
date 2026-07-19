@@ -79,11 +79,22 @@ const analyticsInlineScript = gtagId
     }
   </head>
   <body>
-    <div class="relative">
-      <article class="container prose prose-sm md:prose dark:prose-dark">
-        {resolvedHeading ? <h1 style="font-weight: 700;">{resolvedHeading}</h1> : null}
+    <main class="page-shell">
+      <article class="site-container content-flow">
+        {
+          resolvedHeading ? (
+            <header class="page-header">
+              <h1>
+                {resolvedHeading}
+                {headingKey === "home.title" ? (
+                  <span class="page-handle">@sanggggg</span>
+                ) : null}
+              </h1>
+            </header>
+          ) : null
+        }
         <slot />
       </article>
-    </div>
+    </main>
   </body>
 </html>

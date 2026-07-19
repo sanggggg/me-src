@@ -44,17 +44,21 @@ export interface PostMeta {
 const BLOG_DIR = path.join(process.cwd(), "src/content/blog");
 const INTRO_DIR = path.join(process.cwd(), "src/content/intro");
 
-function walkMarkdownFiles(directory: string): string[] {
+function isContentFile(filePath: string) {
+  return /\.(md|mdx)$/.test(filePath);
+}
+
+function walkContentFiles(directory: string): string[] {
   const entries = readdirSync(directory, { withFileTypes: true });
 
   return entries.flatMap((entry) => {
     const nextPath = path.join(directory, entry.name);
 
     if (entry.isDirectory()) {
-      return walkMarkdownFiles(nextPath);
+      return walkContentFiles(nextPath);
     }
 
-    return nextPath.endsWith(".md") ? [nextPath] : [];
+    return isContentFile(nextPath) ? [nextPath] : [];
   });
 }
 
@@ -62,7 +66,7 @@ function toCollectionId(baseDir: string, filePath: string) {
   return path
     .relative(baseDir, filePath)
     .replace(/\\/g, "/")
-    .replace(/\.md$/, "");
+    .replace(/\.(md|mdx)$/, "");
 }
 
 function toRepoRelativePath(filePath: string) {
@@ -106,6 +110,14 @@ export function buildBlogIndexPath(lang: Locale) {
   return `/${lang}/blog/`;
 }
 
+export function buildThoughtIndexPath(lang: Locale) {
+  return `/${lang}/thought/`;
+}
+
+export function buildWorkIndexPath(lang: Locale) {
+  return `/${lang}/work/`;
+}
+
 export function buildBlogPath(lang: Locale, slugSegments: string[]) {
   return `/${lang}/blog/${slugSegments.join("/")}/`;
 }
@@ -138,7 +150,7 @@ function parseFrontmatter(filePath: string) {
 }
 
 const blogPosts = (() => {
-  const posts = walkMarkdownFiles(BLOG_DIR).map((filePath) => {
+  const posts = walkContentFiles(BLOG_DIR).map((filePath) => {
     const id = toCollectionId(BLOG_DIR, filePath);
     const { body, frontmatter } = parseFrontmatter(filePath);
     const lang = getLangFromId(id);
@@ -190,7 +202,7 @@ const blogPosts = (() => {
     .sort((left, right) => right.date.getTime() - left.date.getTime());
 })();
 
-const introPages = walkMarkdownFiles(INTRO_DIR)
+const introPages = walkContentFiles(INTRO_DIR)
   .map((filePath) => {
     const id = toCollectionId(INTRO_DIR, filePath);
     const lang = getLangFromId(id);
@@ -211,6 +223,10 @@ export function getAllPostMeta() {
 
 export function getPostsForLang(lang: Locale) {
   return blogPosts.filter((post) => post.lang === lang);
+}
+
+export function getThoughtPostsForLang(lang: Locale) {
+  return getPostsForLang(lang === "en" ? "ko" : lang);
 }
 
 export function getSeriesPosts(post: PostMeta) {

@@ -48,20 +48,22 @@ const switcherLang = getOtherLocale(lang);
   seoTitle={`Tag: ${decodedTag}`}
 >
   <Navigation
-    activePagePath="/blog"
+    activePagePath="/thought"
     lang={lang}
     switcherHref={buildTagPath(switcherLang, decodedTag)}
   />
   {
     posts.map((post: PostMeta) => (
-      <div class="post-item">
-        <h3>
-          <LocalizedLink class="post-item-title" href={buildBlogPath(lang, post.slugSegments)}>
-            {post.title}
-          </LocalizedLink>
-        </h3>
-        <time class="post-item-date">{formatPostDate(post.date)}</time>
-      </div>
+      <LocalizedLink
+        class="post-item list-row"
+        data-thought-item
+        href={buildBlogPath(lang, post.slugSegments)}
+      >
+        <span class="row-main">
+          <span class="row-title">{post.title}</span>
+        </span>
+        <time class="row-meta">{formatPostDate(post.date)}</time>
+      </LocalizedLink>
     ))
   }
 </BaseLayout>

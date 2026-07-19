@@ -1,0 +1,116 @@
+---
+import Navigation from "../../../components/Navigation.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import {
+  buildWorkIndexPath,
+  getOtherLocale,
+  isLocale,
+  SUPPORTED_LANGS,
+} from "../../../lib/content-meta";
+import { t } from "../../../lib/i18n";
+import {
+  educationItems,
+  experienceItems,
+  localizeWorkItem,
+} from "../../../lib/work";
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGS.map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const lang = Astro.params.lang;
+
+if (!lang || !isLocale(lang)) {
+  throw new Error(`Invalid locale: ${lang}`);
+}
+
+const localizedExperienceItems = experienceItems.map((item) =>
+  localizeWorkItem(item, lang),
+);
+const localizedEducationItems = educationItems.map((item) =>
+  localizeWorkItem(item, lang),
+);
+const pathname = buildWorkIndexPath(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  pathname={pathname}
+  headingKey="work.title"
+  seoTitleKey="work.title"
+  description={t(lang, "work.description")}
+>
+  <Navigation
+    activePagePath="/work"
+    lang={lang}
+    switcherHref={buildWorkIndexPath(getOtherLocale(lang))}
+  />
+  <p class="page-description">{t(lang, "work.description")}</p>
+  <section class="detail-section" aria-label={t(lang, "home.workLabel")}>
+    <div class="work-list full-list">
+      {
+        localizedExperienceItems.map((item) => (
+          <a
+            class="work-item list-row has-organization-logo"
+            data-work-item
+            href={item.href}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <span class="organization-identity">
+              <img
+                alt=""
+                class="organization-logo-image"
+                decoding="async"
+                loading="lazy"
+                src={item.image}
+              />
+              <span class="row-main">
+                <span class="row-title">{item.organization}</span>
+                <span class="row-description">{item.role}</span>
+                <span class="row-description">{item.description}</span>
+              </span>
+            </span>
+            <span class="row-meta">{item.period}</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+  <section class="section-block" aria-labelledby="work-education">
+    <div class="section-heading">
+      <h2 id="work-education">{t(lang, "home.educationLabel")}</h2>
+    </div>
+    <div class="education-list full-list">
+      {
+        localizedEducationItems.map((item) => (
+          <a
+            class="education-item list-row has-organization-logo"
+            data-education-item
+            href={item.href}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <span class="organization-identity">
+              <img
+                alt=""
+                class="organization-logo-image"
+                decoding="async"
+                loading="lazy"
+                src={item.image}
+              />
+              <span class="row-main">
+                <span class="row-title">{item.organization}</span>
+                <span class="row-description">{item.role}</span>
+                <span class="row-description">{item.description}</span>
+              </span>
+            </span>
+            <span class="row-meta">{item.period}</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

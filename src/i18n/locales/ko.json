@@ -1,20 +1,37 @@
 {
   "common": {
     "language": "English",
-    "back": "뒤로가기"
+    "back": "뒤로가기",
+    "viewAll": "전체 보기"
   },
   "nav": {
+    "home": "상민",
     "intro": "소개",
-    "blog": "블로그"
+    "blog": "Thought",
+    "work": "Experience",
+    "thought": "Thought"
   },
   "blog": {
-    "title": "개발",
+    "title": "Thought",
     "series": "시리즈 게시글"
+  },
+  "work": {
+    "title": "Experience",
+    "description": "일과 커뮤니티, 학업 경험을 간결하게 모았습니다."
+  },
+  "thought": {
+    "title": "Thought",
+    "description": "엔지니어링, 제품, 배우고 있는 것들에 대한 글과 메모입니다."
   },
   "meta": {
     "author": "상민"
   },
   "home": {
-    "title": "$t(meta.author) (@sanggggg)"
+    "title": "상민",
+    "eyebrow": "소프트웨어 개발자",
+    "workLabel": "Experience",
+    "educationLabel": "Education",
+    "thoughtLabel": "Thought",
+    "contactLabel": "Contact"
   }
 }

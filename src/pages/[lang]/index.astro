@@ -1,12 +1,23 @@
 ---
-import { getCollection, render } from "astro:content";
+import LocalizedLink from "../../components/LocalizedLink.astro";
 import Navigation from "../../components/Navigation.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import {
+  buildBlogPath,
+  buildThoughtIndexPath,
+  formatPostDate,
   getAllIntroMeta,
   getIntroMetaByLang,
+  getThoughtPostsForLang,
   isLocale,
 } from "../../lib/content-meta";
+import { homeCopy } from "../../lib/home";
+import { t } from "../../lib/i18n";
+import {
+  educationItems,
+  experienceItems,
+  localizeWorkItem,
+} from "../../lib/work";
 
 export function getStaticPaths() {
   return getAllIntroMeta().map((intro) => ({
@@ -26,19 +37,112 @@ if (!introMeta) {
   throw new Error(`Missing intro content for locale: ${lang}`);
 }
 
-const [entry] = await getCollection(
-  "intro",
-  ({ filePath }) => filePath === introMeta.collectionFilePath,
+const copy = homeCopy[lang];
+const recentPosts = getThoughtPostsForLang(lang).slice(0, 5);
+const localizedExperienceItems = experienceItems.map((item) =>
+  localizeWorkItem(item, lang),
 );
-
-if (!entry) {
-  throw new Error(`Missing intro entry for id: ${introMeta.id}`);
-}
-
-const { Content } = await render(entry);
+const localizedEducationItems = educationItems.map((item) =>
+  localizeWorkItem(item, lang),
+);
 ---
 
-<BaseLayout lang={lang} pathname={introMeta.path} headingKey="home.title">
+<BaseLayout
+  lang={lang}
+  pathname={introMeta.path}
+  headingKey="home.title"
+  seoTitleKey="home.title"
+>
   <Navigation activePagePath="/" lang={lang} />
-  <Content />
+  <section class="home-intro" aria-label={t(lang, "home.eyebrow")}>
+    {copy.intro.map((paragraph) => <p>{paragraph}</p>)}
+  </section>
+
+  <section class="section-block" aria-labelledby="home-work">
+    <div class="section-heading">
+      <h2 id="home-work">{t(lang, "home.workLabel")}</h2>
+    </div>
+    <div class="work-list compact-list">
+      {
+        localizedExperienceItems.map((item) => (
+          <a
+            class="work-item list-row"
+            data-work-item
+            href={item.href}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <span class="row-main">
+              <span class="row-title">{item.organization}</span>
+              <span class="row-description">{item.role}</span>
+            </span>
+            <span class="row-meta">{item.period}</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section-block" aria-labelledby="home-education">
+    <div class="section-heading">
+      <h2 id="home-education">{t(lang, "home.educationLabel")}</h2>
+    </div>
+    <div class="education-list compact-list">
+      {
+        localizedEducationItems.map((item) => (
+          <a
+            class="education-item list-row"
+            data-education-item
+            href={item.href}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <span class="row-main">
+              <span class="row-title">{item.organization}</span>
+              <span class="row-description">{item.role}</span>
+            </span>
+            <span class="row-meta">{item.period}</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section-block" aria-labelledby="home-thought">
+    <div class="section-heading">
+      <h2 id="home-thought">{t(lang, "home.thoughtLabel")}</h2>
+      <LocalizedLink class="quiet-link" href={buildThoughtIndexPath(lang)}>
+        {t(lang, "common.viewAll")}
+      </LocalizedLink>
+    </div>
+    <div class="thought-list compact-list">
+      {
+        recentPosts.map((post) => (
+          <LocalizedLink
+            class="post-item list-row"
+            data-thought-item
+            href={buildBlogPath(post.lang, post.slugSegments)}
+          >
+            <span class="row-main">
+              <span class="row-title">{post.title}</span>
+            </span>
+            <time class="row-meta">{formatPostDate(post.date)}</time>
+          </LocalizedLink>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section-block contact-block" aria-labelledby="home-contact">
+    <h2 id="home-contact">{t(lang, "home.contactLabel")}</h2>
+    <div class="contact-links">
+      {
+        copy.contact.map((link) => (
+          <a href={link.href} rel="noreferrer" target="_blank">
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+  </section>
 </BaseLayout>
